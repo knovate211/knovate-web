@@ -1,0 +1,19 @@
+# Netlify build config for the Knovate marketing site (Next.js).
+# The official Next runtime plugin handles SSG/SSR and Next rewrites.
+[build]
+  command = "npm run build"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+# Deployment notes (set these in Netlify → Site settings → Environment variables):
+#
+#  Option A (recommended — no CORS needed): keep the enquiry form same-origin.
+#    API_TARGET            = https://<your-gateway-domain>     # next.config rewrites /api/* here
+#    NEXT_PUBLIC_API_BASE  =                                    # leave empty
+#    NEXT_PUBLIC_SITE_URL  = https://<your-netlify-domain>
+#
+#  Option B (direct cross-origin call): the browser calls the gateway directly.
+#    NEXT_PUBLIC_API_BASE  = https://<your-gateway-domain>
+#    NEXT_PUBLIC_SITE_URL  = https://<your-netlify-domain>
+#    -> Then add the Netlify domain to the gateway's ALLOWED_ORIGINS env.
