@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Section, { Eyebrow } from '@/components/Section';
 import EnquiryForm from '@/components/EnquiryForm';
+import ScholarshipCTA from '@/components/scholarship/ScholarshipCTA';
 import Button from '@/components/Button';
 import { courses, courseBySlug } from '@/data/courses';
 
@@ -55,6 +56,10 @@ export default function CoursePage({ params }: { params: { slug: string } }) {
           </div>
         </div>
       </section>
+
+      <div className="pt-12">
+        <ScholarshipCTA courseId={c.id} courseName={c.title} />
+      </div>
 
       <Section>
         <div className="grid gap-12 md:grid-cols-2">

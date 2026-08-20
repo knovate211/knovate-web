@@ -5,6 +5,7 @@ import CourseCard from '@/components/CourseCard';
 import TestimonialCard from '@/components/TestimonialCard';
 import StatRow from '@/components/Stat';
 import CTASection from '@/components/CTASection';
+import ScholarshipCTA from '@/components/scholarship/ScholarshipCTA';
 import EnquiryForm from '@/components/EnquiryForm';
 import { courses } from '@/data/courses';
 import { testimonials, partners } from '@/data/testimonials';
@@ -93,6 +94,10 @@ export default function Home() {
           {testimonials.map((t) => <TestimonialCard key={t.name} t={t} />)}
         </div>
       </Section>
+
+      <div className="pb-4">
+        <ScholarshipCTA />
+      </div>
 
       <CTASection />
     </>

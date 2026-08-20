@@ -13,6 +13,7 @@ export const site = {
   },
   nav: [
     { label: 'Courses', href: '/courses' },
+    { label: 'Scholarship', href: '/scholarship' },
     { label: 'Pricing', href: '/pricing' },
     { label: 'Placements', href: '/placements' },
     { label: 'Blog', href: '/blog' },
