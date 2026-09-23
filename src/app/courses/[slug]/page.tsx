@@ -6,6 +6,7 @@ import EnquiryForm from '@/components/EnquiryForm';
 import ScholarshipCTA from '@/components/scholarship/ScholarshipCTA';
 import Button from '@/components/Button';
 import { courses, courseBySlug } from '@/data/courses';
+import { syllabus } from '@/data/syllabus';
 
 export function generateStaticParams() {
   return courses.map((c) => ({ slug: c.slug }));
@@ -24,6 +25,11 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
 export default function CoursePage({ params }: { params: { slug: string } }) {
   const c = courseBySlug(params.slug);
   if (!c) notFound();
+
+  // The real syllabus from the student app; courses.ts keeps a short outline as a fallback.
+  const modules = syllabus[c.slug] ?? c.syllabus.map((m) => ({ module: m.module, lessons: m.topics }));
+  const lessonCount = modules.reduce((n, m) => n + m.lessons.length, 0);
+  const isBundle = c.slug === 'full-stack';
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -62,7 +68,7 @@ export default function CoursePage({ params }: { params: { slug: string } }) {
       </div>
 
       <Section>
-        <div className="grid gap-12 md:grid-cols-2">
+        <div className="grid gap-12 lg:grid-cols-[1fr_2fr]">
           <div>
             <h2 className="font-serif text-2xl font-semibold text-ink">What you&apos;ll learn</h2>
             <ul className="mt-5 space-y-3">
@@ -74,15 +80,43 @@ export default function CoursePage({ params }: { params: { slug: string } }) {
             </ul>
           </div>
           <div>
-            <h2 className="font-serif text-2xl font-semibold text-ink">Syllabus</h2>
-            <div className="mt-5 space-y-4">
-              {c.syllabus.map((m) => (
-                <div key={m.module} className="rounded-xl border border-ink/10 bg-white p-5">
-                  <h3 className="font-semibold text-ink">{m.module}</h3>
-                  <ul className="mt-2 space-y-1 text-sm text-muted">
-                    {m.topics.map((t) => <li key={t}>• {t}</li>)}
-                  </ul>
-                </div>
+            <div className="flex flex-wrap items-end justify-between gap-2">
+              <h2 className="font-serif text-2xl font-semibold text-ink">Syllabus</h2>
+              <p className="text-sm text-muted">
+                {isBundle
+                  ? `${modules.length} courses · ${lessonCount} modules`
+                  : `${modules.length} modules · ${lessonCount} lessons`}
+              </p>
+            </div>
+            {isBundle && (
+              <p className="mt-2 text-sm text-muted">
+                Full Stack Development includes these four complete courses.
+              </p>
+            )}
+            <div className="mt-5 space-y-3">
+              {modules.map((m, i) => (
+                <details
+                  key={m.module}
+                  open={i === 0}
+                  className="group rounded-xl border border-ink/10 bg-white [&_summary::-webkit-details-marker]:hidden"
+                >
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-5">
+                    <span className="font-semibold text-ink">{m.module}</span>
+                    <span className="flex shrink-0 items-center gap-3 text-sm text-muted">
+                      {m.lessons.length} {isBundle ? 'modules' : m.lessons.length === 1 ? 'lesson' : 'lessons'}
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="transition-transform group-open:rotate-180" aria-hidden>
+                        <path d="m6 9 6 6 6-6" />
+                      </svg>
+                    </span>
+                  </summary>
+                  <ol className="grid gap-x-6 gap-y-2 border-t border-ink/5 px-5 py-4 text-sm text-muted sm:grid-cols-2">
+                    {m.lessons.map((l, j) => (
+                      <li key={j} className="flex gap-2">
+                        <span className="text-gold-dark">•</span>{l}
+                      </li>
+                    ))}
+                  </ol>
+                </details>
               ))}
             </div>
           </div>

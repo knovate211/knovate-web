@@ -7,6 +7,7 @@ import {
   getScholarshipPrograms,
   type ScholarshipProgram,
 } from '@/lib/api';
+import { courses } from '@/data/courses';
 
 /**
  * The scholarship application.
@@ -142,6 +143,19 @@ export default function ScholarshipForm({ defaultCourseId = '' }: { defaultCours
     );
   }
 
+  // Every catalog course is listed so students can see the full range, but only
+  // courses with a live scholarship paper (from /api/scholarship/config) can be
+  // chosen. The rest show as "opening soon" and unlock by themselves once an
+  // admin attaches a test under Scholarship Programmes — no site change needed.
+  const courseOptions = [
+    ...courses.map((c) => ({ id: c.id, name: c.title, open: !!programs?.some((p) => p.courseId === c.id) })),
+    // A live programme for a course the catalog does not list is still offered.
+    ...(programs ?? [])
+      .filter((p) => !courses.some((c) => c.id === p.courseId))
+      .map((p) => ({ id: p.courseId, name: p.courseName, open: true })),
+  ];
+  const chosenProgram = programs?.find((p) => p.courseId === courseId);
+
   if (programs && programs.length === 0) {
     return (
       <div className="rounded-2xl border border-ink/10 bg-white p-8 text-center">
@@ -175,45 +189,66 @@ export default function ScholarshipForm({ defaultCourseId = '' }: { defaultCours
         />
       </div>
 
-      <fieldset>
-        <legend className={label}>Which course? *</legend>
+      <div>
+        <label className={label} htmlFor="courseId">Which course? *</label>
         {!programs ? (
-          <div className="h-[58px] animate-pulse rounded-lg border border-ink/10 bg-sand/60" />
+          <div className="h-[46px] animate-pulse rounded-lg border border-ink/10 bg-sand/60" />
         ) : (
-          <div className="grid gap-3 sm:grid-cols-2">
-            {programs.map((p) => (
-              <label
-                key={p.courseId}
-                className={`flex cursor-pointer items-start gap-3 rounded-lg border p-4 transition-colors ${
-                  courseId === p.courseId
-                    ? 'border-gold bg-gold/5 ring-1 ring-gold'
-                    : 'border-ink/15 bg-white hover:bg-sand/40'
-                }`}
-              >
-                <input
-                  type="radio"
-                  name="courseId"
-                  value={p.courseId}
-                  checked={courseId === p.courseId}
-                  onChange={() => setCourseId(p.courseId)}
-                  className="mt-1 accent-[#c98a3a]"
-                />
-                <span>
-                  <span className="block font-semibold text-ink">{p.courseName}</span>
-                  <span className="block text-xs text-muted">
-                    {p.durationMinutes} min · {p.sectionSummary || `${p.totalMarks} marks`}
-                    {typeof p.seatsLeft === 'number' && p.seatsLeft <= 20 && (
-                      <span className="ml-1 font-semibold text-terracotta">
-                        · {p.seatsLeft} place{p.seatsLeft === 1 ? '' : 's'} left
-                      </span>
-                    )}
+          <>
+            <select
+              id="courseId"
+              className={field}
+              value={courseId}
+              onChange={(e) => setCourseId(e.target.value)}
+            >
+              <option value="" disabled>
+                Select a course…
+              </option>
+              <optgroup label="Open for applications">
+                {courseOptions
+                  .filter((o) => o.open)
+                  .map((o) => (
+                    <option key={o.id} value={o.id}>
+                      {o.name}
+                    </option>
+                  ))}
+              </optgroup>
+              {courseOptions.some((o) => !o.open) && (
+                <optgroup label="Scholarship opening soon">
+                  {courseOptions
+                    .filter((o) => !o.open)
+                    .map((o) => (
+                      <option key={o.id} value={o.id} disabled>
+                        {o.name} — opening soon
+                      </option>
+                    ))}
+                </optgroup>
+              )}
+            </select>
+            {chosenProgram ? (
+              <p className="mt-1.5 text-xs text-muted">
+                {chosenProgram.durationMinutes} min ·{' '}
+                {chosenProgram.sectionSummary || `${chosenProgram.totalMarks} marks`}
+                {typeof chosenProgram.seatsLeft === 'number' && chosenProgram.seatsLeft <= 20 && (
+                  <span className="ml-1 font-semibold text-terracotta">
+                    · {chosenProgram.seatsLeft} place{chosenProgram.seatsLeft === 1 ? '' : 's'} left
                   </span>
-                </span>
-              </label>
-            ))}
-          </div>
+                )}
+              </p>
+            ) : (
+              courseOptions.some((o) => !o.open) && (
+                <p className="mt-1.5 text-xs text-muted">
+                  Courses marked &ldquo;opening soon&rdquo; do not have a scholarship test yet.{' '}
+                  <Link href="/contact" className="font-semibold text-gold-dark hover:underline">
+                    Ask us to tell you when they open
+                  </Link>
+                  .
+                </p>
+              )
+            )}
+          </>
         )}
-      </fieldset>
+      </div>
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
