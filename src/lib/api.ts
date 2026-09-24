@@ -13,6 +13,13 @@ export interface EnquiryPayload {
   message?: string;
   source: string;
   page_url?: string;
+  /** Company leads for the hiring-test platform (/hire). */
+  company?: string;
+  job_title?: string;
+  company_size?: string;
+  hiring_volume?: string;
+  /** Honeypot. Hidden from real users; anything here marks the submission a bot. */
+  website?: string;
 }
 
 export async function submitEnquiry(payload: EnquiryPayload): Promise<void> {
@@ -98,3 +105,48 @@ export async function applyForScholarship(
   }
   return body as ScholarshipApplyResult;
 }
+
+// ─── Online enrolment (Razorpay) ─────────────────────────────────────────────
+
+export interface EnrollConfig {
+  enabled: boolean;
+  test_mode: boolean;
+  fees: { course_id: string; name: string; self_paced: number; mentor_led: number }[];
+}
+
+export interface EnrollOrder {
+  key_id: string;
+  order_id: string;
+  /** In paise — the amount the gateway will charge, decided by the server. */
+  amount: number;
+  currency: string;
+  course_name: string;
+  plan_name: string;
+  prefill: { name: string; email: string; contact: string };
+}
+
+export interface EnrollResult {
+  status: string;
+  email: string;
+  course_name: string;
+  plan_name: string;
+  new_account: boolean;
+  emailed: boolean;
+}
+
+async function enrollCall<T>(path: string, body?: unknown): Promise<T> {
+  const resp = await fetch(`${API_BASE}/api/enroll/${path}`, body === undefined
+    ? { cache: 'no-store' }
+    : { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+  const data = await resp.json().catch(() => ({}));
+  if (!resp.ok) throw new Error(data?.error || 'Something went wrong. Please try again.');
+  return data as T;
+}
+
+export const getEnrollConfig = () => enrollCall<EnrollConfig>('config');
+
+export const createEnrollOrder = (p: { course_id: string; plan: string; name: string; email: string; phone: string }) =>
+  enrollCall<EnrollOrder>('order', p);
+
+export const verifyEnrollPayment = (p: { razorpay_order_id: string; razorpay_payment_id: string; razorpay_signature: string }) =>
+  enrollCall<EnrollResult>('verify', p);

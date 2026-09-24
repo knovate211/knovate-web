@@ -24,7 +24,7 @@ export default function Navbar() {
           ))}
         </nav>
         <div className="hidden md:block">
-          <Button href="/contact" className="px-6 py-3 text-[16px]">Enroll now</Button>
+          <Button href="/enroll" className="px-6 py-3 text-[16px]">Enroll now</Button>
         </div>
         <button className="md:hidden text-ink" onClick={() => setOpen((o) => !o)} aria-label="Menu">
           <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -40,7 +40,7 @@ export default function Navbar() {
                 {n.label}
               </Link>
             ))}
-            <Button href="/contact" className="mt-2 w-full">Enroll now</Button>
+            <Button href="/enroll" className="mt-2 w-full">Enroll now</Button>
           </div>
         </div>
       )}

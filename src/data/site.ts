@@ -16,6 +16,7 @@ export const site = {
     { label: 'Scholarship', href: '/scholarship' },
     { label: 'Pricing', href: '/pricing' },
     { label: 'Placements', href: '/placements' },
+    { label: 'For companies', href: '/hire' },
     { label: 'Blog', href: '/blog' },
     { label: 'About', href: '/about' },
   ],

@@ -3,12 +3,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import { catalog, categoryTabs, durationBuckets, CatalogCourse, Level } from '@/data/catalog';
+import { priceFor, inr } from '@/data/pricing';
 import HeroImage from '@/components/home/HeroImage';
 import { BlocksIcon, BriefcaseIcon, CapIcon, CloudIcon, CodeIcon, GrowthIcon, LaptopIcon, UsersIcon } from '@/components/home/Icons';
 
 const tabIcon: Record<string, typeof CodeIcon> = { laptop: LaptopIcon, brain: BlocksIcon, cloud: CloudIcon, pen: BriefcaseIcon, users: UsersIcon };
 const levels: Level[] = ['Beginner', 'Intermediate', 'Advanced'];
-const inr = (n: number) => `₹${n.toLocaleString('en-IN')}`;
 
 function toggle<T>(list: T[], v: T) {
   return list.includes(v) ? list.filter((x) => x !== v) : [...list, v];
@@ -49,6 +49,12 @@ function Card({ c }: { c: CatalogCourse }) {
         <p className="flex items-center gap-1.5 text-[11px] text-ink/70"><span className="text-gold-dark">▣</span>{c.category}</p>
         <h3 className="mt-2 text-[14px] font-medium leading-snug text-ink">{c.title}</h3>
         <p className="mt-2 text-[12px] text-muted">{c.level} • {c.duration}</p>
+        {priceFor(c.id) && (
+          <p className="mt-1.5 text-[13px] text-ink">
+            <span className="text-[11px] text-muted">From </span>
+            <span className="font-semibold">{inr(priceFor(c.id)!.selfPaced)}</span>
+          </p>
+        )}
         <p className="mt-2 line-clamp-2 text-[12px] leading-relaxed text-muted">{c.tagline}</p>
         <div className="mt-auto flex items-center justify-between gap-2 pt-5">
           <div className="flex flex-wrap gap-1">
@@ -84,6 +90,7 @@ export default function CourseCatalog() {
       (!dur.length || dur.some((i) => durationBuckets[i].test(c.months))));
     if (sort === 'short') r.sort((a, b) => a.months - b.months);
     else if (sort === 'long') r.sort((a, b) => b.months - a.months);
+    else if (sort === 'price') r.sort((a, b) => (priceFor(a.id)?.selfPaced ?? 0) - (priceFor(b.id)?.selfPaced ?? 0));
     else r.sort((a, b) => Number(!!b.popular) - Number(!!a.popular));
     return r;
   }, [base, lv, dur, sort]);
@@ -168,6 +175,7 @@ function CatalogBody(p: BodyProps) {
                   <option value="popular">Most Popular</option>
                   <option value="short">Duration: Shortest first</option>
                   <option value="long">Duration: Longest first</option>
+                  <option value="price">Price: Low to high</option>
                 </select>
               </label>
             </div>

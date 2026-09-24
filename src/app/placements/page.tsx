@@ -180,7 +180,7 @@ export default function PlacementsPage() {
             <h2 className="font-serif text-[18px] font-bold">Ready to take the next step in your career?</h2>
             <p className="mt-1 text-[11px] text-white/90">Join thousands of learners who have already built their dream careers with Knovate.</p>
           </div>
-          <Link href="/contact" className="inline-flex items-center gap-2 rounded-md bg-white px-4 py-2 text-[12px] font-medium text-gold-dark hover:bg-cream">
+          <Link href="/enroll" className="inline-flex items-center gap-2 rounded-md bg-white px-4 py-2 text-[12px] font-medium text-gold-dark hover:bg-cream">
             Enroll now <ArrowRight width={14} height={14} />
           </Link>
         </section>

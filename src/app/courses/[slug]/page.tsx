@@ -7,6 +7,7 @@ import ScholarshipCTA from '@/components/scholarship/ScholarshipCTA';
 import Button from '@/components/Button';
 import { courses, courseBySlug } from '@/data/courses';
 import { syllabus } from '@/data/syllabus';
+import { priceFor, inr } from '@/data/pricing';
 
 export function generateStaticParams() {
   return courses.map((c) => ({ slug: c.slug }));
@@ -30,6 +31,7 @@ export default function CoursePage({ params }: { params: { slug: string } }) {
   const modules = syllabus[c.slug] ?? c.syllabus.map((m) => ({ module: m.module, lessons: m.topics }));
   const lessonCount = modules.reduce((n, m) => n + m.lessons.length, 0);
   const isBundle = c.slug === 'full-stack';
+  const fee = priceFor(c.id);
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -37,6 +39,14 @@ export default function CoursePage({ params }: { params: { slug: string } }) {
     name: c.title,
     description: c.summary,
     provider: { '@type': 'Organization', name: 'Knovate' },
+    ...(fee && {
+      offers: {
+        '@type': 'Offer',
+        price: fee.selfPaced,
+        priceCurrency: 'INR',
+        category: 'Self-Paced',
+      },
+    }),
   };
 
   return (
@@ -53,10 +63,29 @@ export default function CoursePage({ params }: { params: { slug: string } }) {
               <div className="mt-6 flex flex-wrap gap-2">
                 {c.tags.map((t) => <span key={t} className="rounded-md bg-white px-3 py-1 text-sm font-medium text-muted">{t}</span>)}
               </div>
+              {fee && (
+                <div className="mt-8 grid max-w-md grid-cols-2 gap-3">
+                  <Link href={`/enroll?course=${c.slug}&plan=self`} className="group rounded-xl border border-ink/10 bg-white px-4 py-3 hover:border-gold">
+                    <div className="text-xs font-semibold uppercase tracking-wide text-muted">Self-Paced</div>
+                    <div className="mt-1 font-serif text-2xl font-bold text-ink">{inr(fee.selfPaced)}</div>
+                    <div className="mt-1 text-xs font-semibold text-gold-dark group-hover:underline">Enroll →</div>
+                  </Link>
+                  <Link href={`/enroll?course=${c.slug}&plan=mentor`} className="group rounded-xl border border-gold bg-white px-4 py-3 ring-1 ring-gold hover:bg-gold/5">
+                    <div className="text-xs font-semibold uppercase tracking-wide text-gold-dark">Mentor-Led</div>
+                    <div className="mt-1 font-serif text-2xl font-bold text-ink">{inr(fee.mentorLed)}</div>
+                    <div className="mt-1 text-xs font-semibold text-gold-dark group-hover:underline">Enroll →</div>
+                  </Link>
+                  <p className="col-span-2 text-sm text-muted">
+                    One-time fee.{' '}
+                    <Link href="/pricing" className="font-semibold text-gold-dark hover:underline">Compare plans</Link>
+                    {' '}· Scholarships can cover part of it.
+                  </p>
+                </div>
+              )}
             </div>
             <div className="rounded-2xl border border-ink/10 bg-white p-6 shadow-lg md:p-8">
               <h2 className="font-serif text-xl font-semibold text-ink">Enquire about this course</h2>
-              <p className="mt-1 mb-5 text-sm text-muted">We&apos;ll share the syllabus, fees and next batch dates.</p>
+              <p className="mt-1 mb-5 text-sm text-muted">We&apos;ll share the syllabus, next batch dates and EMI options.</p>
               <EnquiryForm source={`course_${c.slug}`} defaultInterest={c.title} compact />
             </div>
           </div>

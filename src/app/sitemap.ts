@@ -9,7 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // first is a form behind the landing page, the second is a private
   // confirmation that is also noindex'd. Only the landing page is a search
   // destination.
-  const staticRoutes = ['', '/courses', '/scholarship', '/pricing', '/placements', '/about', '/contact', '/blog'].map((r) => ({
+  const staticRoutes = ['', '/courses', '/scholarship', '/pricing', '/enroll', '/placements', '/hire', '/about', '/contact', '/blog'].map((r) => ({
     url: `${base}${r}`,
     lastModified: new Date(),
     changeFrequency: 'weekly' as const,
