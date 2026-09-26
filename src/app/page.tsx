@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import Section, { Eyebrow, Heading } from '@/components/Section';
 import TestimonialCard from '@/components/TestimonialCard';
@@ -5,6 +6,7 @@ import CTASection from '@/components/CTASection';
 import ScholarshipCTA from '@/components/scholarship/ScholarshipCTA';
 import HeroImage from '@/components/home/HeroImage';
 import { testimonials } from '@/data/testimonials';
+import { SITE_URL } from '@/lib/seo';
 import {
   ArrowRight, BlocksIcon, BriefcaseIcon, CapIcon, CertIcon, CloudIcon, CodeIcon,
   DatabaseIcon, GrowthIcon, LaptopIcon, StarIcon, UserIcon, UsersIcon,
@@ -49,6 +51,15 @@ function FloatCard({ Icon, text, className }: { Icon: typeof UserIcon; text: [st
     </div>
   );
 }
+
+// The home page carries the brand term plus what we actually sell, because it
+// is the page that ranks for "knovate" and the one shared most often.
+export const metadata: Metadata = {
+  title: 'Knovate — Mentor-Led Tech Courses with Placement Support',
+  description:
+    'Learn Full Stack, Java, SQL, GenAI and more with mentors, real projects and placement support. Scholarships available, and certification exams you can verify.',
+  alternates: { canonical: SITE_URL },
+};
 
 export default function Home() {
   return (

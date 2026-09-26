@@ -1,11 +1,14 @@
 import type { Metadata } from 'next';
+import { pageMeta } from '@/lib/seo';
 import Section, { Eyebrow } from '@/components/Section';
 import EnrollForm from '@/components/enroll/EnrollForm';
 
-export const metadata: Metadata = {
-  title: 'Enroll',
-  description: 'Enroll in a Knovate course online. Choose your course and plan, pay securely with UPI, card or netbanking, and start learning straight away.',
-};
+export const metadata: Metadata = pageMeta({
+  title: 'Enroll Online — Secure Payment',
+  description:
+    'Join a Knovate course in minutes. Choose your course and plan, pay securely by UPI, card or net banking, and get your login straight away.',
+  path: '/enroll',
+});
 
 export default function EnrollPage({ searchParams }: { searchParams: { course?: string; plan?: string } }) {
   return (

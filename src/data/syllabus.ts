@@ -1082,47 +1082,103 @@ export const syllabus: Record<string, SyllabusModule[]> = {
         "A/B Testing Frameworks & Tools",
         "Heatmaps & Session Analysis"
       ]
+    },
+    {
+      "module": "Module 6: Measurement, Analytics & Attribution",
+      "lessons": [
+        "Reading GA4 Without Getting Lost",
+        "UTM Tracking & Clean Campaign Data",
+        "Attribution & the Monthly Report"
+      ]
+    },
+    {
+      "module": "Module 7: Content, Video & Partnerships",
+      "lessons": [
+        "Content Marketing That Feeds Every Channel",
+        "Short-Form Video & Creative Testing",
+        "Influencers, Affiliates & Messaging Channels"
+      ]
+    },
+    {
+      "module": "Module 8: AI in Digital Marketing",
+      "lessons": [
+        "Where AI Helps and Where It Fails",
+        "AI for Research, Copy & Creative",
+        "AI for Analysis, Reporting & Its Limits"
+      ]
+    },
+    {
+      "module": "Module 9: Capstone & Career",
+      "lessons": [
+        "The Capstone Campaign Plan",
+        "Presenting Results & Building a Portfolio",
+        "Career Paths & Interview Preparation"
+      ]
     }
   ],
   "seo": [
     {
-      "module": "Module 1: Search Engine Crawling & Indexing",
+      "module": "Module 1: AI Search Foundations — GEO, LLM SEO & AEO",
       "lessons": [
-        "How Google Search Works",
-        "Understanding Crawl Budgets & Indexability",
-        "Sitemaps and Robots.txt Best Practices"
+        "How AI Search Engines Answer Questions",
+        "GEO, LLM SEO and AEO Compared",
+        "Why Classic SEO Still Decides AI Visibility"
       ]
     },
     {
-      "module": "Module 2: Keyword Research & Competitor Analysis",
+      "module": "Module 2: Optimising a Page for AI Answers",
       "lessons": [
-        "Identifying Search Intent",
-        "Keyword Grouping & Selection Metrics",
-        "Competitor Gap & Opportunity Audits"
+        "Answer-First Content Structure",
+        "Structured Content vs Structured Data",
+        "One Page for AEO, GEO and SEO"
       ]
     },
     {
-      "module": "Module 3: On-Page SEO Optimization",
+      "module": "Module 3: Training AI to Find and Cite You",
       "lessons": [
-        "Title Tags, Meta Descriptions & Headers",
-        "SEO Copywriting & Image Optimization",
-        "URL Hierarchy & Internal Link Architecture"
+        "Auditing What AI Says About You",
+        "About, Contact and Source Pages AI Can Trust",
+        "How AI Models Actually Learn"
       ]
     },
     {
-      "module": "Module 4: Technical SEO & Speed Optimization",
+      "module": "Module 4: Crawlability for AI Crawlers",
       "lessons": [
-        "Core Web Vitals & Page Load Impact",
-        "Schema Markup & Rich Snippets",
-        "Canonicalization & Redirects"
+        "How Crawling Works for Search and AI Bots",
+        "robots.txt Mistakes That Block AI",
+        "llms.txt: Writing and Verifying It"
       ]
     },
     {
-      "module": "Module 5: Link Building & Off-Page Authority",
+      "module": "Module 5: Reputation — E-E-A-T and Entity Authority",
       "lessons": [
-        "Evaluating Domain Authority",
-        "Ethical Guest Posting & Outreach",
-        "Backlink Auditing & Disavow Tool"
+        "Google E-E-A-T Explained",
+        "Building a Consistent Entity Across the Web",
+        "Mentions in Databases, Forums and Communities"
+      ]
+    },
+    {
+      "module": "Module 6: Digital PR — Earning Mentions That Train AI",
+      "lessons": [
+        "Why Mentions Move AI Answers",
+        "Writing a Press Release for Humans, Search and AI",
+        "Distribution, Follow-Up and Measuring Coverage"
+      ]
+    },
+    {
+      "module": "Module 7: AI-Assisted Technical SEO",
+      "lessons": [
+        "Building an SEO-Ready Site with AI Tools",
+        "FAQ Schema, Interlinking and Long-Tail Coverage",
+        "Page Speed and Core Web Vitals with AI Help"
+      ]
+    },
+    {
+      "module": "Module 8: Measuring AI Visibility and Staying Ahead",
+      "lessons": [
+        "Tracking Citations and Brand Mentions in AI Answers",
+        "Google AI Overviews and AI Mode",
+        "Ethics, Limits and What Comes Next"
       ]
     }
   ],

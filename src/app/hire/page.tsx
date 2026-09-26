@@ -1,15 +1,17 @@
 import type { Metadata } from 'next';
+import { pageMeta, faqLd } from '@/lib/seo';
 import CompanyEnquiryForm from '@/components/CompanyEnquiryForm';
 import FAQ from '@/components/FAQ';
 import {
   ArrowRight, BlocksIcon, BriefcaseIcon, CertIcon, CodeIcon, DatabaseIcon, GrowthIcon, LaptopIcon, UsersIcon,
 } from '@/components/home/Icons';
 
-export const metadata: Metadata = {
-  title: 'Hiring tests for companies',
+export const metadata: Metadata = pageMeta({
+  title: 'Hire Developers: Coding Assessments & Shortlisting',
   description:
-    'Screen candidates with proctored coding and aptitude tests. Auto-graded code in Python, Java, JavaScript, C++, Go and SQL, with candidate reports and shortlists.',
-};
+    'Screen developers with proctored coding tests, see code playback and integrity reports, and shortlist candidates on evidence rather than CVs.',
+  path: '/hire',
+});
 
 // Every item here describes something the platform does today. Keep it that
 // way: a company that signs up on a claim we can't back loses trust in the scores.
@@ -43,6 +45,9 @@ const Eyebrow = ({ children }: { children: React.ReactNode }) => (
 
 export default function HirePage() {
   return (
+    <>
+      {/* The questions rendered below, as structured data. */}
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd(faqs)) }} />
     <div className="bg-[#faf6ef]">
       {/* Hero */}
       <section className="bg-gradient-to-b from-[#f7efe2] to-[#faf6ef]">
@@ -173,5 +178,6 @@ export default function HirePage() {
         </section>
       </div>
     </div>
+    </>
   );
 }

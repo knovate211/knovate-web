@@ -9,6 +9,7 @@ import {
   getEnrollConfig,
   createEnrollOrder,
   verifyEnrollPayment,
+  heldReferralCode,
   type EnrollConfig,
 } from '@/lib/api';
 
@@ -59,6 +60,12 @@ export default function EnrollForm({ defaultCourse = '', defaultPlan = 'mentor' 
   const [agreed, setAgreed] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
+  // Set from the server's reply, so the summary shows the discount that was
+  // actually applied rather than one the browser hoped for.
+  const [referralDiscount, setReferralDiscount] = useState(0);
+  const [refCode, setRefCode] = useState('');
+
+  useEffect(() => { setRefCode(heldReferralCode()); }, []);
 
   useEffect(() => {
     getEnrollConfig().then(setConfig).catch(() => setConfigError(true));
@@ -80,9 +87,21 @@ export default function EnrollForm({ defaultCourse = '', defaultPlan = 'mentor' 
     setBusy(true);
     try {
       const [order] = await Promise.all([
-        createEnrollOrder({ course_id: courseId, plan, name: name.trim(), email: email.trim().toLowerCase(), phone: phone.trim() }),
+        createEnrollOrder({
+          course_id: courseId,
+          plan,
+          name: name.trim(),
+          email: email.trim().toLowerCase(),
+          phone: phone.trim(),
+          // Whoever sent them, if anyone. The server decides what it is worth;
+          // an invalid or self-referring code simply costs nothing.
+          referral_code: heldReferralCode(),
+        }),
         loadCheckout(),
       ]);
+      if (order.referral_discount) {
+        setReferralDiscount(order.referral_discount / 100);
+      }
       const rzp = new window.Razorpay!({
         key: order.key_id,
         order_id: order.order_id,
@@ -211,9 +230,19 @@ export default function EnrollForm({ defaultCourse = '', defaultPlan = 'mentor' 
           <div className="flex justify-between gap-3"><dt className="text-muted">Plan</dt><dd className="font-medium text-ink">{plan === 'self' ? 'Self-Paced' : 'Mentor-Led'}</dd></div>
           {course && <div className="flex justify-between gap-3"><dt className="text-muted">Duration</dt><dd className="font-medium text-ink">{course.duration}</dd></div>}
         </dl>
+        {refCode && price > 0 && (
+          <div className="mt-3 flex justify-between gap-3 text-sm">
+            <dt className="text-muted">Referral ({refCode})</dt>
+            <dd className="font-medium text-sage">
+              {referralDiscount > 0 ? `− ${inr(referralDiscount)}` : 'applied at payment'}
+            </dd>
+          </div>
+        )}
         <div className="mt-4 flex items-baseline justify-between border-t border-ink/10 pt-4">
           <span className="text-sm text-muted">Total</span>
-          <span className="font-serif text-3xl font-bold text-ink">{price ? inr(price) : '—'}</span>
+          <span className="font-serif text-3xl font-bold text-ink">
+            {price ? inr(Math.max(0, price - referralDiscount)) : '—'}
+          </span>
         </div>
         {error && <p className="mt-4 rounded-lg bg-terracotta/10 px-3 py-2 text-sm text-terracotta">{error}</p>}
         <button

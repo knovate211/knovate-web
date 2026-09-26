@@ -6,6 +6,8 @@ import EnquiryForm from '@/components/EnquiryForm';
 import ScholarshipCTA from '@/components/scholarship/ScholarshipCTA';
 import Button from '@/components/Button';
 import { courses, courseBySlug } from '@/data/courses';
+import { pageMeta, breadcrumbLd, SITE_URL } from '@/lib/seo';
+import ReferButton from '@/components/referral/ReferButton';
 import { syllabus } from '@/data/syllabus';
 import { priceFor, inr } from '@/data/pricing';
 
@@ -16,11 +18,13 @@ export function generateStaticParams() {
 export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
   const c = courseBySlug(params.slug);
   if (!c) return { title: 'Course not found' };
-  return {
-    title: c.title,
-    description: c.summary,
-    openGraph: { title: `${c.title} · Knovate`, description: c.summary },
-  };
+  // "<Course> Course — Syllabus, Fees & Duration" is what people actually
+  // search for; the bare course name competes with every other school's page.
+  return pageMeta({
+    title: `${c.title} Course — Syllabus, Fees & Duration`,
+    description: `${c.summary.slice(0, 150)}`,
+    path: `/courses/${c.slug}`,
+  });
 }
 
 export default function CoursePage({ params }: { params: { slug: string } }) {
@@ -33,25 +37,44 @@ export default function CoursePage({ params }: { params: { slug: string } }) {
   const isBundle = c.slug === 'full-stack';
   const fee = priceFor(c.id);
 
+  // Google's Course rich result needs a provider with a URL and a course
+  // instance; without them the markup validates but is never shown.
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Course',
     name: c.title,
     description: c.summary,
-    provider: { '@type': 'Organization', name: 'Knovate' },
+    url: `${SITE_URL}/courses/${c.slug}`,
+    educationalLevel: c.level,
+    teaches: c.outcomes,
+    provider: { '@type': 'EducationalOrganization', name: 'Knovate', url: SITE_URL },
+    hasCourseInstance: {
+      '@type': 'CourseInstance',
+      courseMode: 'online',
+      courseWorkload: `P${parseInt(c.duration, 10) || 0}M`,
+    },
     ...(fee && {
       offers: {
         '@type': 'Offer',
         price: fee.selfPaced,
         priceCurrency: 'INR',
         category: 'Self-Paced',
+        url: `${SITE_URL}/enroll?course=${c.slug}`,
+        availability: 'https://schema.org/InStock',
       },
     }),
   };
 
+  const crumbs = breadcrumbLd([
+    { name: 'Home', path: '/' },
+    { name: 'Courses', path: '/courses' },
+    { name: c.title, path: `/courses/${c.slug}` },
+  ]);
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(crumbs) }} />
       <section className="bg-gradient-to-b from-sand to-cream">
         <div className="mx-auto max-w-content px-5 py-14">
           <Link href="/courses" className="text-sm font-semibold text-gold-dark">← All courses</Link>
@@ -83,10 +106,22 @@ export default function CoursePage({ params }: { params: { slug: string } }) {
                 </div>
               )}
             </div>
-            <div className="rounded-2xl border border-ink/10 bg-white p-6 shadow-lg md:p-8">
-              <h2 className="font-serif text-xl font-semibold text-ink">Enquire about this course</h2>
-              <p className="mt-1 mb-5 text-sm text-muted">We&apos;ll share the syllabus, next batch dates and EMI options.</p>
-              <EnquiryForm source={`course_${c.slug}`} defaultInterest={c.title} compact />
+            <div>
+              <div className="rounded-2xl border border-ink/10 bg-white p-6 shadow-lg md:p-8">
+                <h2 className="font-serif text-xl font-semibold text-ink">Enquire about this course</h2>
+                <p className="mt-1 mb-5 text-sm text-muted">We&apos;ll share the syllabus, next batch dates and EMI options.</p>
+                <EnquiryForm source={`course_${c.slug}`} defaultInterest={c.title} compact />
+              </div>
+
+              {/* Under the card, not inside it. Renders nothing while the
+                  referral programme is closed. */}
+              <div className="mt-2 text-right">
+                <ReferButton
+                  className="text-sm font-semibold text-gold-dark hover:text-gold"
+                  label={`Know someone who'd like this? Refer them and earn →`}
+                  defaultTo={`/courses/${c.slug}`}
+                />
+              </div>
             </div>
           </div>
         </div>

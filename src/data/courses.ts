@@ -35,7 +35,7 @@ export const courses: Course[] = [
       { module: 'Backend & APIs', topics: ['Node/Go services', 'REST & GraphQL', 'Auth, JWT & security'] },
       { module: 'Data & Deploy', topics: ['PostgreSQL & modeling', 'Docker basics', 'CI/CD & cloud deploy'] },
     ],
-    tags: ['React', 'APIs', 'PostgreSQL', 'Cloud'],
+    tags: ['Spring Boot', 'React', 'PostgreSQL', 'GenAI'],
     accent: 'gold',
   },
   {
@@ -52,7 +52,7 @@ export const courses: Course[] = [
       { module: 'Java Core', topics: ['Syntax, types, control flow', 'OOP: classes, inheritance', 'Collections & generics'] },
       { module: 'Backend with Java', topics: ['JDBC & databases', 'Spring Boot basics', 'REST APIs'] },
     ],
-    tags: ['Java', 'Spring', 'OOP'],
+    tags: ['Spring Boot', 'Core Java', 'DSA', 'OOP'],
     accent: 'terracotta',
   },
   {
@@ -69,7 +69,7 @@ export const courses: Course[] = [
       { module: 'Web Basics', topics: ['HTML & semantics', 'CSS & Flexbox/Grid', 'Responsive design'] },
       { module: 'React', topics: ['Components & hooks', 'State management', 'Routing & data'] },
     ],
-    tags: ['HTML', 'CSS', 'React'],
+    tags: ['React', 'JavaScript', 'HTML & CSS', 'Responsive Design'],
     accent: 'sage',
   },
   {
@@ -85,7 +85,7 @@ export const courses: Course[] = [
       { module: 'SQL Foundations', topics: ['SELECT, WHERE, ORDER', 'Joins & aggregation', 'Subqueries'] },
       { module: 'Advanced SQL', topics: ['Window functions', 'Indexing & performance', 'Transactions'] },
     ],
-    tags: ['SQL', 'PostgreSQL', 'Data'],
+    tags: ['PostgreSQL', 'Database Design', 'Joins', 'Normalization'],
     accent: 'gold',
   },
   {
@@ -101,7 +101,7 @@ export const courses: Course[] = [
       { module: 'Go Basics', topics: ['Types, structs, interfaces', 'Error handling', 'Packages & modules'] },
       { module: 'Concurrency & Services', topics: ['Goroutines & channels', 'HTTP & gRPC', 'Testing'] },
     ],
-    tags: ['Go', 'Concurrency', 'APIs'],
+    tags: ['REST APIs', 'Concurrency', 'Microservices', 'Gin'],
     accent: 'sage',
   },
   {
@@ -117,7 +117,7 @@ export const courses: Course[] = [
       { module: 'LLM Foundations', topics: ['Prompting & context', 'Embeddings & RAG', 'Tool use & agents'] },
       { module: 'Shipping AI', topics: ['Evaluation', 'Guardrails & safety', 'Deployment'] },
     ],
-    tags: ['LLMs', 'RAG', 'Agents'],
+    tags: ['RAG', 'AI Agents', 'LLMs', 'Prompt Engineering', 'LLMOps'],
     accent: 'terracotta',
   },
   {
@@ -134,7 +134,7 @@ export const courses: Course[] = [
       { module: 'Convert & Measure', topics: ['Email automation', 'Conversion optimisation', 'GA4, UTMs & attribution'] },
       { module: 'Scale & Prove', topics: ['Content & short-form video', 'AI in marketing', 'Capstone campaign plan'] },
     ],
-    tags: ['SEO', 'Ads', 'Analytics'],
+    tags: ['Performance Marketing', 'GA4', 'Social Media', 'PPC', 'Email Marketing'],
     accent: 'gold',
   },
   {
@@ -151,7 +151,7 @@ export const courses: Course[] = [
       { module: 'Authority & Crawlability', topics: ['AI crawlers & robots.txt', 'E-E-A-T & entities', 'Digital PR'] },
       { module: 'Technical & Measurement', topics: ['AI-assisted technical SEO', 'Tracking AI citations', 'Ethics & limits'] },
     ],
-    tags: ['AI SEO', 'GEO', 'Search'],
+    tags: ['GEO', 'AEO', 'AI SEO', 'LLM SEO', 'AI Search'],
     accent: 'sage',
   },
   {
@@ -167,7 +167,7 @@ export const courses: Course[] = [
       { module: 'Testing Foundations', topics: ['Test design', 'Manual testing', 'Bug reporting'] },
       { module: 'Automation', topics: ['Selenium', 'API testing', 'CI integration'] },
     ],
-    tags: ['QA', 'Selenium', 'Automation'],
+    tags: ['Selenium', 'API Testing', 'Manual Testing', 'Automation', 'QA'],
     accent: 'terracotta',
   },
 ];

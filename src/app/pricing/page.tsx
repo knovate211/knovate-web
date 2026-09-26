@@ -1,24 +1,29 @@
 import type { Metadata } from 'next';
+import { pageMeta, faqLd } from '@/lib/seo';
 import Link from 'next/link';
 import Section, { Eyebrow, Heading } from '@/components/Section';
 import Button from '@/components/Button';
 import FAQ from '@/components/FAQ';
 import { plans, faqs, pricedCourses, inr } from '@/data/pricing';
 
-export const metadata: Metadata = {
-  title: 'Pricing',
+export const metadata: Metadata = pageMeta({
+  title: 'Course Fees, Plans & EMI Options',
   description:
-    'Course fees for Knovate: Development courses from ₹8,999, Marketing and Software Testing from ₹5,999. Self-Paced and Mentor-Led plans, plus Career Track bundles.',
-};
+    'What each Knovate course costs, what self-paced and mentor-led include, and how scholarships and EMI can reduce the fee. No hidden charges.',
+  path: '/pricing',
+});
 
 export default function PricingPage() {
   const groups = pricedCourses();
 
   return (
     <>
+      {/* The same questions the page renders below — kept in one place so the
+          markup cannot promise an answer the page does not show. */}
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd(faqs)) }} />
       <Section className="bg-sand/50 text-center !pb-10">
         <Eyebrow>Pricing</Eyebrow>
-        <Heading>Simple fees, priced by course</Heading>
+        <Heading as="h1">Simple fees, priced by course</Heading>
         <p className="mx-auto mt-3 max-w-xl text-muted">
           Every course comes as Self-Paced or Mentor-Led. One-time fee, no hidden charges — and a scholarship test can
           bring it down further.

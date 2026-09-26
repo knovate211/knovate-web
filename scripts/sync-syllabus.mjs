@@ -41,7 +41,7 @@ const SKIP_ITEM_ID = /(^overview-|-quiz$|-assignment$|-ex$)/;
 
 const ACRONYMS = new Set(['SQL', 'API', 'APIS', 'HTML', 'CSS', 'JS', 'SEO', 'PPC', 'CRO', 'LLM', 'LLMS', 'LLMOPS',
   'RAG', 'AI', 'ML', 'CI/CD', 'JDBC', 'JVM', 'JDK', 'JRE', 'OOP', 'REST', 'DOM', 'UI', 'UX', 'DBMS', 'RDBMS', 'NOSQL',
-  'GENAI', 'FDE', 'HTTP', 'JSON', 'IOS', 'QA', 'DDL', 'DML', 'DQL', 'TCL', 'DCL', 'ACID', 'CTE', 'CTES', 'GD', 'ES', 'JWT', 'CLI', 'GRPC', 'AWS', 'GCP', 'SDK', 'URL', 'CRUD', 'MVC', 'JPA', 'ORM', 'DSA']);
+  'GENAI', 'FDE', 'HTTP', 'JSON', 'IOS', 'QA', 'DDL', 'DML', 'DQL', 'TCL', 'DCL', 'ACID', 'CTE', 'CTES', 'GD', 'ES', 'JWT', 'CLI', 'GRPC', 'AWS', 'GCP', 'SDK', 'URL', 'CRUD', 'MVC', 'JPA', 'ORM', 'DSA', 'GEO', 'AEO', 'PR']);
 const SMALL = new Set(['a', 'an', 'and', 'as', 'at', 'by', 'for', 'in', 'of', 'on', 'or', 'the', 'to', 'vs', 'with']);
 const FIXED = { APIS: 'APIs', LLMS: 'LLMs', LLMOPS: 'LLMOps', GENAI: 'GenAI', NOSQL: 'NoSQL', IOS: 'iOS', CTES: 'CTEs', JAVASCRIPT: 'JavaScript', TYPESCRIPT: 'TypeScript', GITHUB: 'GitHub', POSTGRESQL: 'PostgreSQL', MYSQL: 'MySQL', GRPC: 'gRPC', GOLANG: 'Golang', DEVOPS: 'DevOps' };
 
@@ -52,8 +52,9 @@ function titleCase(s) {
     if (ACRONYMS.has(bare)) return word.toUpperCase();
     const lower = word.toLowerCase();
     if (i > 0 && SMALL.has(lower)) return lower;
-    // Capitalise each hyphen part: "retrieval-augmented" → "Retrieval-Augmented".
-    return lower.replace(/(^|-)([a-z])/g, (_, sep, ch) => sep + ch.toUpperCase());
+    // Capitalise each hyphen part: "retrieval-augmented" → "Retrieval-Augmented", "ai-assisted" → "AI-Assisted".
+    return lower.replace(/(^|-)([a-z]+)/g, (_, sep, part) =>
+      sep + (ACRONYMS.has(part.toUpperCase()) ? part.toUpperCase() : part[0].toUpperCase() + part.slice(1)));
   }).join(' ');
 }
 

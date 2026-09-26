@@ -122,6 +122,11 @@ export interface EnrollOrder {
   currency: string;
   course_name: string;
   plan_name: string;
+  /** The list price before any referral discount, in paise. */
+  list_amount?: number;
+  /** What a referral code took off, in paise. Zero when none applied. */
+  referral_discount?: number;
+  referral_code?: string;
   prefill: { name: string; email: string; contact: string };
 }
 
@@ -145,8 +150,196 @@ async function enrollCall<T>(path: string, body?: unknown): Promise<T> {
 
 export const getEnrollConfig = () => enrollCall<EnrollConfig>('config');
 
-export const createEnrollOrder = (p: { course_id: string; plan: string; name: string; email: string; phone: string }) =>
+export const createEnrollOrder = (p: {
+  course_id: string; plan: string; name: string; email: string; phone: string; referral_code?: string;
+}) =>
   enrollCall<EnrollOrder>('order', p);
 
 export const verifyEnrollPayment = (p: { razorpay_order_id: string; razorpay_payment_id: string; razorpay_signature: string }) =>
   enrollCall<EnrollResult>('verify', p);
+
+// ── Certification exams ───────────────────────────────────────────────────────
+//
+// Paid, proctored exams that issue a verifiable certificate. The catalogue is
+// live rather than hardcoded: an exam is only listed when its paper is
+// published and its window is open, so the site can never sell an exam nobody
+// can sit.
+
+export interface CertificationExam {
+  slug: string;
+  title: string;
+  courseId: string;
+  summary: string;
+  priceRupees: number;
+  passPercent: number;
+  linkValidDays: number;
+  durationMinutes: number;
+  totalMarks: number;
+  paperTitle: string;
+}
+
+export interface CertificationConfig {
+  enabled: boolean;
+  exams: CertificationExam[];
+}
+
+export interface CertificationOrder {
+  key_id: string;
+  order_id: string;
+  amount: number;
+  currency: string;
+  exam_name: string;
+  list_amount?: number;
+  referral_discount?: number;
+  referral_code?: string;
+  prefill: { name: string; email: string; contact: string };
+}
+
+export interface CertificationResult {
+  status: string;
+  email: string;
+  exam_name: string;
+  /** False when the relay refused the message; staff can resend from the admin panel. */
+  emailed: boolean;
+  expires_at?: string;
+}
+
+export interface CredentialCheck {
+  found: boolean;
+  credentialId?: string;
+  holderName?: string;
+  title?: string;
+  issuedAt?: string;
+  scorePercent?: number;
+  revoked?: boolean;
+  revokedAt?: string;
+  revokeReason?: string;
+}
+
+/**
+ * Where to reach the gateway for a given call.
+ *
+ * In the browser a relative path is right: next.config rewrites proxy it in
+ * dev, and NEXT_PUBLIC_API_BASE points at the gateway in production. On the
+ * server there is no origin to be relative to, so a relative URL simply fails —
+ * hence API_TARGET, the same variable the rewrite uses.
+ */
+function apiBase(): string {
+  if (typeof window !== 'undefined') return API_BASE;
+  return process.env.API_INTERNAL_BASE || process.env.API_TARGET || API_BASE || 'http://localhost:8080';
+}
+
+async function certificationCall<T>(path: string, body?: unknown): Promise<T> {
+  const resp = await fetch(`${apiBase()}/api/certification/${path}`, body === undefined
+    ? { cache: 'no-store' }
+    : { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+  const data = await resp.json().catch(() => ({}));
+  if (!resp.ok) throw new Error(data.error || 'Something went wrong. Please try again.');
+  return data as T;
+}
+
+export const getCertificationConfig = () => certificationCall<CertificationConfig>('config');
+
+export const createCertificationOrder = (p: {
+  slug: string; name: string; email: string; phone: string; website?: string; referral_code?: string;
+}) =>
+  certificationCall<CertificationOrder>('order', p);
+
+export const verifyCertificationPayment = (p: { razorpay_order_id: string; razorpay_payment_id: string; razorpay_signature: string }) =>
+  certificationCall<CertificationResult>('verify', p);
+
+/** Public credential lookup — what an employer hits. Never throws for "not found". */
+export async function checkCredential(id: string): Promise<CredentialCheck> {
+  const resp = await fetch(`${apiBase()}/api/certification/credential?id=${encodeURIComponent(id)}`, { cache: 'no-store' });
+  const data = await resp.json().catch(() => ({}));
+  if (resp.status === 404) return { found: false };
+  if (!resp.ok) throw new Error(data.error || 'Could not check that credential.');
+  return data as CredentialCheck;
+}
+
+// ── Referrals ─────────────────────────────────────────────────────────────────
+//
+// A referral code is remembered in a first-party cookie when someone arrives on
+// /r/<code>, and travels with the next checkout. The discount it earns is
+// priced by the server, never here.
+
+export const REFERRAL_COOKIE = 'knovate_ref';
+
+export interface ReferralConfig {
+  active: boolean;
+  courseRewardRupees: number;
+  examRewardRupees: number;
+  friendDiscountPercent: number;
+  friendDiscountCapRupees: number;
+  minOrderRupees: number;
+  attributionDays: number;
+  termsUrl: string;
+}
+
+export interface ReferralLink {
+  code: string;
+  link: string;
+  name: string;
+  created: boolean;
+  courseRewardRupees: number;
+  examRewardRupees: number;
+  friendDiscountPercent: number;
+}
+
+export interface ReferralResolve {
+  valid: boolean;
+  firstName?: string;
+  friendDiscountPercent?: number;
+  attributionDays?: number;
+}
+
+export interface ReferralStatus {
+  name: string;
+  code: string;
+  link: string;
+  clicks: number;
+  conversions: number;
+  earnedRupees: number;
+  paidRupees: number;
+  pendingRupees: number;
+  referrals: {
+    friend: string;
+    item: string;
+    kind: string;
+    rewardRupees: number;
+    status: string;
+    at: string;
+    paidAt?: string;
+  }[];
+}
+
+async function referralCall<T>(path: string, body?: unknown): Promise<T> {
+  const resp = await fetch(`${apiBase()}/api/referral/${path}`, body === undefined
+    ? { cache: 'no-store' }
+    : { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+  const data = await resp.json().catch(() => ({}));
+  if (!resp.ok) throw new Error(data.error || 'Something went wrong. Please try again.');
+  return data as T;
+}
+
+export const getReferralConfig = () => referralCall<ReferralConfig>('config');
+
+export const joinReferralProgram = (p: { name: string; email: string; phone: string; website?: string }) =>
+  referralCall<ReferralLink>('join', p);
+
+export const resolveReferralCode = (code: string) =>
+  referralCall<ReferralResolve>(`resolve?code=${encodeURIComponent(code)}`);
+
+export const getReferralStatus = (code: string, email: string) =>
+  referralCall<ReferralStatus>('status', { code, email });
+
+/** Best effort: a click that fails to record must never block a redirect. */
+export const recordReferralClick = (code: string, path: string) =>
+  referralCall<{ ok: boolean }>('click', { code, path }).catch(() => ({ ok: false }));
+
+/** The code this visitor arrived with, if any. Read on the client only. */
+export function heldReferralCode(): string {
+  if (typeof document === 'undefined') return '';
+  const match = document.cookie.match(/(?:^|;\s*)knovate_ref=([^;]+)/);
+  return match ? decodeURIComponent(match[1]).toUpperCase() : '';
+}

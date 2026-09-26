@@ -1,14 +1,17 @@
 import type { Metadata } from 'next';
+import { pageMeta } from '@/lib/seo';
 import Link from 'next/link';
 import HeroImage from '@/components/home/HeroImage';
 import {
   ArrowRight, BookIcon, BriefcaseIcon, GrowthIcon, HandshakeIcon, ResumeIcon, UserIcon, UsersIcon,
 } from '@/components/home/Icons';
 
-export const metadata: Metadata = {
-  title: 'Placements',
-  description: 'Knovate placement support — resume building, interview prep and a network of hiring partners that get learners hired.',
-};
+export const metadata: Metadata = pageMeta({
+  title: 'Placement Support: Resume, Mock Interviews & Hiring Partners',
+  description:
+    'How Knovate helps you get hired: resume reviews, mock interviews, technical practice and introductions to hiring partners, alongside your course.',
+  path: '/placements',
+});
 
 const stats = [
   { n: '85%', l: 'Placement rate' },

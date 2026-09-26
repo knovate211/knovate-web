@@ -64,7 +64,7 @@ export default function ScholarshipPage() {
       <Section id="awards" className="!pt-14">
         <div className="mb-10 text-center">
           <Eyebrow>What you can earn</Eyebrow>
-          <Heading>Three bands, decided by your score</Heading>
+          <Heading as="h1">Three bands, decided by your score</Heading>
           <p className="mx-auto mt-3 max-w-xl text-muted">
             The paper is out of {testFormat.totalMarks}. Where you land decides the band — there is
             no interview, no panel and no quota.

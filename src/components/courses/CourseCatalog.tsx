@@ -56,12 +56,12 @@ function Card({ c }: { c: CatalogCourse }) {
           </p>
         )}
         <p className="mt-2 line-clamp-2 text-[12px] leading-relaxed text-muted">{c.tagline}</p>
-        <div className="mt-auto flex items-center justify-between gap-2 pt-5">
-          <div className="flex flex-wrap gap-1">
-            {c.tags.slice(0, 2).map((t) => (
-              <span key={t} className="rounded bg-sand px-1.5 py-0.5 text-[10px] text-ink/70">{t}</span>
-            ))}
-          </div>
+        <div className="mt-auto flex flex-wrap gap-1.5 pt-4">
+          {c.tags.map((t) => (
+            <span key={t} className="rounded bg-sand px-1.5 py-0.5 text-[10px] text-ink/70">{t}</span>
+          ))}
+        </div>
+        <div className="mt-4 flex justify-end">
           <Link href={`/courses/${c.slug}`} className="whitespace-nowrap rounded-full border border-gold/60 px-2.5 py-1 text-[11px] font-medium text-gold-dark hover:bg-gold hover:text-white">
             View course
           </Link>
@@ -180,7 +180,7 @@ function CatalogBody(p: BodyProps) {
               </label>
             </div>
             {p.results.length ? (
-              <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+              <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
                 {p.results.map((c) => <Card key={c.slug} c={c} />)}
               </div>
             ) : (
