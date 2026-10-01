@@ -106,7 +106,7 @@ export async function applyForScholarship(
   return body as ScholarshipApplyResult;
 }
 
-// ─── Online enrolment (Razorpay) ─────────────────────────────────────────────
+// ─── Online enrolment (Cashfree) ─────────────────────────────────────────────
 
 export interface EnrollConfig {
   enabled: boolean;
@@ -115,8 +115,12 @@ export interface EnrollConfig {
 }
 
 export interface EnrollOrder {
-  key_id: string;
+  /** Our order id, e.g. enr_<uuid>; also what Cashfree knows the order by. */
   order_id: string;
+  /** Opens Cashfree's checkout for this order. */
+  payment_session_id: string;
+  /** "sandbox" or "production" — the checkout SDK must match the server. */
+  mode: string;
   /** In paise — the amount the gateway will charge, decided by the server. */
   amount: number;
   currency: string;
@@ -127,7 +131,6 @@ export interface EnrollOrder {
   /** What a referral code took off, in paise. Zero when none applied. */
   referral_discount?: number;
   referral_code?: string;
-  prefill: { name: string; email: string; contact: string };
 }
 
 export interface EnrollResult {
@@ -155,8 +158,9 @@ export const createEnrollOrder = (p: {
 }) =>
   enrollCall<EnrollOrder>('order', p);
 
-export const verifyEnrollPayment = (p: { razorpay_order_id: string; razorpay_payment_id: string; razorpay_signature: string }) =>
-  enrollCall<EnrollResult>('verify', p);
+/** Asks the server whether Cashfree holds a payment for the order. */
+export const verifyEnrollPayment = (orderId: string) =>
+  enrollCall<EnrollResult>('verify', { order_id: orderId });
 
 // ── Certification exams ───────────────────────────────────────────────────────
 //
@@ -184,15 +188,15 @@ export interface CertificationConfig {
 }
 
 export interface CertificationOrder {
-  key_id: string;
   order_id: string;
+  payment_session_id: string;
+  mode: string;
   amount: number;
   currency: string;
   exam_name: string;
   list_amount?: number;
   referral_discount?: number;
   referral_code?: string;
-  prefill: { name: string; email: string; contact: string };
 }
 
 export interface CertificationResult {
@@ -245,8 +249,8 @@ export const createCertificationOrder = (p: {
 }) =>
   certificationCall<CertificationOrder>('order', p);
 
-export const verifyCertificationPayment = (p: { razorpay_order_id: string; razorpay_payment_id: string; razorpay_signature: string }) =>
-  certificationCall<CertificationResult>('verify', p);
+export const verifyCertificationPayment = (orderId: string) =>
+  certificationCall<CertificationResult>('verify', { order_id: orderId });
 
 /** Public credential lookup — what an employer hits. Never throws for "not found". */
 export async function checkCredential(id: string): Promise<CredentialCheck> {

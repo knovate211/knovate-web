@@ -7,25 +7,13 @@ import {
   heldReferralCode,
   type CertificationExam,
 } from '@/lib/api';
+import { loadCashfree, openCashfreeCheckout, returnedOrderId } from '@/lib/cashfree';
 
 export const CERTIFICATION_HANDOFF_KEY = 'knovate.certification.result';
 
 const field =
   'w-full rounded-lg border border-ink/15 bg-white px-4 py-2.5 text-ink outline-none focus:border-gold focus:ring-2 focus:ring-gold/30';
 const label = 'mb-1.5 block text-sm font-semibold text-ink';
-
-// Razorpay's checkout script, loaded once, only when the candidate is ready to pay.
-function loadCheckout(): Promise<void> {
-  if (typeof window === 'undefined') return Promise.reject(new Error('no window'));
-  if (window.Razorpay) return Promise.resolve();
-  return new Promise((resolve, reject) => {
-    const s = document.createElement('script');
-    s.src = 'https://checkout.razorpay.com/v1/checkout.js';
-    s.onload = () => resolve();
-    s.onerror = () => reject(new Error('Could not load the payment window. Check your connection and try again.'));
-    document.body.appendChild(s);
-  });
-}
 
 /**
  * Exam registration and checkout.
@@ -48,12 +36,36 @@ export default function CertificationForm({ exam }: { exam: CertificationExam })
 
   useEffect(() => { setRefCode(heldReferralCode()); }, []);
 
+  // The server asks Cashfree whether the payment landed; nothing here decides.
+  const finish = async (orderId: string) => {
+    try {
+      const result = await verifyCertificationPayment(orderId);
+      try { sessionStorage.setItem(CERTIFICATION_HANDOFF_KEY, JSON.stringify(result)); } catch { /* ignore */ }
+      router.push('/certifications/registered');
+    } catch (err: any) {
+      // The order id is the handle support needs for a payment whose
+      // fulfilment failed, so it goes in front of the candidate.
+      setError(`${err.message} (Order ${orderId})`);
+      setBusy(false);
+    }
+  };
+
+  // Back from a checkout that had to leave the page (some bank and UPI flows).
+  useEffect(() => {
+    const orderId = returnedOrderId('cert_');
+    if (orderId) {
+      setBusy(true);
+      void finish(orderId);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const pay = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     if (!name.trim()) return setError('Please enter your full name — it is printed on your certificate.');
     if (!email.trim() || !email.includes('@')) return setError('Please enter a valid email — your exam link is sent there.');
-    if (!/^[+\d][\d\s-]{7,}$/.test(phone.trim())) return setError('Please enter a phone number we can reach you on.');
+    if (!/^(\+?91[\s-]?|0)?[6-9]\d{4}[\s-]?\d{5}$/.test(phone.trim())) return setError('Please enter a valid 10-digit mobile number (it starts with 6, 7, 8 or 9) — the payment page needs it.');
     if (!agreed) return setError('Please confirm you have read the exam rules.');
 
     setBusy(true);
@@ -67,38 +79,17 @@ export default function CertificationForm({ exam }: { exam: CertificationExam })
           website,
           referral_code: refCode,
         }),
-        loadCheckout(),
+        loadCashfree(),
       ]);
-      const rzp = new window.Razorpay!({
-        key: order.key_id,
-        order_id: order.order_id,
-        amount: order.amount,
-        currency: order.currency,
-        name: 'Knovate',
-        description: `${order.exam_name} — certification exam`,
-        prefill: order.prefill,
-        theme: { color: '#c98a3a' },
-        modal: { ondismiss: () => setBusy(false) },
-        handler: async (resp: { razorpay_order_id: string; razorpay_payment_id: string; razorpay_signature: string }) => {
-          try {
-            const result = await verifyCertificationPayment(resp);
-            try { sessionStorage.setItem(CERTIFICATION_HANDOFF_KEY, JSON.stringify(result)); } catch { /* ignore */ }
-            router.push('/certifications/registered');
-          } catch (err: any) {
-            // The payment id is the only handle support has on a payment whose
-            // fulfilment failed, so it goes in front of the candidate.
-            setError(`${err.message} Payment id: ${resp.razorpay_payment_id}`);
-            setBusy(false);
-          }
-        },
-      });
-      rzp.on('payment.failed', (r: any) => {
-        setError(r?.error?.description
-          ? `Payment failed: ${r.error.description}`
-          : 'Payment failed. No money was taken — please try again.');
+      const checkout = await openCashfreeCheckout(order.payment_session_id, order.mode);
+      if (checkout.outcome === 'closed') {
+        setError(checkout.message
+          ? `Payment not completed: ${checkout.message}`
+          : 'Payment window closed. No money was taken — you can try again.');
         setBusy(false);
-      });
-      rzp.open();
+        return;
+      }
+      await finish(order.order_id);
     } catch (err: any) {
       setError(err.message);
       setBusy(false);
@@ -159,7 +150,7 @@ export default function CertificationForm({ exam }: { exam: CertificationExam })
           {busy ? 'Opening payment…' : `Pay ₹${exam.priceRupees.toLocaleString('en-IN')} and register`}
         </button>
         <p className="text-center text-xs text-muted">
-          Secure payment via Razorpay. Your exam link arrives by email within a minute.
+          Secure payment via Cashfree. Your exam link arrives by email within a minute.
         </p>
       </div>
     </form>

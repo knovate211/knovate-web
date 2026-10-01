@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Section, { Eyebrow } from '@/components/Section';
 import EnquiryForm from '@/components/EnquiryForm';
+import CourseEnrollCard from '@/components/enroll/CourseEnrollCard';
 import ScholarshipCTA from '@/components/scholarship/ScholarshipCTA';
 import Button from '@/components/Button';
 import { courses, courseBySlug } from '@/data/courses';
@@ -107,11 +108,16 @@ export default function CoursePage({ params }: { params: { slug: string } }) {
               )}
             </div>
             <div>
-              <div className="rounded-2xl border border-ink/10 bg-white p-6 shadow-lg md:p-8">
-                <h2 className="font-serif text-xl font-semibold text-ink">Enquire about this course</h2>
-                <p className="mt-1 mb-5 text-sm text-muted">We&apos;ll share the syllabus, next batch dates and EMI options.</p>
-                <EnquiryForm source={`course_${c.slug}`} defaultInterest={c.title} compact />
-              </div>
+              {fee ? (
+                <CourseEnrollCard slug={c.slug} title={c.title} selfPaced={fee.selfPaced} mentorLed={fee.mentorLed} />
+              ) : (
+                // Not sold online: the enquiry form is the way in.
+                <div className="rounded-2xl border border-ink/10 bg-white p-6 shadow-lg md:p-8">
+                  <h2 className="font-serif text-xl font-semibold text-ink">Enquire about this course</h2>
+                  <p className="mt-1 mb-5 text-sm text-muted">We&apos;ll share the syllabus, next batch dates and EMI options.</p>
+                  <EnquiryForm source={`course_${c.slug}`} defaultInterest={c.title} compact />
+                </div>
+              )}
 
               {/* Under the card, not inside it. Renders nothing while the
                   referral programme is closed. */}

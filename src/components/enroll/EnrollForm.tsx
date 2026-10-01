@@ -12,6 +12,7 @@ import {
   heldReferralCode,
   type EnrollConfig,
 } from '@/lib/api';
+import { loadCashfree, openCashfreeCheckout, returnedOrderId } from '@/lib/cashfree';
 
 export const ENROLL_HANDOFF_KEY = 'knovate.enroll.result';
 
@@ -21,29 +22,10 @@ const label = 'mb-1.5 block text-sm font-semibold text-ink';
 
 type Plan = 'self' | 'mentor';
 
-declare global {
-  interface Window {
-    Razorpay?: new (opts: Record<string, unknown>) => { open: () => void; on: (ev: string, cb: (r: any) => void) => void };
-  }
-}
-
-// Razorpay's checkout script, loaded once, only when the student is ready to pay.
-function loadCheckout(): Promise<void> {
-  if (typeof window === 'undefined') return Promise.reject(new Error('no window'));
-  if (window.Razorpay) return Promise.resolve();
-  return new Promise((resolve, reject) => {
-    const s = document.createElement('script');
-    s.src = 'https://checkout.razorpay.com/v1/checkout.js';
-    s.onload = () => resolve();
-    s.onerror = () => reject(new Error('Could not load the payment window. Check your connection and try again.'));
-    document.body.appendChild(s);
-  });
-}
-
 /**
  * Online enrolment. The fee shown comes from data/pricing.ts; the amount
  * actually charged is decided by the server when the order is created, and
- * that server amount is what the Pay button and the Razorpay window show.
+ * that server amount is what the Pay button and the Cashfree window show.
  */
 export default function EnrollForm({ defaultCourse = '', defaultPlan = 'mentor' }: { defaultCourse?: string; defaultPlan?: Plan }) {
   const router = useRouter();
@@ -71,6 +53,29 @@ export default function EnrollForm({ defaultCourse = '', defaultPlan = 'mentor' 
     getEnrollConfig().then(setConfig).catch(() => setConfigError(true));
   }, []);
 
+  // Asks the server whether the payment landed, then hands the result to the
+  // success page. The payment itself is never judged in the browser.
+  const finish = async (orderId: string) => {
+    try {
+      const result = await verifyEnrollPayment(orderId);
+      try { sessionStorage.setItem(ENROLL_HANDOFF_KEY, JSON.stringify(result)); } catch { /* ignore */ }
+      router.push('/enroll/success');
+    } catch (err: any) {
+      setError(`${err.message} (Order ${orderId})`);
+      setBusy(false);
+    }
+  };
+
+  // Back from a checkout that had to leave the page (some bank and UPI flows).
+  useEffect(() => {
+    const orderId = returnedOrderId('enr_');
+    if (orderId) {
+      setBusy(true);
+      void finish(orderId);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const group = groups.find((g) => g.courseIds.includes(courseId));
   const course = courses.find((c) => c.id === courseId);
   const price = group ? (plan === 'self' ? group.selfPaced : group.mentorLed) : 0;
@@ -81,7 +86,7 @@ export default function EnrollForm({ defaultCourse = '', defaultPlan = 'mentor' 
     if (!courseId) return setError('Choose the course you want to join.');
     if (!name.trim()) return setError('Please enter your name.');
     if (!email.trim() || !email.includes('@')) return setError('Please enter a valid email — your login is sent there.');
-    if (!/^[+\d][\d\s-]{7,}$/.test(phone.trim())) return setError('Please enter a phone number we can reach you on.');
+    if (!/^(\+?91[\s-]?|0)?[6-9]\d{4}[\s-]?\d{5}$/.test(phone.trim())) return setError('Please enter a valid 10-digit mobile number (it starts with 6, 7, 8 or 9) — the payment page needs it.');
     if (!agreed) return setError('Please accept the terms to continue.');
 
     setBusy(true);
@@ -97,38 +102,20 @@ export default function EnrollForm({ defaultCourse = '', defaultPlan = 'mentor' 
           // an invalid or self-referring code simply costs nothing.
           referral_code: heldReferralCode(),
         }),
-        loadCheckout(),
+        loadCashfree(),
       ]);
       if (order.referral_discount) {
         setReferralDiscount(order.referral_discount / 100);
       }
-      const rzp = new window.Razorpay!({
-        key: order.key_id,
-        order_id: order.order_id,
-        amount: order.amount,
-        currency: order.currency,
-        name: 'Knovate',
-        description: `${order.course_name} · ${order.plan_name}`,
-        prefill: order.prefill,
-        notes: { course: order.course_name, plan: order.plan_name },
-        theme: { color: '#c98a3a' },
-        modal: { ondismiss: () => setBusy(false) },
-        handler: async (resp: { razorpay_order_id: string; razorpay_payment_id: string; razorpay_signature: string }) => {
-          try {
-            const result = await verifyEnrollPayment(resp);
-            try { sessionStorage.setItem(ENROLL_HANDOFF_KEY, JSON.stringify(result)); } catch { /* ignore */ }
-            router.push('/enroll/success');
-          } catch (err: any) {
-            setError(`${err.message} Payment id: ${resp.razorpay_payment_id}`);
-            setBusy(false);
-          }
-        },
-      });
-      rzp.on('payment.failed', (r: any) => {
-        setError(r?.error?.description ? `Payment failed: ${r.error.description}` : 'Payment failed. No money was taken — please try again.');
+      const checkout = await openCashfreeCheckout(order.payment_session_id, order.mode);
+      if (checkout.outcome === 'closed') {
+        setError(checkout.message
+          ? `Payment not completed: ${checkout.message}`
+          : 'Payment window closed. No money was taken — you can try again.');
         setBusy(false);
-      });
-      rzp.open();
+        return;
+      }
+      await finish(order.order_id);
     } catch (err: any) {
       setError(err.message);
       setBusy(false);
@@ -139,7 +126,7 @@ export default function EnrollForm({ defaultCourse = '', defaultPlan = 'mentor' 
     return <div className="h-96 animate-pulse rounded-2xl border border-ink/10 bg-white" />;
   }
 
-  // Online payment switched off (no Razorpay keys) or the API is down:
+  // Online payment switched off (no Cashfree keys) or the API is down:
   // fall back to a callback request so the student is never stuck.
   if (configError || !config?.enabled) {
     return (
@@ -159,7 +146,7 @@ export default function EnrollForm({ defaultCourse = '', defaultPlan = 'mentor' 
       <div className="space-y-6 rounded-2xl border border-ink/10 bg-white p-6 shadow-sm md:p-8">
         {config.test_mode && (
           <p className="rounded-lg bg-amber-50 px-4 py-2 text-sm text-amber-800">
-            Test mode — use Razorpay test cards or UPI <code>success@razorpay</code>. No real money is charged.
+            Test mode — pay with Cashfree&apos;s sandbox cards or UPI <code>testsuccess@gocash</code>. No real money is charged.
           </p>
         )}
 
@@ -252,7 +239,7 @@ export default function EnrollForm({ defaultCourse = '', defaultPlan = 'mentor' 
         >
           {busy ? 'Opening payment…' : price ? `Pay ${inr(price)}` : 'Choose a course'}
         </button>
-        <p className="mt-3 text-center text-xs text-muted">Secure payment by Razorpay · UPI, cards, netbanking</p>
+        <p className="mt-3 text-center text-xs text-muted">Secure payment by Cashfree · UPI, cards, netbanking</p>
         <p className="mt-4 text-center text-xs text-muted">
           Want to pay less? <Link href="/scholarship" className="font-semibold text-gold-dark hover:underline">Try the scholarship test</Link>
         </p>

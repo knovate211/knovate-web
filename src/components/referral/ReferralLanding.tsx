@@ -8,7 +8,7 @@ import { REFERRAL_COOKIE, recordReferralClick, resolveReferralCode } from '@/lib
  *
  * The cookie is first-party and set from the client, which keeps this working
  * on a static export and behind a CDN. `SameSite=Lax` is deliberate: the code
- * must survive the visitor following a link out to Razorpay and back.
+ * must survive the visitor following a link out to Cashfree and back.
  */
 export default function ReferralLanding({ code }: { code: string }) {
   const router = useRouter();

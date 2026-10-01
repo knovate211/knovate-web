@@ -99,7 +99,7 @@ export default async function CertificationExamPage({ params }: { params: { slug
               {payable ? (
                 <CertificationForm exam={exam} />
               ) : (
-                // Online payment is off (no Razorpay keys, or the gateway is
+                // Online payment is off (no Cashfree keys, or the gateway is
                 // down). Showing a Pay button that can only fail wastes the
                 // candidate's time; an enquiry reaches a human instead.
                 <div className="rounded-2xl border border-ink/10 bg-white p-6 shadow-sm md:p-8">
