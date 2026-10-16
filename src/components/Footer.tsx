@@ -21,6 +21,9 @@ export default function Footer() {
         <div>
           <h4 className="mb-3 text-xs font-bold uppercase tracking-wider text-ink">Company</h4>
           <ul className="space-y-2 text-sm text-muted">
+            <li><Link href="/certifications" className="hover:text-ink">Certification exams</Link></li>
+            <li><Link href="/referrals" className="hover:text-ink">Refer &amp; earn</Link></li>
+            <li><Link href="/verify" className="hover:text-ink">Verify a certificate</Link></li>
             <li><Link href="/about" className="hover:text-ink">About</Link></li>
             <li><Link href="/placements" className="hover:text-ink">Placements</Link></li>
             <li><Link href="/pricing" className="hover:text-ink">Pricing</Link></li>

@@ -1,20 +1,23 @@
 import type { Metadata } from 'next';
+import { pageMeta } from '@/lib/seo';
 import Section, { Eyebrow, Heading } from '@/components/Section';
 import StatRow from '@/components/Stat';
 import CTASection from '@/components/CTASection';
 import { stats } from '@/data/site';
 
-export const metadata: Metadata = {
-  title: 'About',
-  description: 'Knovate is a mentor-led tech learning platform on a mission to make world-class, practical tech education accessible to everyone.',
-};
+export const metadata: Metadata = pageMeta({
+  title: 'About Us — Mentor-Led Tech Education',
+  description:
+    'Knovate teaches practical, job-focused tech skills with mentors, real projects and placement support. Here is who we are and how we teach.',
+  path: '/about',
+});
 
 export default function AboutPage() {
   return (
     <>
       <Section className="bg-sand/50 !pb-10">
         <Eyebrow>About Knovate</Eyebrow>
-        <Heading className="max-w-3xl">Practical tech education, built around people</Heading>
+        <Heading as="h1" className="max-w-3xl">Practical tech education, built around people</Heading>
         <p className="mt-4 max-w-2xl text-lg text-muted">
           We started Knovate with a simple belief: people learn to build by building — with the right mentors beside them.
           Today we help thousands of learners turn curiosity into careers.

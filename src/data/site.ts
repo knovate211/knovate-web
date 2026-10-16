@@ -13,8 +13,12 @@ export const site = {
   },
   nav: [
     { label: 'Courses', href: '/courses' },
+    { label: 'Scholarship', href: '/scholarship' },
+    { label: 'Certification', href: '/certifications' },
+    { label: 'Refer & earn', href: '/referrals' },
     { label: 'Pricing', href: '/pricing' },
     { label: 'Placements', href: '/placements' },
+    { label: 'For companies', href: '/hire' },
     { label: 'Blog', href: '/blog' },
     { label: 'About', href: '/about' },
   ],

@@ -11,7 +11,7 @@ export default function CTASection() {
           Join thousands of learners building real skills with mentors who care. Talk to us and we&apos;ll help you pick the right track.
         </p>
         <div className="mt-8 flex flex-wrap justify-center gap-3">
-          <Button href="/contact" variant="primary">Enroll now</Button>
+          <Button href="/enroll" variant="primary">Enroll now</Button>
           <Button href="/courses" variant="outline" className="!border-cream/30 !bg-transparent !text-cream hover:!bg-cream/10">
             Browse courses
           </Button>
