@@ -10,7 +10,7 @@ import { courses, courseBySlug } from '@/data/courses';
 import { pageMeta, breadcrumbLd, SITE_URL } from '@/lib/seo';
 import ReferButton from '@/components/referral/ReferButton';
 import { syllabus } from '@/data/syllabus';
-import { priceFor, inr } from '@/data/pricing';
+import { priceFor, inr, maxScholarship, lowestFee } from '@/data/pricing';
 
 export function generateStaticParams() {
   return courses.map((c) => ({ slug: c.slug }));
@@ -57,9 +57,8 @@ export default function CoursePage({ params }: { params: { slug: string } }) {
     ...(fee && {
       offers: {
         '@type': 'Offer',
-        price: fee.selfPaced,
+        price: fee,
         priceCurrency: 'INR',
-        category: 'Self-Paced',
         url: `${SITE_URL}/enroll?course=${c.slug}`,
         availability: 'https://schema.org/InStock',
       },
@@ -88,28 +87,23 @@ export default function CoursePage({ params }: { params: { slug: string } }) {
                 {c.tags.map((t) => <span key={t} className="rounded-md bg-white px-3 py-1 text-sm font-medium text-muted">{t}</span>)}
               </div>
               {fee && (
-                <div className="mt-8 grid max-w-md grid-cols-2 gap-3">
-                  <Link href={`/enroll?course=${c.slug}&plan=self`} className="group rounded-xl border border-ink/10 bg-white px-4 py-3 hover:border-gold">
-                    <div className="text-xs font-semibold uppercase tracking-wide text-muted">Self-Paced</div>
-                    <div className="mt-1 font-serif text-2xl font-bold text-ink">{inr(fee.selfPaced)}</div>
-                    <div className="mt-1 text-xs font-semibold text-gold-dark group-hover:underline">Enroll →</div>
-                  </Link>
-                  <Link href={`/enroll?course=${c.slug}&plan=mentor`} className="group rounded-xl border border-gold bg-white px-4 py-3 ring-1 ring-gold hover:bg-gold/5">
-                    <div className="text-xs font-semibold uppercase tracking-wide text-gold-dark">Mentor-Led</div>
-                    <div className="mt-1 font-serif text-2xl font-bold text-ink">{inr(fee.mentorLed)}</div>
-                    <div className="mt-1 text-xs font-semibold text-gold-dark group-hover:underline">Enroll →</div>
-                  </Link>
-                  <p className="col-span-2 text-sm text-muted">
-                    One-time fee.{' '}
-                    <Link href="/pricing" className="font-semibold text-gold-dark hover:underline">Compare plans</Link>
-                    {' '}· Scholarships can cover part of it.
+                <div className="mt-8 max-w-md rounded-xl border border-gold bg-white px-5 py-4 ring-1 ring-gold">
+                  <div className="text-xs font-semibold uppercase tracking-wide text-gold-dark">Course fee</div>
+                  <div className="mt-1 flex flex-wrap items-baseline gap-x-3">
+                    <span className="font-serif text-3xl font-bold text-ink">{inr(fee)}</span>
+                    <span className="text-sm text-muted">one-time</span>
+                  </div>
+                  <p className="mt-2 text-sm text-muted">
+                    Up to {maxScholarship}% off with a scholarship — as low as{' '}
+                    <strong className="text-ink">{inr(lowestFee)}</strong>.{' '}
+                    <Link href="/pricing" className="font-semibold text-gold-dark hover:underline">See fees</Link>
                   </p>
                 </div>
               )}
             </div>
             <div>
               {fee ? (
-                <CourseEnrollCard slug={c.slug} title={c.title} selfPaced={fee.selfPaced} mentorLed={fee.mentorLed} />
+                <CourseEnrollCard slug={c.slug} title={c.title} fee={fee} />
               ) : (
                 // Not sold online: the enquiry form is the way in.
                 <div className="rounded-2xl border border-ink/10 bg-white p-6 shadow-lg md:p-8">

@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import EnquiryForm from '@/components/EnquiryForm';
-import { pricedCourses, inr } from '@/data/pricing';
+import { pricedCourses, inr, courseFee } from '@/data/pricing';
 import { courses } from '@/data/courses';
 import {
   getEnrollConfig,
@@ -20,14 +20,12 @@ const field =
   'w-full rounded-lg border border-ink/15 bg-white px-4 py-2.5 text-ink outline-none focus:border-gold focus:ring-2 focus:ring-gold/30';
 const label = 'mb-1.5 block text-sm font-semibold text-ink';
 
-type Plan = 'self' | 'mentor';
-
 /**
  * Online enrolment. The fee shown comes from data/pricing.ts; the amount
  * actually charged is decided by the server when the order is created, and
  * that server amount is what the Pay button and the Cashfree window show.
  */
-export default function EnrollForm({ defaultCourse = '', defaultPlan = 'mentor' }: { defaultCourse?: string; defaultPlan?: Plan }) {
+export default function EnrollForm({ defaultCourse = '' }: { defaultCourse?: string }) {
   const router = useRouter();
   const groups = useMemo(() => pricedCourses(), []);
   const bySlug = (slug: string) => courses.find((c) => c.slug === slug || c.id === slug);
@@ -35,7 +33,6 @@ export default function EnrollForm({ defaultCourse = '', defaultPlan = 'mentor' 
   const [config, setConfig] = useState<EnrollConfig | null>(null);
   const [configError, setConfigError] = useState(false);
   const [courseId, setCourseId] = useState(bySlug(defaultCourse)?.id ?? '');
-  const [plan, setPlan] = useState<Plan>(defaultPlan);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -78,7 +75,7 @@ export default function EnrollForm({ defaultCourse = '', defaultPlan = 'mentor' 
 
   const group = groups.find((g) => g.courseIds.includes(courseId));
   const course = courses.find((c) => c.id === courseId);
-  const price = group ? (plan === 'self' ? group.selfPaced : group.mentorLed) : 0;
+  const price = group ? courseFee : 0;
 
   const pay = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -94,7 +91,8 @@ export default function EnrollForm({ defaultCourse = '', defaultPlan = 'mentor' 
       const [order] = await Promise.all([
         createEnrollOrder({
           course_id: courseId,
-          plan,
+          // Every course is sold as one plan; the server stores it as mentor.
+          plan: 'mentor',
           name: name.trim(),
           email: email.trim().toLowerCase(),
           phone: phone.trim(),
@@ -162,31 +160,6 @@ export default function EnrollForm({ defaultCourse = '', defaultPlan = 'mentor' 
           </select>
         </div>
 
-        <fieldset>
-          <legend className={label}>Plan *</legend>
-          <div className="grid gap-3 sm:grid-cols-2">
-            {(['self', 'mentor'] as Plan[]).map((p) => {
-              const amount = group ? (p === 'self' ? group.selfPaced : group.mentorLed) : null;
-              return (
-                <label
-                  key={p}
-                  className={`flex cursor-pointer flex-col rounded-lg border p-4 transition-colors ${plan === p ? 'border-gold bg-gold/5 ring-1 ring-gold' : 'border-ink/15 hover:bg-sand/40'}`}
-                >
-                  <span className="flex items-center gap-2">
-                    <input type="radio" name="plan" checked={plan === p} onChange={() => setPlan(p)} className="accent-[#c98a3a]" />
-                    <span className="font-semibold text-ink">{p === 'self' ? 'Self-Paced' : 'Mentor-Led'}</span>
-                    {p === 'mentor' && <span className="rounded-full bg-gold/15 px-2 py-0.5 text-[11px] font-bold text-gold-dark">Popular</span>}
-                  </span>
-                  <span className="mt-1 pl-6 text-sm text-muted">
-                    {p === 'self' ? 'Full course, practice and certificate' : 'Plus live classes, projects and placement help'}
-                  </span>
-                  <span className="mt-2 pl-6 font-serif text-xl font-bold text-ink">{amount != null ? inr(amount) : '—'}</span>
-                </label>
-              );
-            })}
-          </div>
-        </fieldset>
-
         <div className="grid gap-5 sm:grid-cols-2">
           <div>
             <label className={label} htmlFor="name">Full name *</label>
@@ -205,7 +178,7 @@ export default function EnrollForm({ defaultCourse = '', defaultPlan = 'mentor' 
 
         <label className="flex items-start gap-3 text-sm text-muted">
           <input type="checkbox" checked={agreed} onChange={(e) => setAgreed(e.target.checked)} className="mt-1 accent-[#c98a3a]" />
-          <span>I agree to Knovate&apos;s terms, and understand the fee is a one-time payment for the selected course and plan.</span>
+          <span>I agree to Knovate&apos;s terms, and understand the fee is a one-time payment for the selected course.</span>
         </label>
       </div>
 
@@ -214,7 +187,6 @@ export default function EnrollForm({ defaultCourse = '', defaultPlan = 'mentor' 
         <h2 className="font-serif text-lg font-semibold text-ink">Order summary</h2>
         <dl className="mt-4 space-y-2 text-sm">
           <div className="flex justify-between gap-3"><dt className="text-muted">Course</dt><dd className="text-right font-medium text-ink">{course?.title ?? '—'}</dd></div>
-          <div className="flex justify-between gap-3"><dt className="text-muted">Plan</dt><dd className="font-medium text-ink">{plan === 'self' ? 'Self-Paced' : 'Mentor-Led'}</dd></div>
           {course && <div className="flex justify-between gap-3"><dt className="text-muted">Duration</dt><dd className="font-medium text-ink">{course.duration}</dd></div>}
         </dl>
         {refCode && price > 0 && (

@@ -23,7 +23,7 @@ export default function EnrollSuccess() {
       <h1 className="mt-5 font-serif text-3xl font-semibold text-ink">You&apos;re enrolled!</h1>
       {r ? (
         <p className="mt-3 text-muted">
-          Payment received for <strong className="text-ink">{r.course_name}</strong> ({r.plan_name}).{' '}
+          Payment received for <strong className="text-ink">{r.course_name}</strong>.{' '}
           {r.new_account
             ? r.emailed
               ? <>We&apos;ve created your account and emailed your login details to <strong className="text-ink">{r.email}</strong>.</>

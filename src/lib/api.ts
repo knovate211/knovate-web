@@ -111,7 +111,7 @@ export async function applyForScholarship(
 export interface EnrollConfig {
   enabled: boolean;
   test_mode: boolean;
-  fees: { course_id: string; name: string; self_paced: number; mentor_led: number }[];
+  fees: { course_id: string; name: string; fee: number }[];
 }
 
 export interface EnrollOrder {

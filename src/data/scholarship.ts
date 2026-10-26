@@ -14,9 +14,9 @@ export interface Slab {
 }
 
 export const slabs: Slab[] = [
-  { minPercent: 80, awardPercent: 100, label: 'Full scholarship' },
-  { minPercent: 65, awardPercent: 50, label: 'Half scholarship' },
-  { minPercent: 50, awardPercent: 25, label: 'Partial scholarship' },
+  { minPercent: 90, awardPercent: 30, label: 'Top scholarship' },
+  { minPercent: 75, awardPercent: 20, label: 'Merit scholarship' },
+  { minPercent: 60, awardPercent: 10, label: 'Starter scholarship' },
 ];
 
 export const testFormat = {
