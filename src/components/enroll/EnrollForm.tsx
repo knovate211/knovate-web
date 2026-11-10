@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import EnquiryForm from '@/components/EnquiryForm';
-import { pricedCourses, inr, courseFee } from '@/data/pricing';
+import { pricedCourses, inr, priceFor } from '@/data/pricing';
 import { courses } from '@/data/courses';
 import {
   getEnrollConfig,
@@ -73,9 +73,8 @@ export default function EnrollForm({ defaultCourse = '' }: { defaultCourse?: str
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const group = groups.find((g) => g.courseIds.includes(courseId));
   const course = courses.find((c) => c.id === courseId);
-  const price = group ? courseFee : 0;
+  const price = priceFor(courseId) ?? 0;
 
   const pay = async (e: React.FormEvent) => {
     e.preventDefault();

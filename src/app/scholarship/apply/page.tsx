@@ -20,11 +20,11 @@ export default function ScholarshipApplyPage({
   return (
     <>
       <Section className="bg-sand/40 !pb-8">
-        <div className="mx-auto max-w-2xl text-center">
-          <Link href="/scholarship" className="text-sm font-semibold text-gold-dark hover:underline">
-            ← Back to the scholarship
-          </Link>
-          <h1 className="mt-4 font-serif text-4xl font-semibold text-ink md:text-5xl">
+        <Link href="/scholarship" className="text-sm font-semibold text-gold-dark hover:underline">
+          ← Back to the scholarship
+        </Link>
+        <div className="mx-auto mt-4 max-w-2xl text-center">
+          <h1 className="font-serif text-4xl font-semibold text-ink md:text-5xl">
             Apply for a scholarship
           </h1>
           <p className="mt-3 text-muted">

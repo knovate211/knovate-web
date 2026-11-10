@@ -4,12 +4,12 @@ import Link from 'next/link';
 import Section, { Eyebrow, Heading } from '@/components/Section';
 import Button from '@/components/Button';
 import FAQ from '@/components/FAQ';
-import { plans, faqs, pricedCourses, inr, courseFee, maxScholarship, scholarshipPrices } from '@/data/pricing';
+import { plans, faqs, pricedCourses, inr, priceFor, feeRange, lowestCourseFee, highestCourseFee, maxScholarship, scholarshipPrices } from '@/data/pricing';
 
 export const metadata: Metadata = pageMeta({
   title: 'Course Fees, Scholarships & EMI Options',
   description:
-    `Every Knovate course is ${inr(courseFee)}, one-time, with live classes, projects and placement help included. A scholarship test can take up to ${maxScholarship}% off.`,
+    `Knovate courses cost ${inr(lowestCourseFee)} to ${inr(highestCourseFee)}, one-time, with live classes, projects and placement help included. A scholarship test can take up to ${maxScholarship}% off.`,
   path: '/pricing',
 });
 
@@ -23,9 +23,9 @@ export default function PricingPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd(faqs)) }} />
       <Section className="bg-sand/50 text-center !pb-10">
         <Eyebrow>Pricing</Eyebrow>
-        <Heading as="h1">One simple fee for every course</Heading>
+        <Heading as="h1">One simple fee, paid once</Heading>
         <p className="mx-auto mt-3 max-w-xl text-muted">
-          {inr(courseFee)} per course, paid once, with everything included. No hidden charges, and a scholarship test can
+          {inr(lowestCourseFee)} to {inr(highestCourseFee)} per course, paid once, with everything included. No hidden charges, and a scholarship test can
           take up to {maxScholarship}% off.
         </p>
       </Section>
@@ -33,11 +33,11 @@ export default function PricingPage() {
       {/* The fee, and what a scholarship brings it down to */}
       <Section className="!pt-6">
         <div className="mx-auto max-w-3xl rounded-2xl border border-ink/10 bg-white p-6 shadow-sm md:p-8">
-          <p className="text-sm text-muted">Every course · Knovate</p>
+          <p className="text-sm text-muted">All courses · Knovate</p>
           <div className="mt-4 flex flex-wrap items-end justify-between gap-4">
             <div>
               <p className="text-sm text-muted">Course fee</p>
-              <p className="font-serif text-4xl font-bold text-ink">{inr(courseFee)}</p>
+              <p className="font-serif text-4xl font-bold text-ink">{feeRange()}</p>
             </div>
             <div className="text-right">
               <p className="text-sm text-muted">Scholarship</p>
@@ -53,13 +53,13 @@ export default function PricingPage() {
                     {p.awardPercent}% scholarship
                     <span className="ml-2 text-sm text-muted">score {p.minPercent}%+ on the test</span>
                   </span>
-                  <span className="font-serif text-xl font-bold text-ink">{inr(p.pays)}</span>
+                  <span className="font-serif text-xl font-bold text-ink">{p.pays}</span>
                 </li>
               ))}
             </ul>
           </div>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-            <Button href="/enroll" className="flex-1">Enroll for {inr(courseFee)}</Button>
+            <Button href="/enroll" className="flex-1">Enroll now</Button>
             <Button href="/scholarship" variant="outline" className="flex-1">Take the scholarship test</Button>
           </div>
         </div>
@@ -96,7 +96,7 @@ export default function PricingPage() {
       <Section className="!pt-2" id="fees">
         <div className="mb-8 text-center">
           <Eyebrow>Course fees</Eyebrow>
-          <Heading>Every course, same fee</Heading>
+          <Heading>Fee for each course</Heading>
         </div>
 
         <div className="space-y-8">
@@ -134,7 +134,7 @@ export default function PricingPage() {
                         <div className="text-xs text-muted">{c.level}</div>
                       </td>
                       <td className="px-6 py-4 text-sm text-muted">{c.duration}</td>
-                      <td className="px-6 py-4 font-semibold text-ink">{inr(courseFee)}</td>
+                      <td className="px-6 py-4 font-semibold text-ink">{inr(priceFor(c.id)!)}</td>
                       <td className="px-6 py-4 text-right">
                         <Link href={`/enroll?course=${c.slug}`} className="inline-flex rounded-lg bg-gold px-3.5 py-1.5 text-sm font-semibold text-white hover:bg-gold-dark">Enroll</Link>
                       </td>
@@ -150,7 +150,7 @@ export default function PricingPage() {
                     <Link href={`/courses/${c.slug}`} className="font-semibold text-ink">{c.title}</Link>
                     <div className="text-xs text-muted">{c.level} · {c.duration}</div>
                     <div className="mt-3 flex items-center justify-between gap-3">
-                      <span className="font-semibold text-ink">{inr(courseFee)}</span>
+                      <span className="font-semibold text-ink">{inr(priceFor(c.id)!)}</span>
                       <Link href={`/enroll?course=${c.slug}`} className="inline-flex rounded-lg bg-gold px-3.5 py-1.5 text-sm font-semibold text-white">Enroll</Link>
                     </div>
                   </li>

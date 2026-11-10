@@ -2,8 +2,8 @@
 // /pricing page, the fee box on each course page and the price on the catalog
 // cards. Change a number here and it changes everywhere.
 //
-// Structure: every course costs the same one-time fee and is sold as a single
-// plan with everything included. Scholarships take a percentage off that fee
+// Structure: each course has its own one-time fee and is sold as a single plan
+// with everything included. Scholarships take a percentage off that fee
 // (see data/scholarship.ts). Career Track bundles several courses at a quoted
 // price. Course ids match data/courses.ts (and the platform's course access
 // ids), so a course cannot be priced without existing.
@@ -11,8 +11,21 @@
 import { courses } from './courses';
 import { slabs } from './scholarship';
 
-/** One-time fee for any course, in rupees. Must match courseFees in the gateway's enroll.go. */
-export const courseFee = 10000;
+/** One-time fee for each course, in rupees. Must match courseFees in the gateway's enroll.go. */
+export const courseFees: Record<string, number> = {
+  '5': 10000, // Full Stack
+  genai: 10000,
+  '1': 7000, // Java
+  '4': 6000, // Golang
+  '2': 8000, // Front-End
+  testing: 8000,
+  'digital-marketing': 8000,
+  '3': 6000, // Mastering SQL
+  seo: 6000,
+};
+
+export const lowestCourseFee = Math.min(...Object.values(courseFees));
+export const highestCourseFee = Math.max(...Object.values(courseFees));
 
 /** Groups only arrange the courses on the fee table and the enrol form. */
 export interface PriceGroup {
@@ -59,21 +72,22 @@ export const inr = (n: number) => `₹${n.toLocaleString('en-IN')}`;
 
 /** The fee for one course, or undefined if it is not sold online. */
 export function priceFor(courseId: string): number | undefined {
-  return priceGroups.some((g) => g.courseIds.includes(courseId)) ? courseFee : undefined;
+  return courseFees[courseId];
 }
 
-/** The fee left to pay after a scholarship of awardPercent. */
-export const afterScholarship = (awardPercent: number) => Math.round((courseFee * (100 - awardPercent)) / 100);
+/** The given fee left to pay after a scholarship of awardPercent. */
+export const afterScholarship = (fee: number, awardPercent: number) => Math.round((fee * (100 - awardPercent)) / 100);
+
+/** A fee span across the courses, for places not tied to one course. */
+export const feeRange = (awardPercent = 0) =>
+  `${inr(afterScholarship(lowestCourseFee, awardPercent))} – ${inr(afterScholarship(highestCourseFee, awardPercent))}`;
 
 /** What a student pays at each scholarship band, smallest award first. */
 export const scholarshipPrices = [...slabs]
   .sort((a, b) => a.awardPercent - b.awardPercent)
-  .map((s) => ({ awardPercent: s.awardPercent, minPercent: s.minPercent, pays: afterScholarship(s.awardPercent) }));
+  .map((s) => ({ awardPercent: s.awardPercent, minPercent: s.minPercent, pays: feeRange(s.awardPercent) }));
 
 export const maxScholarship = Math.max(...slabs.map((s) => s.awardPercent));
-
-/** The least anyone pays: the fee after the top scholarship. */
-export const lowestFee = afterScholarship(maxScholarship);
 
 /** Groups with their course objects, in catalog order, for the fee table. */
 export function pricedCourses() {
@@ -101,7 +115,7 @@ export const plans: Plan[] = [
   {
     key: 'course',
     name: 'Course',
-    from: inr(courseFee),
+    from: `From ${inr(lowestCourseFee)}`,
     period: 'one-time, per course',
     tagline: 'The full course with mentors, projects and placement help.',
     features: [
@@ -137,12 +151,12 @@ export const plans: Plan[] = [
 ];
 
 export const faqs = [
-  { q: 'Do all courses cost the same?', a: `Yes. Every course is ${inr(courseFee)}, paid once, with no hidden charges.` },
+  { q: 'How much does a course cost?', a: `Between ${inr(lowestCourseFee)} and ${inr(highestCourseFee)}, depending on the course, paid once, with no hidden charges. The fee for each course is listed on this page.` },
   { q: 'What is included in the fee?', a: 'The full course and syllabus, live classes, practice and auto-graded tests, mentor doubt-clearing, reviewed capstone projects, mock interviews, resume review, placement assistance and a certificate.' },
   {
     q: 'Can I reduce the fee with a scholarship?',
     a: `Yes, by up to ${maxScholarship}%. Take the free 60-minute scholarship test for your course: ${scholarshipPrices
-      .map((p) => `score ${p.minPercent}% or more and you pay ${inr(p.pays)}`)
+      .map((p) => `score ${p.minPercent}% or more for ${p.awardPercent}% off`)
       .join('; ')}.`,
   },
   { q: 'Can I pay in instalments?', a: 'Career Track plans support flexible EMI options. Reach out through the contact form and we will help you pick a plan.' },

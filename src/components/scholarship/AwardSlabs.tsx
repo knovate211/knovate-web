@@ -1,5 +1,5 @@
 import { slabs, testFormat } from '@/data/scholarship';
-import { afterScholarship, courseFee, inr } from '@/data/pricing';
+import { feeRange } from '@/data/pricing';
 
 // The slabs are the offer, so they get the most visual weight on the page.
 // Marks are shown alongside the percentage because "80%" is abstract until you
@@ -25,8 +25,8 @@ export default function AwardSlabs() {
           </div>
           <div className="mt-1 font-semibold text-ink">{s.label}</div>
           <p className="mt-2 text-sm text-ink">
-            You pay <strong>{inr(afterScholarship(s.awardPercent))}</strong>
-            <span className="text-muted"> instead of {inr(courseFee)}</span>
+            You pay <strong>{feeRange(s.awardPercent)}</strong>
+            <span className="text-muted"> instead of {feeRange()}, depending on the course</span>
           </p>
           <p className="mt-3 text-sm text-muted">
             Score <strong className="text-ink">{s.minPercent}%</strong> or above

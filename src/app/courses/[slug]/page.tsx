@@ -10,7 +10,7 @@ import { courses, courseBySlug } from '@/data/courses';
 import { pageMeta, breadcrumbLd, SITE_URL } from '@/lib/seo';
 import ReferButton from '@/components/referral/ReferButton';
 import { syllabus } from '@/data/syllabus';
-import { priceFor, inr, maxScholarship, lowestFee } from '@/data/pricing';
+import { priceFor, inr, maxScholarship, afterScholarship } from '@/data/pricing';
 
 export function generateStaticParams() {
   return courses.map((c) => ({ slug: c.slug }));
@@ -95,7 +95,7 @@ export default function CoursePage({ params }: { params: { slug: string } }) {
                   </div>
                   <p className="mt-2 text-sm text-muted">
                     Up to {maxScholarship}% off with a scholarship — as low as{' '}
-                    <strong className="text-ink">{inr(lowestFee)}</strong>.{' '}
+                    <strong className="text-ink">{inr(afterScholarship(fee, maxScholarship))}</strong>.{' '}
                     <Link href="/pricing" className="font-semibold text-gold-dark hover:underline">See fees</Link>
                   </p>
                 </div>
