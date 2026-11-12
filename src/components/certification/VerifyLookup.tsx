@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
  * It navigates to /verify/{id} rather than fetching here, so a checked
  * credential has a URL the employer can keep, forward or attach to a record.
  */
-export default function VerifyLookup() {
+export default function VerifyLookup({ className = 'mt-8' }: { className?: string }) {
   const router = useRouter();
   const [id, setId] = useState('');
 
@@ -19,7 +19,7 @@ export default function VerifyLookup() {
   };
 
   return (
-    <form onSubmit={submit} className="mt-8 flex flex-col gap-3 sm:flex-row">
+    <form onSubmit={submit} className={`flex flex-col gap-3 sm:flex-row ${className}`}>
       <label className="sr-only" htmlFor="credential-id">Credential ID</label>
       <input
         id="credential-id"
