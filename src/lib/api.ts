@@ -180,7 +180,14 @@ export interface CertificationExam {
   durationMinutes: number;
   totalMarks: number;
   paperTitle: string;
+  /** Whether the paper's proctoring asks for the webcam. */
+  cameraRequired?: boolean;
+  /** Attempts one registration buys. */
+  attempts?: number;
 }
+
+/** "one attempt" / "2 attempts" for a registration. */
+export const attemptsLabel = (n?: number) => (!n || n <= 1 ? 'one attempt' : `${n} attempts`);
 
 export interface CertificationConfig {
   enabled: boolean;

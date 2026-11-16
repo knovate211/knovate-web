@@ -6,7 +6,7 @@ import CTASection from '@/components/CTASection';
 import FAQ from '@/components/FAQ';
 import ExamGrid from '@/components/certification/ExamGrid';
 import VerifyLookup from '@/components/certification/VerifyLookup';
-import { getCertificationConfig, type CertificationExam } from '@/lib/api';
+import { attemptsLabel, getCertificationConfig, type CertificationExam } from '@/lib/api';
 
 export const metadata: Metadata = pageMeta({
   title: 'Online Certification Exams for Developers',
@@ -46,8 +46,10 @@ export default async function CertificationsPage() {
   const days = new Set(exams.map((e) => e.linkValidDays));
   const validFor = days.size === 1 ? `within ${[...days][0]} days` : 'within the validity of your link';
 
+  const tries = new Set(exams.map((e) => e.attempts ?? 1));
+  const feeCovers = tries.size === 1 ? attemptsLabel([...tries][0]) : 'your attempts';
   const steps = [
-    { t: 'Register and pay', d: 'Pick an exam and pay securely through Cashfree. One fee, one attempt.' },
+    { t: 'Register and pay', d: `Pick an exam and pay securely through Cashfree. One fee covers ${feeCovers}${[...tries][0] > 1 && tries.size === 1 ? ', each with different questions' : ''}.` },
     { t: 'Get your exam link', d: 'It arrives by email within a minute. No account or password needed.' },
     { t: 'Sit it when you are ready', d: `Any time ${validFor}, in one sitting, fullscreen and proctored.` },
     { t: 'Pass, get certified', d: 'Your certificate is issued instantly, with a link to share on LinkedIn or your CV.' },

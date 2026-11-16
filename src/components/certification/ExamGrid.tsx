@@ -1,7 +1,7 @@
 'use client';
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
-import type { CertificationExam } from '@/lib/api';
+import { attemptsLabel, type CertificationExam } from '@/lib/api';
 
 // Tracks come from the exam's course, so the catalogue needs no new backend field.
 const TRACK_BY_COURSE: Record<string, string> = {
@@ -61,7 +61,7 @@ export default function ExamGrid({ exams }: { exams: CertificationExam[] }) {
             <div className="mt-auto flex items-center justify-between gap-3">
               <div>
                 <span className="text-2xl font-semibold text-ink">₹{e.priceRupees.toLocaleString('en-IN')}</span>
-                <span className="text-sm text-muted"> · one attempt</span>
+                <span className="text-sm text-muted"> · {attemptsLabel(e.attempts)}</span>
               </div>
               <Link href={`/certifications/${e.slug}`} className="rounded-lg bg-gold px-5 py-3 font-semibold text-ink transition-colors hover:bg-gold-dark hover:text-white">
                 Register<span className="sr-only"> for {e.title}</span>
