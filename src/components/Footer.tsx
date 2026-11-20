@@ -7,7 +7,8 @@ export default function Footer() {
     <footer className="border-t border-ink/10 bg-sand">
       <div className="mx-auto grid max-w-content gap-10 px-5 py-14 md:grid-cols-4">
         <div>
-          <div className="font-serif text-2xl font-bold text-ink">Knovate</div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/brand/knovate-logo.svg" alt="Knovate" className="h-12 w-auto" />
           <p className="mt-3 max-w-xs text-sm text-muted">{site.tagline}. Mentor-led tech education built around real practice.</p>
         </div>
         <div>

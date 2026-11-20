@@ -6,6 +6,7 @@ import CTASection from '@/components/CTASection';
 import FAQ from '@/components/FAQ';
 import ExamGrid from '@/components/certification/ExamGrid';
 import VerifyLookup from '@/components/certification/VerifyLookup';
+import CertificateA from '@/components/certification/CertificateA';
 import { attemptsLabel, getCertificationConfig, type CertificationExam } from '@/lib/api';
 
 export const metadata: Metadata = pageMeta({
@@ -80,22 +81,16 @@ export default async function CertificationsPage() {
             </div>
           </div>
 
-          {/* Sample certificate */}
-          <div className="flex min-w-0 flex-[1_1_360px] justify-center" aria-hidden="true">
-            <div className="w-full max-w-[440px] -rotate-[1.5deg] rounded-2xl border border-ink/10 bg-[#fffdf9] p-3 shadow-[0_24px_48px_-24px_rgba(43,38,32,.35)]">
-              <div className="flex flex-col gap-3.5 rounded-lg border-[1.5px] border-gold/40 px-7 py-8 text-center">
-                <p className="text-[11px] uppercase tracking-[0.2em] text-muted">Certificate of achievement</p>
-                <p className="font-serif text-3xl font-semibold text-ink">Your name here</p>
-                <p className="text-sm text-muted">has passed the Knovate certification exam in</p>
-                <p className="font-serif text-[22px] text-[#8a5212]">{exams[0]?.title ?? 'Your chosen track'}</p>
-                <div className="mt-1.5 flex justify-between border-t border-ink/10 pt-3.5 text-left text-xs text-muted">
-                  <span>Credential ID<br /><b className="font-mono text-ink">KNV-XXXX-XXXX</b></span>
-                  <span className="text-right">Issued<br /><b className="text-ink">Instantly</b></span>
-                </div>
-                <span className="inline-flex items-center gap-1.5 self-center rounded-full bg-sage/20 px-3 py-1.5 text-xs font-semibold text-[#35552f]">
-                  ✓ Verified on knovate.com
-                </span>
-              </div>
+          {/* Sample certificate — the same drawing a candidate receives. */}
+          <div className="flex min-w-0 flex-[1_1_420px] justify-center" aria-hidden="true">
+            <div className="w-full max-w-[560px] -rotate-[1.5deg] rounded-xl bg-white p-2 shadow-[0_24px_48px_-24px_rgba(43,38,32,.35)]">
+              <CertificateA
+                holderName="Your name here"
+                title={exams[0]?.title ?? 'Your chosen track'}
+                scorePercent={0}
+                issuedAt={new Date().toISOString()}
+                credentialId="KNV-XXXX-XXXX"
+              />
             </div>
           </div>
         </div>
