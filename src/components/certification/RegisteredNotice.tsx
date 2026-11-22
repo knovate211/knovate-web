@@ -53,7 +53,7 @@ export default function RegisteredNotice() {
           <h2 className="font-serif text-xl font-semibold text-ink">Before you start</h2>
           <ul className="mt-4 space-y-3 text-muted">
             <li className="flex gap-3"><span className="text-gold-dark">1.</span> Set aside the full exam time in one sitting — the timer does not pause.</li>
-            <li className="flex gap-3"><span className="text-gold-dark">2.</span> Use a laptop or desktop with a working camera, on a stable connection.</li>
+            <li className="flex gap-3"><span className="text-gold-dark">2.</span> Use a laptop or desktop on a stable connection, and allow camera access if the exam asks for it.</li>
             <li className="flex gap-3"><span className="text-gold-dark">3.</span> The exam runs in fullscreen and is proctored; leaving the tab is recorded.</li>
             <li className="flex gap-3"><span className="text-gold-dark">4.</span> Pass and your certificate is issued immediately, with a verification link.</li>
           </ul>

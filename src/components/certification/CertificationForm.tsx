@@ -5,6 +5,7 @@ import {
   createCertificationOrder,
   verifyCertificationPayment,
   heldReferralCode,
+  attemptsLabel,
   type CertificationExam,
 } from '@/lib/api';
 import { loadCashfree, openCashfreeCheckout, returnedOrderId } from '@/lib/cashfree';
@@ -100,7 +101,7 @@ export default function CertificationForm({ exam }: { exam: CertificationExam })
     <form onSubmit={pay} noValidate className="rounded-2xl border border-ink/10 bg-white p-6 shadow-sm md:p-8">
       <h2 className="font-serif text-2xl font-semibold text-ink">Register for this exam</h2>
       <p className="mt-1 text-sm text-muted">
-        ₹{exam.priceRupees.toLocaleString('en-IN')} · one attempt · sit it any time within{' '}
+        ₹{exam.priceRupees.toLocaleString('en-IN')} · {attemptsLabel(exam.attempts)} · sit it any time within{' '}
         {exam.linkValidDays} days
       </p>
       {refCode && (
@@ -138,8 +139,9 @@ export default function CertificationForm({ exam }: { exam: CertificationExam })
           <input type="checkbox" className="mt-1 h-4 w-4 accent-gold" checked={agreed}
                  onChange={(e) => setAgreed(e.target.checked)} />
           <span>
-            I understand the exam is proctored, runs in fullscreen with my camera on, must be
-            finished in one sitting, and that the fee covers one attempt.
+            I understand the exam is proctored and runs in fullscreen
+            {exam.cameraRequired ? ' with my camera on' : ''}, must be finished in one sitting, and
+            that the fee covers {attemptsLabel(exam.attempts)}{(exam.attempts ?? 1) > 1 ? ', each with a different set of questions' : ''}.
           </span>
         </label>
 

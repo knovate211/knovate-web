@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { site } from '@/data/site';
 import Button from './Button';
-import { LogoMark } from './home/Icons';
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -12,9 +11,9 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b border-ink/5 bg-[#faf6ef]/90 backdrop-blur">
       <div className="mx-auto flex max-w-[1360px] items-center justify-between px-5 py-3.5 md:px-10">
-        <Link href="/" className="flex items-center gap-2 font-serif text-[32px] font-semibold text-ink">
-          <LogoMark className="h-8 w-8" />
-          Knovate
+        <Link href="/" className="flex items-center" aria-label="Knovate home">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/brand/knovate-logo.svg" alt="Knovate" className="h-11 w-auto" />
         </Link>
         <nav className="hidden items-center gap-9 md:flex">
           {site.nav.map((n) => (

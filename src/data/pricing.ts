@@ -1,23 +1,38 @@
 // Course fees — the single source for every price shown on the site: the
-// /pricing page, the fee box on each course page and the "from" price on the
-// catalog cards. Change a number here and it changes everywhere.
+// /pricing page, the fee box on each course page and the price on the catalog
+// cards. Change a number here and it changes everywhere.
 //
-// Structure: courses are priced by group. Every course has two plans —
-// Self-Paced and Mentor-Led — and Career Track bundles several courses at a
-// quoted price. Course ids match data/courses.ts (and the platform's course
-// access ids), so a course cannot be priced without existing.
+// Structure: each course has its own one-time fee and is sold as a single plan
+// with everything included. Scholarships take a percentage off that fee
+// (see data/scholarship.ts). Career Track bundles several courses at a quoted
+// price. Course ids match data/courses.ts (and the platform's course access
+// ids), so a course cannot be priced without existing.
 
 import { courses } from './courses';
+import { slabs } from './scholarship';
 
+/** One-time fee for each course, in rupees. Must match courseFees in the gateway's enroll.go. */
+export const courseFees: Record<string, number> = {
+  '5': 10000, // Full Stack
+  genai: 10000,
+  '1': 7000, // Java
+  '4': 6000, // Golang
+  '2': 8000, // Front-End
+  testing: 8000,
+  'digital-marketing': 8000,
+  '3': 6000, // Mastering SQL
+  seo: 6000,
+};
+
+export const lowestCourseFee = Math.min(...Object.values(courseFees));
+export const highestCourseFee = Math.max(...Object.values(courseFees));
+
+/** Groups only arrange the courses on the fee table and the enrol form. */
 export interface PriceGroup {
   key: string;
   name: string;
   blurb: string;
   courseIds: string[];
-  /** Self-Paced fee in rupees. */
-  selfPaced: number;
-  /** Mentor-Led fee in rupees. */
-  mentorLed: number;
 }
 
 export const priceGroups: PriceGroup[] = [
@@ -26,49 +41,53 @@ export const priceGroups: PriceGroup[] = [
     name: 'Development',
     blurb: 'Full-length engineering tracks with coding projects.',
     courseIds: ['5', '1', '2', '4'], // Full Stack, Java, Front-End, Golang
-    selfPaced: 8999,
-    mentorLed: 14999,
   },
   {
     key: 'genai',
     name: 'GenAI & AI engineering',
     blurb: 'Advanced track building and deploying AI systems.',
     courseIds: ['genai'],
-    selfPaced: 11999,
-    mentorLed: 18999,
   },
   {
     key: 'data',
     name: 'Data',
     blurb: 'Short, focused course on querying and modelling data.',
     courseIds: ['3'], // Mastering SQL
-    selfPaced: 4999,
-    mentorLed: 7999,
   },
   {
     key: 'marketing',
     name: 'Marketing',
     blurb: 'Practical growth, content and search skills. No coding needed.',
     courseIds: ['digital-marketing', 'seo'],
-    selfPaced: 5999,
-    mentorLed: 9999,
   },
   {
     key: 'testing',
     name: 'Software Testing',
     blurb: 'Manual and automation testing for QA careers.',
     courseIds: ['testing'],
-    selfPaced: 5999,
-    mentorLed: 9999,
   },
 ];
 
 export const inr = (n: number) => `₹${n.toLocaleString('en-IN')}`;
 
-/** Fees for one course, or undefined if it has not been priced yet. */
-export function priceFor(courseId: string): PriceGroup | undefined {
-  return priceGroups.find((g) => g.courseIds.includes(courseId));
+/** The fee for one course, or undefined if it is not sold online. */
+export function priceFor(courseId: string): number | undefined {
+  return courseFees[courseId];
 }
+
+/** The given fee left to pay after a scholarship of awardPercent. */
+export const afterScholarship = (fee: number, awardPercent: number) => Math.round((fee * (100 - awardPercent)) / 100);
+
+/** A fee span across the courses, for places not tied to one course. */
+export const feeRange = (awardPercent = 0) =>
+  `${inr(afterScholarship(lowestCourseFee, awardPercent))} – ${inr(afterScholarship(highestCourseFee, awardPercent))}`;
+
+/** What a student pays at each scholarship band, smallest award first. */
+export const scholarshipPrices = [...slabs]
+  .sort((a, b) => a.awardPercent - b.awardPercent)
+  .map((s) => ({ awardPercent: s.awardPercent, minPercent: s.minPercent, pays: feeRange(s.awardPercent) }));
+
+export const maxScholarship = Math.max(...slabs.map((s) => s.awardPercent));
 
 /** Groups with their course objects, in catalog order, for the fee table. */
 export function pricedCourses() {
@@ -80,50 +99,37 @@ export function pricedCourses() {
   }));
 }
 
-const lowest = (k: 'selfPaced' | 'mentorLed') => Math.min(...priceGroups.map((g) => g[k]));
-
 export interface Plan {
-  key: 'self' | 'mentor' | 'career';
+  key: 'course' | 'career';
   name: string;
   from: string;
   period: string;
   tagline: string;
   features: string[];
   cta: string;
+  href: string;
   highlighted?: boolean;
 }
 
 export const plans: Plan[] = [
   {
-    key: 'self',
-    name: 'Self-Paced',
-    from: `from ${inr(lowest('selfPaced'))}`,
+    key: 'course',
+    name: 'Course',
+    from: `From ${inr(lowestCourseFee)}`,
     period: 'one-time, per course',
-    tagline: 'The full course, on your schedule.',
+    tagline: 'The full course with mentors, projects and placement help.',
     features: [
       'Full course content and syllabus',
-      'Practice problems and auto-graded tests',
-      'Assignments with instant feedback',
-      'Community doubt support',
-      'Certificate of completion',
-    ],
-    cta: 'Enroll Self-Paced',
-  },
-  {
-    key: 'mentor',
-    name: 'Mentor-Led',
-    from: `from ${inr(lowest('mentorLed'))}`,
-    period: 'one-time, per course',
-    tagline: 'Guided learning with live classes and placement help.',
-    features: [
-      'Everything in Self-Paced',
       'Live classes with attendance tracking',
+      'Practice problems and auto-graded tests',
       'Mentor doubt-clearing sessions',
       'Real capstone projects, reviewed',
       'Mock interviews and resume review',
       'Placement assistance',
+      'Certificate of completion',
     ],
-    cta: 'Enroll Mentor-Led',
+    cta: 'Enroll now',
+    href: '/enroll',
     highlighted: true,
   },
   {
@@ -133,20 +139,26 @@ export const plans: Plan[] = [
     period: 'bundle price',
     tagline: 'Two or more courses as one path to a job.',
     features: [
-      'Everything in Mentor-Led, for every course in the bundle',
+      'Everything in the course plan, for every course in the bundle',
       'One combined price for the whole bundle',
       'Dedicated career coach',
       'Interview opportunities with hiring partners',
       'Flexible EMI options',
     ],
     cta: 'Talk to us',
+    href: '/contact',
   },
 ];
 
 export const faqs = [
-  { q: 'Why do courses cost different amounts?', a: 'Fees follow the depth and length of the course. Development tracks run 3–6 months with coding projects; Marketing and Testing courses are shorter and need no programming background; GenAI is our most advanced track.' },
-  { q: 'What is the difference between Self-Paced and Mentor-Led?', a: 'Both give you the full course, practice and certificate. Mentor-Led adds live classes, mentor doubt-clearing, reviewed capstone projects, mock interviews and placement assistance.' },
-  { q: 'Can I reduce the fee with a scholarship?', a: 'Yes. Take the free 60-minute scholarship test for your course — a good score covers part of the course fee. See the Scholarship page for details.' },
+  { q: 'How much does a course cost?', a: `Between ${inr(lowestCourseFee)} and ${inr(highestCourseFee)}, depending on the course, paid once, with no hidden charges. The fee for each course is listed on this page.` },
+  { q: 'What is included in the fee?', a: 'The full course and syllabus, live classes, practice and auto-graded tests, mentor doubt-clearing, reviewed capstone projects, mock interviews, resume review, placement assistance and a certificate.' },
+  {
+    q: 'Can I reduce the fee with a scholarship?',
+    a: `Yes, by up to ${maxScholarship}%. Take the free 60-minute scholarship test for your course: ${scholarshipPrices
+      .map((p) => `score ${p.minPercent}% or more for ${p.awardPercent}% off`)
+      .join('; ')}.`,
+  },
   { q: 'Can I pay in instalments?', a: 'Career Track plans support flexible EMI options. Reach out through the contact form and we will help you pick a plan.' },
   { q: 'Do I need prior experience?', a: 'No. Beginner courses assume no background and start from the fundamentals.' },
 ];

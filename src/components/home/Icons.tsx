@@ -45,12 +45,22 @@ export const ArrowRight = (p: SVGProps<SVGSVGElement>) => (
   <svg {...base({ width: 16, height: 16, strokeWidth: 2, ...p })}><path d="M5 12h14M13 6l6 6-6 6" /></svg>
 );
 
+/** The Knovate mark: the graduation cap over the amber K (matches /brand/knovate-mark.svg). */
 export function LogoMark({ className = '' }: { className?: string }) {
   return (
-    <svg viewBox="0 0 32 32" className={className} aria-hidden>
-      <path d="M4 3h8v26H4z" fill="#c98a3a" />
-      <path d="M12 16 23 3h7L19 16z" fill="#e0a24f" />
-      <path d="M12 16h7l11 13h-8z" fill="#b5701f" />
+    <svg viewBox="8 -2 108 112" className={className} aria-hidden>
+      <defs>
+        <linearGradient id="kn-a" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#e0a85a" /><stop offset="1" stopColor="#c98a3a" /></linearGradient>
+        <linearGradient id="kn-b" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stopColor="#b5701f" /><stop offset=".5" stopColor="#c98a3a" /><stop offset="1" stopColor="#e6b46c" /></linearGradient>
+        <linearGradient id="kn-c" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#8a5a12" /><stop offset="1" stopColor="#b5701f" /></linearGradient>
+      </defs>
+      <polygon points="14,14 56,0 98,14 56,28" fill="#2b2620" />
+      <polygon points="34,21 56,28 78,21 78,30 56,37 34,30" fill="#2b2620" />
+      <line x1="20" y1="16" x2="20" y2="40" stroke="#2b2620" strokeWidth="2.5" />
+      <rect x="17" y="38" width="6" height="10" rx="1.5" fill="#2b2620" />
+      <polygon points="28,44 56,54 28,80" fill="url(#kn-a)" />
+      <polygon points="28,104 28,92 88,42 112,42 40,108 32,108" fill="url(#kn-b)" />
+      <polygon points="60,80 72,69 104,108 80,108" fill="url(#kn-c)" />
     </svg>
   );
 }

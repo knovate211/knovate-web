@@ -5,7 +5,7 @@ import Section from '@/components/Section';
 import CertificationForm from '@/components/certification/CertificationForm';
 import EnquiryForm from '@/components/EnquiryForm';
 import ReferButton from '@/components/referral/ReferButton';
-import { getCertificationConfig, type CertificationExam } from '@/lib/api';
+import { attemptsLabel, getCertificationConfig, type CertificationExam } from '@/lib/api';
 import { courses } from '@/data/courses';
 import { syllabus } from '@/data/syllabus';
 import { pageMeta, breadcrumbLd, SITE_URL } from '@/lib/seo';
@@ -84,7 +84,7 @@ export default async function CertificationExamPage({ params }: { params: { slug
                   ['Duration', `${exam.durationMinutes} minutes`],
                   ['Total marks', String(exam.totalMarks)],
                   ['Pass mark', `${exam.passPercent}%`],
-                  ['Attempts', 'One per registration'],
+                  ['Attempts', (exam.attempts ?? 1) > 1 ? `${exam.attempts} per registration, different questions each time` : 'One per registration'],
                   ['Sit it within', `${exam.linkValidDays} days of paying`],
                 ].map(([k, v]) => (
                   <div key={k}>
@@ -153,7 +153,7 @@ export default async function CertificationExamPage({ params }: { params: { slug
               <li>• The exam is proctored: fullscreen is required and your camera must be on.</li>
               <li>• Leaving the tab is recorded; repeated switching ends the attempt.</li>
               <li>• The timer is set by our server and does not pause.</li>
-              <li>• The fee covers one attempt. A resit is a new registration, and resits open seven days after an attempt.</li>
+              <li>• The fee covers {attemptsLabel(exam.attempts)}{(exam.attempts ?? 1) > 1 ? ' — a second try gets a different set of questions' : ''}. A resit after that is a new registration, and resits open seven days after an attempt.</li>
               <li>• A flagged attempt is reviewed by a person before any certificate is issued.</li>
             </ul>
 

@@ -322,7 +322,7 @@ export default function ScholarshipForm({ defaultCourseId = '' }: { defaultCours
         disabled={status === 'sending' || !programs}
         className="w-full rounded-lg bg-gold px-5 py-3.5 font-semibold text-white transition-colors hover:bg-gold-dark disabled:cursor-not-allowed disabled:opacity-50"
       >
-        {status === 'sending' ? 'Sending your test link…' : 'Apply and email me the test link'}
+        {status === 'sending' ? 'Sending your test link…' : 'Apply'}
       </button>
       <p className="text-center text-xs text-muted">
         Free to apply. No documents, no application fee, no obligation to enrol.

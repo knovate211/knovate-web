@@ -7,7 +7,8 @@ export default function Footer() {
     <footer className="border-t border-ink/10 bg-sand">
       <div className="mx-auto grid max-w-content gap-10 px-5 py-14 md:grid-cols-4">
         <div>
-          <div className="font-serif text-2xl font-bold text-ink">Knovate</div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/brand/knovate-logo.svg" alt="Knovate" className="h-12 w-auto" />
           <p className="mt-3 max-w-xs text-sm text-muted">{site.tagline}. Mentor-led tech education built around real practice.</p>
         </div>
         <div>
@@ -20,7 +21,7 @@ export default function Footer() {
         </div>
         <div>
           <h4 className="mb-3 text-xs font-bold uppercase tracking-wider text-ink">Company</h4>
-          <ul className="space-y-2 text-sm text-muted">
+          <ul className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm text-muted">
             <li><Link href="/certifications" className="hover:text-ink">Certification exams</Link></li>
             <li><Link href="/referrals" className="hover:text-ink">Refer &amp; earn</Link></li>
             <li><Link href="/verify" className="hover:text-ink">Verify a certificate</Link></li>
@@ -29,6 +30,8 @@ export default function Footer() {
             <li><Link href="/pricing" className="hover:text-ink">Pricing</Link></li>
             <li><Link href="/blog" className="hover:text-ink">Blog</Link></li>
             <li><Link href="/contact" className="hover:text-ink">Contact</Link></li>
+            <li><Link href="/refund-policy" className="hover:text-ink">Privacy policy</Link></li>
+            <li><Link href="/terms" className="hover:text-ink">Terms &amp; conditions</Link></li>
           </ul>
         </div>
         <div>
