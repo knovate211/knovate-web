@@ -38,7 +38,7 @@ export const posts: Post[] = [
     featured: true,
     courses: ['full-stack', 'frontend', 'java-development'],
     body: [
-      { type: 'p', text: 'Most people do not fail at full-stack development because the material is too hard. They fail because the path has no obvious end — there is always one more framework, one more tool, one more course. This roadmap is deliberately finite. It assumes six focused months and no prior experience, and it ends at the point where you are genuinely ready to apply for jobs.' },
+      { type: 'p', text: 'Most people do not fail at full-stack development because the material is too hard. They fail because the path has no obvious end — there is always one more framework, one more tool, one more program. This roadmap is deliberately finite. It assumes six focused months and no prior experience, and it ends at the point where you are genuinely ready to apply for jobs.' },
 
       { type: 'h2', text: 'Months 1–2: the front end, properly' },
       { type: 'p', text: 'Learn HTML, CSS and JavaScript before you touch a framework. This is the advice everyone gives and almost nobody follows, because frameworks feel more like real work. But every React bug you will spend a whole evening on later is, underneath, a JavaScript bug — a misunderstood closure, a stale reference, an async call that resolved after the component was gone.' },
@@ -111,7 +111,7 @@ export const posts: Post[] = [
       { type: 'p', text: 'There is a difference between useful struggle and being stuck. Useful struggle is not knowing the answer but knowing what you are trying. Being stuck is staring at an error with no next move. Give yourself a timebox — twenty minutes is a good default — then look it up, and write down what the gap was.' },
       { type: 'note', text: 'Keep a "things that caught me" file. Reviewing that file before an interview is more useful than re-reading any textbook, because it is a record of your actual gaps, not generic ones.' },
 
-      { type: 'h2', text: 'How our courses are built around this' },
+      { type: 'h2', text: 'How our programs are built around this' },
       { type: 'p', text: 'Every Knovate module ends with practice you cannot passively watch: coding problems graded automatically in the browser, module quizzes, and assignments written in a real editor. When your code fails a test case, you get the one thing a video cannot give you — immediate, specific feedback while the concept is still fresh.' },
     ],
   },

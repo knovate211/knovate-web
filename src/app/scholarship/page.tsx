@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   description: `Earn up to ${slabs[0].awardPercent}% off any Knovate career track. Sit a ${testFormat.durationMinutes}-minute test of aptitude and live coding — free to apply, result the same day.`,
   alternates: { canonical: '/scholarship' },
   openGraph: {
-    title: `Knovate Scholarship — up to ${slabs[0].awardPercent}% off your course`,
+    title: `Knovate Scholarship — up to ${slabs[0].awardPercent}% off your program`,
     description: `A ${testFormat.durationMinutes}-minute test decides it. Free to apply, no documents, result the same day.`,
     url: `${siteUrl}/scholarship`,
   },
@@ -47,7 +47,7 @@ export default function ScholarshipPage() {
         <p className="mx-auto mt-5 max-w-2xl text-lg text-muted">
           Sit one {testFormat.durationMinutes}-minute test — aptitude, programming fundamentals and
           two coding problems. Score well and up to{' '}
-          <strong className="text-ink">{slabs[0].awardPercent}% of your course fee</strong> is
+          <strong className="text-ink">{slabs[0].awardPercent}% of your program fee</strong> is
           covered. No documents, no application fee, no income proof.
         </p>
         <div className="mt-8 flex flex-wrap justify-center gap-3">
@@ -139,8 +139,8 @@ export default function ScholarshipPage() {
           <Button href="/scholarship/apply" className="px-7 py-3 text-base">
             Apply for a scholarship
           </Button>
-          <Button href="/courses" variant="outline" className="px-7 py-3 text-base">
-            Browse the courses
+          <Button href="/programs" variant="outline" className="px-7 py-3 text-base">
+            Browse the programs
           </Button>
         </div>
         <p className="mt-6 text-sm text-muted">

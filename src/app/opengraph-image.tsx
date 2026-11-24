@@ -31,7 +31,7 @@ export default function OpengraphImage() {
           Learn. Build. Grow.
         </div>
         <div style={{ marginTop: 24, fontSize: 30, color: '#6c6455', maxWidth: 820 }}>
-          Mentor-led tech courses, real projects and placement support.
+          Mentor-led tech programs, real projects and placement support.
         </div>
         <div style={{ marginTop: 'auto', fontSize: 24, color: '#b5701f' }}>knovate.com</div>
       </div>

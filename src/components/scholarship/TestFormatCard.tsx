@@ -16,7 +16,7 @@ export default function TestFormatCard() {
         </div>
         <div>
           <div className="font-serif text-3xl font-semibold text-ink">{testFormat.attempts}</div>
-          <div className="text-sm text-muted">attempt per course</div>
+          <div className="text-sm text-muted">attempt per program</div>
         </div>
       </div>
 

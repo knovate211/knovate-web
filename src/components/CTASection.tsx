@@ -12,8 +12,8 @@ export default function CTASection() {
         </p>
         <div className="mt-8 flex flex-wrap justify-center gap-3">
           <Button href="/enroll" variant="primary">Enroll now</Button>
-          <Button href="/courses" variant="outline" className="!border-cream/30 !bg-transparent !text-cream hover:!bg-cream/10">
-            Browse courses
+          <Button href="/programs" variant="outline" className="!border-cream/30 !bg-transparent !text-cream hover:!bg-cream/10">
+            Browse programs
           </Button>
         </div>
       </div>

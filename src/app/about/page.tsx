@@ -63,7 +63,7 @@ export default function AboutPage() {
               ))}
             </ul>
             <p className="mt-5 text-ink/90">
-              Courses cost ₹8,000 to ₹10,000, paid once. A free{' '}
+              Programs cost ₹8,000 to ₹10,000, paid once. A free{' '}
               <Link href="/scholarship" className={link}>scholarship test</Link> can take up to 30% off.
             </p>
           </div>

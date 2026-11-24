@@ -1,10 +1,15 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Section, { Eyebrow, Heading } from '@/components/Section';
-import TestimonialCard from '@/components/TestimonialCard';
 import CTASection from '@/components/CTASection';
 import ScholarshipCTA from '@/components/scholarship/ScholarshipCTA';
 import HeroImage from '@/components/home/HeroImage';
+import AlumniCarousel from '@/components/home/AlumniCarousel';
+import PartnerMarquee from '@/components/home/PartnerMarquee';
+import AlumniVoices from '@/components/home/AlumniVoices';
+import WhyChooseUs from '@/components/home/WhyChooseUs';
+import HomeFAQ from '@/components/home/HomeFAQ';
+import HomeContact from '@/components/home/HomeContact';
 import { testimonials } from '@/data/testimonials';
 import { SITE_URL } from '@/lib/seo';
 import {
@@ -28,9 +33,9 @@ const features = [
 ];
 
 const popular = [
-  { t: 'Full Stack Web Development', meta: 'Beginner', dur: '6 months', href: '/courses/full-stack', Icon: CodeIcon, tone: 'bg-indigo-50 text-indigo-600' },
-  { t: 'Data Structures & Algorithms', meta: 'Intermediate', dur: '4 months', href: '/courses', Icon: DatabaseIcon, tone: 'bg-emerald-50 text-emerald-600' },
-  { t: 'Cloud & DevOps', meta: 'Advanced', dur: '3 months', href: '/courses', Icon: CloudIcon, tone: 'bg-rose-50 text-rose-500' },
+  { t: 'Full Stack Web Development', meta: 'Beginner', dur: '6 months', href: '/programs/full-stack', Icon: CodeIcon, tone: 'bg-indigo-50 text-indigo-600' },
+  { t: 'Data Structures & Algorithms', meta: 'Intermediate', dur: '4 months', href: '/programs', Icon: DatabaseIcon, tone: 'bg-emerald-50 text-emerald-600' },
+  { t: 'Cloud & DevOps', meta: 'Advanced', dur: '3 months', href: '/programs', Icon: CloudIcon, tone: 'bg-rose-50 text-rose-500' },
 ];
 
 function IconBubble({ children }: { children: React.ReactNode }) {
@@ -55,7 +60,7 @@ function FloatCard({ Icon, text, className }: { Icon: typeof UserIcon; text: [st
 // The home page carries the brand term plus what we actually sell, because it
 // is the page that ranks for "knovate" and the one shared most often.
 export const metadata: Metadata = {
-  title: 'Knovate — Mentor-Led Tech Courses with Placement Support',
+  title: 'Knovate — Mentor-Led Tech Programs with Placement Support',
   description:
     'Learn Full Stack, Java, SQL, GenAI and more with mentors, real projects and placement support. Scholarships available, and certification exams you can verify.',
   alternates: { canonical: SITE_URL },
@@ -79,8 +84,8 @@ export default function Home() {
               real projects, and get career ready with the right guidance and support.
             </p>
             <div className="mt-7 flex flex-wrap gap-5">
-              <Link href="/courses" className="inline-flex items-center gap-2 rounded-lg bg-gold px-6 py-3 text-[16px] font-semibold text-white shadow-sm transition-colors hover:bg-gold-dark">
-                Explore courses <ArrowRight />
+              <Link href="/programs" className="inline-flex items-center gap-2 rounded-lg bg-gold px-6 py-3 text-[16px] font-semibold text-white shadow-sm transition-colors hover:bg-gold-dark">
+                Explore programs <ArrowRight />
               </Link>
               <Link href="/contact" className="inline-flex items-center rounded-lg border border-ink/10 bg-white px-6 py-3 text-[15px] font-medium text-ink transition-colors hover:bg-sand">
                 Talk to an advisor
@@ -130,16 +135,16 @@ export default function Home() {
         {/* Popular courses + Why Knovate */}
         <div className="mx-auto grid max-w-[1360px] items-center gap-6 px-5 pb-16 md:px-10 lg:grid-cols-[1.1fr_1.6fr_0.95fr]">
           <div className="lg:pr-8">
-            <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-gold-dark">Popular courses</p>
+            <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-gold-dark">Popular programs</p>
             <h2 className="font-serif text-3xl font-bold leading-tight text-ink">
               Learn in-demand skills across top tech domains.
             </h2>
             <p className="mt-4 text-[14px] leading-relaxed text-muted">
-              From beginner to advanced, our structured courses help you master the skills that top
+              From beginner to advanced, our structured programs help you master the skills that top
               companies are looking for.
             </p>
-            <Link href="/courses" className="mt-5 inline-flex items-center gap-2 text-[14px] font-semibold text-gold-dark hover:text-gold">
-              View all courses <ArrowRight width={14} height={14} />
+            <Link href="/programs" className="mt-5 inline-flex items-center gap-2 text-[14px] font-semibold text-gold-dark hover:text-gold">
+              View all programs <ArrowRight width={14} height={14} />
             </Link>
           </div>
 
@@ -150,7 +155,7 @@ export default function Home() {
                 <h3 className="mt-4 min-h-[42px] text-[14px] font-semibold leading-snug text-ink">{t}</h3>
                 <p className="mt-3 text-[12px] text-muted">{meta} <span className="mx-1">•</span> {dur}</p>
                 <Link href={href} className="mt-6 inline-flex items-center gap-1.5 text-[12px] font-semibold text-gold-dark hover:text-gold">
-                  Explore course <ArrowRight width={12} height={12} />
+                  Explore program <ArrowRight width={12} height={12} />
                 </Link>
               </div>
             ))}
@@ -173,22 +178,41 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Testimonials */}
-      <Section className="bg-sand/50">
-        <div className="mb-10 text-center">
+      {/* Alumni stories */}
+      <Section className="bg-[#fbf3e8]">
+        <div className="mb-12 text-center">
           <Eyebrow>Loved by learners</Eyebrow>
-          <Heading>Stories from our community</Heading>
+          <Heading>
+            <span className="text-gold-dark">Alumni success</span> hub
+          </Heading>
         </div>
-        <div className="grid gap-6 md:grid-cols-2">
-          {testimonials.map((t) => <TestimonialCard key={t.name} t={t} />)}
-        </div>
+        <AlumniCarousel items={testimonials} />
       </Section>
+
+      {/* Hiring partners */}
+      <section className="bg-[#fbf3e8] pb-16 md:pb-24">
+        <div className="mx-auto mb-12 max-w-content px-5 text-center">
+          <Eyebrow>Our hiring partners</Eyebrow>
+          <Heading>
+            Secure placements at <span className="text-gold-dark">top brands</span>
+          </Heading>
+        </div>
+        <PartnerMarquee />
+      </section>
+
+      <AlumniVoices />
+
+      <WhyChooseUs />
+
+      <HomeFAQ />
 
       <div className="pb-4">
         <ScholarshipCTA />
       </div>
 
       <CTASection />
+
+      <HomeContact />
     </>
   );
 }

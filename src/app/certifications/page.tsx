@@ -36,7 +36,7 @@ const Check = () => (
 );
 
 const faqs = [
-  { q: 'Do I need to take the course first?', a: 'No. Anyone can register. The course syllabus on each exam page shows what the exam covers.' },
+  { q: 'Do I need to take the program first?', a: 'No. Anyone can register. The program syllabus on each exam page shows what the exam covers.' },
   { q: 'What if my exam link does not arrive?', a: 'Check your spam folder, then contact us and we will resend it. Your paid attempt is never lost.' },
   { q: 'How does an employer check my certificate?', a: 'Every certificate has a credential ID and a public page on knovate.com that confirms it is genuine.' },
 ];
@@ -113,7 +113,7 @@ export default async function CertificationsPage() {
       {/* Exams */}
       <Section id="exams" className="!pb-4">
         <Heading>Choose your exam</Heading>
-        <p className="mb-6 mt-1.5 text-muted">Each exam maps to a Knovate course syllabus.</p>
+        <p className="mb-6 mt-1.5 text-muted">Each exam maps to a Knovate program syllabus.</p>
         {!reachable ? (
           <p className="rounded-xl border border-ink/10 bg-white p-8 text-center text-muted">
             We could not load the exam list just now. Please refresh, or{' '}

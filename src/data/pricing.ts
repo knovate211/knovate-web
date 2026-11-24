@@ -1,5 +1,5 @@
 // Course fees — the single source for every price shown on the site: the
-// /pricing page, the fee box on each course page and the price on the catalog
+// fee box on each course page, the enrol form and the price on the catalog
 // cards. Change a number here and it changes everywhere.
 //
 // Structure: each course has its own one-time fee and is sold as a single plan
@@ -51,7 +51,7 @@ export const priceGroups: PriceGroup[] = [
   {
     key: 'data',
     name: 'Data',
-    blurb: 'Short, focused course on querying and modelling data.',
+    blurb: 'Short, focused program on querying and modelling data.',
     courseIds: ['3'], // Mastering SQL
   },
   {
@@ -114,12 +114,12 @@ export interface Plan {
 export const plans: Plan[] = [
   {
     key: 'course',
-    name: 'Course',
+    name: 'Program',
     from: `From ${inr(lowestCourseFee)}`,
-    period: 'one-time, per course',
-    tagline: 'The full course with mentors, projects and placement help.',
+    period: 'one-time, per program',
+    tagline: 'The full program with mentors, projects and placement help.',
     features: [
-      'Full course content and syllabus',
+      'Full program content and syllabus',
       'Live classes with attendance tracking',
       'Practice problems and auto-graded tests',
       'Mentor doubt-clearing sessions',
@@ -137,9 +137,9 @@ export const plans: Plan[] = [
     name: 'Career Track',
     from: 'Custom',
     period: 'bundle price',
-    tagline: 'Two or more courses as one path to a job.',
+    tagline: 'Two or more programs as one path to a job.',
     features: [
-      'Everything in the course plan, for every course in the bundle',
+      'Everything in the program plan, for every program in the bundle',
       'One combined price for the whole bundle',
       'Dedicated career coach',
       'Interview opportunities with hiring partners',
@@ -151,14 +151,14 @@ export const plans: Plan[] = [
 ];
 
 export const faqs = [
-  { q: 'How much does a course cost?', a: `Between ${inr(lowestCourseFee)} and ${inr(highestCourseFee)}, depending on the course, paid once, with no hidden charges. The fee for each course is listed on this page.` },
-  { q: 'What is included in the fee?', a: 'The full course and syllabus, live classes, practice and auto-graded tests, mentor doubt-clearing, reviewed capstone projects, mock interviews, resume review, placement assistance and a certificate.' },
+  { q: 'How much does a program cost?', a: `Between ${inr(lowestCourseFee)} and ${inr(highestCourseFee)}, depending on the program, paid once, with no hidden charges. The fee for each program is listed on this page.` },
+  { q: 'What is included in the fee?', a: 'The full program and syllabus, live classes, practice and auto-graded tests, mentor doubt-clearing, reviewed capstone projects, mock interviews, resume review, placement assistance and a certificate.' },
   {
     q: 'Can I reduce the fee with a scholarship?',
-    a: `Yes, by up to ${maxScholarship}%. Take the free 60-minute scholarship test for your course: ${scholarshipPrices
+    a: `Yes, by up to ${maxScholarship}%. Take the free 60-minute scholarship test for your program: ${scholarshipPrices
       .map((p) => `score ${p.minPercent}% or more for ${p.awardPercent}% off`)
       .join('; ')}.`,
   },
   { q: 'Can I pay in instalments?', a: 'Career Track plans support flexible EMI options. Reach out through the contact form and we will help you pick a plan.' },
-  { q: 'Do I need prior experience?', a: 'No. Beginner courses assume no background and start from the fundamentals.' },
+  { q: 'Do I need prior experience?', a: 'No. Beginner programs assume no background and start from the fundamentals.' },
 ];

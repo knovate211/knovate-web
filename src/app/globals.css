@@ -4,3 +4,19 @@
 
 html { scroll-behavior: smooth; }
 body { background: #f7f3ec; color: #2b2620; }
+
+/* Logo marquee (home page). Each track holds its logos twice and slides left
+   by half its width, so the second copy lands exactly where the first began
+   and the loop never shows a seam. Duration is set per row inline. */
+@keyframes knv-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.marquee-track {
+  animation: knv-marquee var(--marquee-duration, 60s) linear infinite;
+}
+.marquee-track.marquee-reverse { animation-direction: reverse; }
+.marquee-track:hover { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; }
+}

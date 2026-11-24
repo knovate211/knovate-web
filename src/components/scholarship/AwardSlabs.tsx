@@ -26,7 +26,7 @@ export default function AwardSlabs() {
           <div className="mt-1 font-semibold text-ink">{s.label}</div>
           <p className="mt-2 text-sm text-ink">
             You pay <strong>{feeRange(s.awardPercent)}</strong>
-            <span className="text-muted"> instead of {feeRange()}, depending on the course</span>
+            <span className="text-muted"> instead of {feeRange()}, depending on the program</span>
           </p>
           <p className="mt-3 text-sm text-muted">
             Score <strong className="text-ink">{s.minPercent}%</strong> or above

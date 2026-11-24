@@ -134,11 +134,11 @@ export default function PostPage({ params }: { params: { slug: string } }) {
 
         {linkedCourses.length > 0 && (
           <aside className="mt-12 rounded-2xl border border-ink/10 bg-white p-6">
-            <h2 className="font-serif text-xl font-semibold text-ink">Courses related to this article</h2>
+            <h2 className="font-serif text-xl font-semibold text-ink">Programs related to this article</h2>
             <ul className="mt-4 space-y-3">
               {linkedCourses.map((c) => (
                 <li key={c!.slug}>
-                  <Link href={`/courses/${c!.slug}`} className="group flex items-baseline justify-between gap-4">
+                  <Link href={`/programs/${c!.slug}`} className="group flex items-baseline justify-between gap-4">
                     <span className="font-semibold text-ink group-hover:text-gold-dark">{c!.title}</span>
                     <span className="shrink-0 text-sm text-muted">{c!.level} · {c!.duration}</span>
                   </Link>

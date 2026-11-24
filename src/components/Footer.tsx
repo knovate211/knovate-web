@@ -12,10 +12,10 @@ export default function Footer() {
           <p className="mt-3 max-w-xs text-sm text-muted">{site.tagline}. Mentor-led tech education built around real practice.</p>
         </div>
         <div>
-          <h4 className="mb-3 text-xs font-bold uppercase tracking-wider text-ink">Courses</h4>
+          <h4 className="mb-3 text-xs font-bold uppercase tracking-wider text-ink">Programs</h4>
           <ul className="space-y-2 text-sm text-muted">
             {courses.slice(0, 5).map((c) => (
-              <li key={c.slug}><Link href={`/courses/${c.slug}`} className="hover:text-ink">{c.title}</Link></li>
+              <li key={c.slug}><Link href={`/programs/${c.slug}`} className="hover:text-ink">{c.title}</Link></li>
             ))}
           </ul>
         </div>
@@ -27,7 +27,6 @@ export default function Footer() {
             <li><Link href="/verify" className="hover:text-ink">Verify a certificate</Link></li>
             <li><Link href="/about" className="hover:text-ink">About</Link></li>
             <li><Link href="/placements" className="hover:text-ink">Placements</Link></li>
-            <li><Link href="/pricing" className="hover:text-ink">Pricing</Link></li>
             <li><Link href="/blog" className="hover:text-ink">Blog</Link></li>
             <li><Link href="/contact" className="hover:text-ink">Contact</Link></li>
             <li><Link href="/refund-policy" className="hover:text-ink">Privacy policy</Link></li>

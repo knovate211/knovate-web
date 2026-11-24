@@ -32,7 +32,7 @@ export const testFormat = {
 
 export const steps = [
   {
-    title: 'Choose your course',
+    title: 'Choose your program',
     body: 'Tell us which track you want to study. One short form — no documents, no application fee.',
   },
   {
@@ -45,14 +45,14 @@ export const steps = [
   },
   {
     title: 'Claim your place',
-    body: 'Score above the bar and your scholarship is applied to the course fee. A counsellor calls to enrol you.',
+    body: 'Score above the bar and your scholarship is applied to the program fee. A counsellor calls to enrol you.',
   },
 ];
 
 export const eligibility = [
   'Open to students and working professionals — any degree, any branch, any year.',
-  'No prior experience with the course subject is required. The test covers reasoning and programming basics, not the syllabus you are applying to learn.',
-  'One attempt per course. Take your time and sit it when you can give it a clear hour.',
+  'No prior experience with the program subject is required. The test covers reasoning and programming basics, not the syllabus you are applying to learn.',
+  'One attempt per program. Take your time and sit it when you can give it a clear hour.',
   'A laptop or desktop with a stable internet connection. The test does not work well on a phone.',
 ];
 
@@ -75,7 +75,7 @@ export const faqs = [
   },
   {
     q: 'Can I retake it?',
-    a: 'Not for the same course. You get one attempt, so sit it when you can give it a clear hour on a laptop.',
+    a: 'Not for the same program. You get one attempt, so sit it when you can give it a clear hour on a laptop.',
   },
   {
     q: 'What happens if I do not score enough?',

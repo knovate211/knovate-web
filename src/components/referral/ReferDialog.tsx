@@ -106,10 +106,10 @@ export default function ReferDialog({
   };
 
   const targets: ShareTarget[] = [
-    { to: '', label: 'Knovate courses', reward: config.courseRewardRupees, kind: 'all' },
+    { to: '', label: 'Knovate programs', reward: config.courseRewardRupees, kind: 'all' },
     ...courses.map((c) => ({
-      to: `/courses/${c.slug}`,
-      label: `the ${c.title} course`,
+      to: `/programs/${c.slug}`,
+      label: `the ${c.title} program`,
       reward: config.courseRewardRupees,
       kind: 'course' as const,
     })),
@@ -129,7 +129,7 @@ export default function ReferDialog({
   // was recommended rather than a general page they have to search.
   const shareLink = result ? (chosen.to ? `${result.link}?to=${encodeURIComponent(chosen.to)}` : result.link) : '';
   const shareText = result
-    ? `I'm learning with Knovate — take a look at ${chosen.label}. Use my link for ${config.friendDiscountPercent}% off your first course or exam: ${shareLink}`
+    ? `I'm learning with Knovate — take a look at ${chosen.label}. Use my link for ${config.friendDiscountPercent}% off your first program or exam: ${shareLink}`
     : '';
 
   return (
@@ -145,8 +145,8 @@ export default function ReferDialog({
           <form onSubmit={submit} noValidate>
             <h2 id="refer-title" className="font-serif text-2xl font-semibold text-ink">Refer a friend, get paid</h2>
             <p className="mt-2 text-sm text-muted">
-              They get {config.friendDiscountPercent}% off their first course or exam. You get
-              ₹{config.courseRewardRupees.toLocaleString('en-IN')} when they enrol on a course, or
+              They get {config.friendDiscountPercent}% off their first program or exam. You get
+              ₹{config.courseRewardRupees.toLocaleString('en-IN')} when they enrol on a program, or
               ₹{config.examRewardRupees.toLocaleString('en-IN')} for a certification exam — paid by UPI.
             </p>
 
@@ -204,7 +204,7 @@ export default function ReferDialog({
               >
                 {targets.map((t) => (
                   <option key={t.to || 'all'} value={t.to}>
-                    {t.kind === 'all' ? 'Knovate courses (general)' : t.label.replace(/^the /, '')}
+                    {t.kind === 'all' ? 'Knovate programs (general)' : t.label.replace(/^the /, '')}
                   </option>
                 ))}
               </select>

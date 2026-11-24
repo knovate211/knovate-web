@@ -1,4 +1,4 @@
-// The /courses catalog, derived from courses.ts — the same courses the student
+// The /programs catalog, derived from courses.ts — the same courses the student
 // app grants access to. Only presentation (category, thumbnail) is added here,
 // so a course cannot appear on the site without existing in the platform.
 import { courses, type Course } from './courses';

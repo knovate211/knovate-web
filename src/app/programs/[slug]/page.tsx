@@ -18,13 +18,13 @@ export function generateStaticParams() {
 
 export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
   const c = courseBySlug(params.slug);
-  if (!c) return { title: 'Course not found' };
+  if (!c) return { title: 'Program not found' };
   // "<Course> Course — Syllabus, Fees & Duration" is what people actually
   // search for; the bare course name competes with every other school's page.
   return pageMeta({
-    title: `${c.title} Course — Syllabus, Fees & Duration`,
+    title: `${c.title} Program — Syllabus, Fees & Duration`,
     description: `${c.summary.slice(0, 150)}`,
-    path: `/courses/${c.slug}`,
+    path: `/programs/${c.slug}`,
   });
 }
 
@@ -45,7 +45,7 @@ export default function CoursePage({ params }: { params: { slug: string } }) {
     '@type': 'Course',
     name: c.title,
     description: c.summary,
-    url: `${SITE_URL}/courses/${c.slug}`,
+    url: `${SITE_URL}/programs/${c.slug}`,
     educationalLevel: c.level,
     teaches: c.outcomes,
     provider: { '@type': 'EducationalOrganization', name: 'Knovate', url: SITE_URL },
@@ -67,8 +67,8 @@ export default function CoursePage({ params }: { params: { slug: string } }) {
 
   const crumbs = breadcrumbLd([
     { name: 'Home', path: '/' },
-    { name: 'Courses', path: '/courses' },
-    { name: c.title, path: `/courses/${c.slug}` },
+    { name: 'Programs', path: '/programs' },
+    { name: c.title, path: `/programs/${c.slug}` },
   ]);
 
   return (
@@ -77,7 +77,7 @@ export default function CoursePage({ params }: { params: { slug: string } }) {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(crumbs) }} />
       <section className="bg-gradient-to-b from-sand to-cream">
         <div className="mx-auto max-w-content px-5 py-14">
-          <Link href="/courses" className="text-sm font-semibold text-gold-dark">← All courses</Link>
+          <Link href="/programs" className="text-sm font-semibold text-gold-dark">← All programs</Link>
           <div className="mt-4 grid items-start gap-12 md:grid-cols-2">
             <div>
               <Eyebrow>{c.level} · {c.duration}</Eyebrow>
@@ -88,15 +88,14 @@ export default function CoursePage({ params }: { params: { slug: string } }) {
               </div>
               {fee && (
                 <div className="mt-8 max-w-md rounded-xl border border-gold bg-white px-5 py-4 ring-1 ring-gold">
-                  <div className="text-xs font-semibold uppercase tracking-wide text-gold-dark">Course fee</div>
+                  <div className="text-xs font-semibold uppercase tracking-wide text-gold-dark">Program fee</div>
                   <div className="mt-1 flex flex-wrap items-baseline gap-x-3">
                     <span className="font-serif text-3xl font-bold text-ink">{inr(fee)}</span>
                     <span className="text-sm text-muted">one-time</span>
                   </div>
                   <p className="mt-2 text-sm text-muted">
                     Up to {maxScholarship}% off with a scholarship — as low as{' '}
-                    <strong className="text-ink">{inr(afterScholarship(fee, maxScholarship))}</strong>.{' '}
-                    <Link href="/pricing" className="font-semibold text-gold-dark hover:underline">See fees</Link>
+                    <strong className="text-ink">{inr(afterScholarship(fee, maxScholarship))}</strong>.
                   </p>
                 </div>
               )}
@@ -107,7 +106,7 @@ export default function CoursePage({ params }: { params: { slug: string } }) {
               ) : (
                 // Not sold online: the enquiry form is the way in.
                 <div className="rounded-2xl border border-ink/10 bg-white p-6 shadow-lg md:p-8">
-                  <h2 className="font-serif text-xl font-semibold text-ink">Enquire about this course</h2>
+                  <h2 className="font-serif text-xl font-semibold text-ink">Enquire about this program</h2>
                   <p className="mt-1 mb-5 text-sm text-muted">We&apos;ll share the syllabus, next batch dates and EMI options.</p>
                   <EnquiryForm source={`course_${c.slug}`} defaultInterest={c.title} compact />
                 </div>
@@ -119,7 +118,7 @@ export default function CoursePage({ params }: { params: { slug: string } }) {
                 <ReferButton
                   className="text-sm font-semibold text-gold-dark hover:text-gold"
                   label={`Know someone who'd like this? Refer them and earn →`}
-                  defaultTo={`/courses/${c.slug}`}
+                  defaultTo={`/programs/${c.slug}`}
                 />
               </div>
             </div>
@@ -148,13 +147,13 @@ export default function CoursePage({ params }: { params: { slug: string } }) {
               <h2 className="font-serif text-2xl font-semibold text-ink">Syllabus</h2>
               <p className="text-sm text-muted">
                 {isBundle
-                  ? `${modules.length} courses · ${lessonCount} modules`
+                  ? `${modules.length} programs · ${lessonCount} modules`
                   : `${modules.length} modules · ${lessonCount} lessons`}
               </p>
             </div>
             {isBundle && (
               <p className="mt-2 text-sm text-muted">
-                Full Stack Development includes these four complete courses.
+                Full Stack Development includes these four complete programs.
               </p>
             )}
             <div className="mt-5 space-y-3">

@@ -10,13 +10,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // first is a form behind the landing page, the second is a private
   // confirmation that is also noindex'd. Only the landing page is a search
   // destination.
-  const staticRoutes = ['', '/courses', '/scholarship', '/pricing', '/enroll', '/certifications', '/verify', '/referrals', '/placements', '/hire', '/about', '/contact', '/blog', '/refund-policy', '/terms'].map((r) => ({
+  const staticRoutes = ['', '/programs', '/scholarship', '/enroll', '/certifications', '/verify', '/referrals', '/placements', '/hire', '/about', '/contact', '/blog', '/refund-policy', '/terms'].map((r) => ({
     url: `${base}${r}`,
     lastModified: new Date(),
     changeFrequency: 'weekly' as const,
     priority: r === '' ? 1 : r === '/scholarship' ? 0.9 : 0.8,
   }));
-  const courseRoutes = courses.map((c) => ({ url: `${base}/courses/${c.slug}`, lastModified: new Date(), priority: 0.7 }));
+  const courseRoutes = courses.map((c) => ({ url: `${base}/programs/${c.slug}`, lastModified: new Date(), priority: 0.7 }));
   const postRoutes = posts.map((p) => ({ url: `${base}/blog/${p.slug}`, lastModified: new Date(p.date), priority: 0.6 }));
 
   // Exams are configured in the admin panel, not in this repo, so they have to

@@ -130,7 +130,7 @@ const CertificateA: React.FC<CertificateAProps> = ({
             <div style={{ marginTop: 22, fontSize: 15, color: MUTED }}>This certifies that</div>
             <div style={{ marginTop: 6, fontFamily: SERIF, fontSize: holderName.length > 26 ? 46 : 58, fontWeight: 500, lineHeight: 1.1, maxWidth: 900, overflowWrap: 'anywhere' }}>{holderName}</div>
             <div style={{ width: 360, height: 1, background: RULE, marginTop: 10 }} />
-            <div style={{ marginTop: 18, fontSize: 15, color: MUTED }}>{kind === 'course' ? 'has successfully completed the Knovate course' : 'has passed the proctored Knovate certification exam in'}</div>
+            <div style={{ marginTop: 18, fontSize: 15, color: MUTED }}>{kind === 'course' ? 'has successfully completed the Knovate program' : 'has passed the proctored Knovate certification exam in'}</div>
             <div style={{ marginTop: 8, fontFamily: SERIF, fontSize: title.length > 40 ? 24 : 30, fontWeight: 700, maxWidth: 900 }}>{title}</div>
             <div style={{ marginTop: 12, display: 'flex', gap: 10, fontSize: 14, color: MUTED }}>
               {kind === 'exam' && scorePercent > 0 && (<><span>Score <strong style={{ color: INK }}>{Math.round(scorePercent)}%</strong></span><span>·</span></>)}

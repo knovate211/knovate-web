@@ -34,7 +34,7 @@ export default function CourseEnrollCard({
   if (!paymentsOn) {
     return (
       <div className="rounded-2xl border border-ink/10 bg-white p-6 shadow-lg md:p-8">
-        <h2 className="font-serif text-xl font-semibold text-ink">Enquire about this course</h2>
+        <h2 className="font-serif text-xl font-semibold text-ink">Enquire about this program</h2>
         <p className="mt-1 mb-5 text-sm text-muted">We&apos;ll share the syllabus, next batch dates and EMI options.</p>
         <EnquiryForm source={`course_${slug}`} defaultInterest={title} compact />
       </div>
@@ -43,12 +43,12 @@ export default function CourseEnrollCard({
 
   return (
     <div className="rounded-2xl border border-ink/10 bg-white p-6 shadow-lg md:p-8">
-      <h2 className="font-serif text-xl font-semibold text-ink">Enroll in this course</h2>
+      <h2 className="font-serif text-xl font-semibold text-ink">Enroll in this program</h2>
       <p className="mt-1 mb-5 text-sm text-muted">Pay online and start learning today.</p>
 
       <div className="flex items-baseline justify-between gap-3 rounded-lg border border-gold bg-gold/5 p-4 ring-1 ring-gold">
         <span>
-          <span className="block font-semibold text-ink">Full course</span>
+          <span className="block font-semibold text-ink">Full program</span>
           <span className="block text-sm text-muted">Live classes, projects, mentor support and placement help</span>
         </span>
         <span className="font-serif text-xl font-bold text-ink">{inr(fee)}</span>

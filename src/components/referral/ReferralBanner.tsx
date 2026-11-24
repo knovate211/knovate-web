@@ -45,7 +45,7 @@ export default function ReferralBanner() {
   return (
     <div className="bg-gold/15 px-5 py-2.5 text-center text-sm text-ink">
       <strong>{state.name}</strong> sent you
-      {state.percent > 0 ? <> — {state.percent}% off your first course or exam, applied at checkout.</> : '.'}
+      {state.percent > 0 ? <> — {state.percent}% off your first program or exam, applied at checkout.</> : '.'}
       <button onClick={dismiss} aria-label="Dismiss" className="ml-3 text-muted hover:text-ink">✕</button>
     </div>
   );

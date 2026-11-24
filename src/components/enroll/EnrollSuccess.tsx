@@ -28,7 +28,7 @@ export default function EnrollSuccess() {
             ? r.emailed
               ? <>We&apos;ve created your account and emailed your login details to <strong className="text-ink">{r.email}</strong>.</>
               : <>We&apos;ve created your account for <strong className="text-ink">{r.email}</strong>. Our team will send your login details shortly.</>
-            : <>The course has been added to your existing account, <strong className="text-ink">{r.email}</strong>.</>}
+            : <>The program has been added to your existing account, <strong className="text-ink">{r.email}</strong>.</>}
         </p>
       ) : (
         <p className="mt-3 text-muted">Payment received. Your login details are on their way to your email.</p>
@@ -37,8 +37,8 @@ export default function EnrollSuccess() {
         <a href={`${APP_URL}/login`} className="inline-flex items-center justify-center rounded-lg bg-gold px-5 py-2.5 font-semibold text-white hover:bg-gold-dark">
           Sign in and start learning
         </a>
-        <Link href="/courses" className="inline-flex items-center justify-center rounded-lg border border-ink/15 bg-white px-5 py-2.5 font-semibold text-ink hover:bg-sand">
-          Browse more courses
+        <Link href="/programs" className="inline-flex items-center justify-center rounded-lg border border-ink/15 bg-white px-5 py-2.5 font-semibold text-ink hover:bg-sand">
+          Browse more programs
         </Link>
       </div>
       <p className="mt-6 text-xs text-muted">Can&apos;t find the email? Check your spam folder, or contact us and quote your payment receipt.</p>

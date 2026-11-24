@@ -6,9 +6,9 @@ import ReferButton from '@/components/referral/ReferButton';
 import { site } from '@/data/site';
 
 export const metadata: Metadata = pageMeta({
-  title: 'Contact Us — Talk to a Course Advisor',
+  title: 'Contact Us — Talk to a Program Advisor',
   description:
-    'Questions about a course, fees, batch dates or placements? Tell us your goal and a Knovate advisor will help you pick the right track.',
+    'Questions about a program, fees, batch dates or placements? Tell us your goal and a Knovate advisor will help you pick the right track.',
   path: '/contact',
 });
 
@@ -20,7 +20,7 @@ export default function ContactPage() {
           <Eyebrow>Get in touch</Eyebrow>
           <Heading as="h1">Let&apos;s find your track</Heading>
           <p className="mt-4 text-muted">
-            Have a question about a course, pricing, or your career path? Fill in the form and our team will get back to you — usually within a day.
+            Have a question about a program, pricing, or your career path? Fill in the form and our team will get back to you — usually within a day.
           </p>
           <dl className="mt-8 space-y-4 text-ink">
             <div><dt className="text-xs font-bold uppercase tracking-wider text-muted">Email</dt><dd>{site.email}</dd></div>

@@ -69,7 +69,7 @@ export default function ScholarshipForm({ defaultCourseId = '' }: { defaultCours
           setCourseId(defaultCourseId);
         }
       } catch {
-        if (!cancelled) setLoadError('We could not load the open courses just now.');
+        if (!cancelled) setLoadError('We could not load the open programs just now.');
       }
     })();
     return () => {
@@ -83,7 +83,7 @@ export default function ScholarshipForm({ defaultCourseId = '' }: { defaultCours
 
     if (!name.trim()) return setError('Please tell us your name.');
     if (!email.trim() || !email.includes('@')) return setError('Please enter a valid email address — your test link goes there.');
-    if (!courseId) return setError('Please choose the course you want to apply for.');
+    if (!courseId) return setError('Please choose the program you want to apply for.');
     if (!agreed) return setError('Please confirm you understand this is a one-attempt test.');
 
     setStatus('sending');
@@ -190,7 +190,7 @@ export default function ScholarshipForm({ defaultCourseId = '' }: { defaultCours
       </div>
 
       <div>
-        <label className={label} htmlFor="courseId">Which course? *</label>
+        <label className={label} htmlFor="courseId">Which program? *</label>
         {!programs ? (
           <div className="h-[46px] animate-pulse rounded-lg border border-ink/10 bg-sand/60" />
         ) : (
@@ -202,7 +202,7 @@ export default function ScholarshipForm({ defaultCourseId = '' }: { defaultCours
               onChange={(e) => setCourseId(e.target.value)}
             >
               <option value="" disabled>
-                Select a course…
+                Select a program…
               </option>
               <optgroup label="Open for applications">
                 {courseOptions
@@ -238,7 +238,7 @@ export default function ScholarshipForm({ defaultCourseId = '' }: { defaultCours
             ) : (
               courseOptions.some((o) => !o.open) && (
                 <p className="mt-1.5 text-xs text-muted">
-                  Courses marked &ldquo;opening soon&rdquo; do not have a scholarship test yet.{' '}
+                  Programs marked &ldquo;opening soon&rdquo; do not have a scholarship test yet.{' '}
                   <Link href="/contact" className="font-semibold text-gold-dark hover:underline">
                     Ask us to tell you when they open
                   </Link>

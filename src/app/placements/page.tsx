@@ -9,7 +9,7 @@ import {
 export const metadata: Metadata = pageMeta({
   title: 'Placement Support: Resume, Mock Interviews & Hiring Partners',
   description:
-    'How Knovate helps you get hired: resume reviews, mock interviews, technical practice and introductions to hiring partners, alongside your course.',
+    'How Knovate helps you get hired: resume reviews, mock interviews, technical practice and introductions to hiring partners, alongside your program.',
   path: '/placements',
 });
 
@@ -27,7 +27,7 @@ const support = [
 ];
 
 const steps = [
-  { t: 'Learn', d: 'Gain in-demand skills with expert-led courses.', Icon: BookIcon },
+  { t: 'Learn', d: 'Gain in-demand skills with expert-led programs.', Icon: BookIcon },
   { t: 'Build', d: 'Create a strong resume and portfolio with real projects.', Icon: ResumeIcon },
   { t: 'Practice', d: 'Ace interviews with mock tests & career coaching.', Icon: UsersIcon },
   { t: 'Get Hired', d: 'Access top hiring partners and job opportunities.', Icon: HandshakeIcon },
@@ -47,7 +47,7 @@ const partners = [
 ];
 
 const stories = [
-  { name: 'Rohit Sharma', role: 'Software Engineer | TCS', quote: 'Knovate’s placement support was fantastic! From resume building to mock interviews, everything was well-organized. I got placed at TCS within 3 months of completing my course.' },
+  { name: 'Rohit Sharma', role: 'Software Engineer | TCS', quote: 'Knovate’s placement support was fantastic! From resume building to mock interviews, everything was well-organized. I got placed at TCS within 3 months of completing my program.' },
   { name: 'Priya Nair', role: 'Data Analyst | Accenture', quote: 'The hands-on projects and mock interviews really boosted my confidence. I’m now working as a Data Analyst at Accenture. Thank you, Knovate!' },
   { name: 'Arjun Mehta', role: 'SDE | Amazon', quote: 'Knovate not only taught me the skills but also helped me connect with amazing recruiters. I landed my dream job at Amazon!' },
 ];
@@ -68,7 +68,7 @@ export default function PlacementsPage() {
               Your skills.<br />Real opportunities.
             </h1>
             <p className="mt-4 max-w-[400px] text-[14px] leading-relaxed text-muted">
-              At Knovate, we don&apos;t just teach — we help you get hired. With industry-aligned courses,
+              At Knovate, we don&apos;t just teach — we help you get hired. With industry-aligned programs,
               expert guidance, and a strong network of hiring partners, we&apos;re with you at every step of
               your career journey.
             </p>
@@ -81,8 +81,8 @@ export default function PlacementsPage() {
               ))}
             </div>
             <div className="mt-8 flex flex-wrap gap-4">
-              <Link href="/courses" className="inline-flex items-center gap-2 rounded-lg bg-gold px-5 py-2.5 text-[14px] font-semibold text-white shadow-sm hover:bg-gold-dark">
-                Explore courses <ArrowRight />
+              <Link href="/programs" className="inline-flex items-center gap-2 rounded-lg bg-gold px-5 py-2.5 text-[14px] font-semibold text-white shadow-sm hover:bg-gold-dark">
+                Explore programs <ArrowRight />
               </Link>
               <Link href="/contact" className="inline-flex items-center rounded-lg border border-ink/10 bg-white px-5 py-2.5 text-[14px] font-medium text-ink hover:bg-sand">
                 Talk to an advisor
@@ -117,7 +117,7 @@ export default function PlacementsPage() {
             <Eyebrow>How it works</Eyebrow>
             <h2 className="font-serif text-[26px] font-bold leading-tight text-ink">Your path to a successful career</h2>
             <p className="mt-3 text-[13px] leading-relaxed text-muted">We prepare you with the right skills, connections and confidence to land your dream job.</p>
-            <Link href="/courses" className="mt-6 inline-flex items-center gap-2 rounded-lg border border-gold/60 px-5 py-2 text-[12px] font-medium text-gold-dark hover:bg-gold hover:text-white">
+            <Link href="/programs" className="mt-6 inline-flex items-center gap-2 rounded-lg border border-gold/60 px-5 py-2 text-[12px] font-medium text-gold-dark hover:bg-gold hover:text-white">
               Learn more <ArrowRight width={14} height={14} />
             </Link>
           </div>

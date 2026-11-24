@@ -7,7 +7,7 @@ import { Block, LEGAL, List, Mail, Para, SubBlock, Term } from '@/components/Pol
 export const metadata: Metadata = pageMeta({
   title: 'Privacy Policy',
   description:
-    'How Knovate uses and shares your information, plus when you can cancel a course or exam and how refunds work.',
+    'How Knovate uses and shares your information, plus when you can cancel a program or exam and how refunds work.',
   path: '/refund-policy',
 });
 
@@ -40,21 +40,21 @@ export default function RefundPolicyPage() {
           <Block n={1} title="Cancellation by You">
             <List>
               <Term label="Within 7 days of payment">
-                You are eligible for a full refund if you have completed less than 10% of the course content.
+                You are eligible for a full refund if you have completed less than 10% of the program content.
               </Term>
-              <Term label="After 7 days, or once you have completed 10% or more">The course fee is non-refundable.</Term>
+              <Term label="After 7 days, or once you have completed 10% or more">The program fee is non-refundable.</Term>
             </List>
             <p className="text-muted">
-              Course progress is calculated from the lessons, videos, and assessments you have accessed or completed on the
+              Program progress is calculated from the lessons, videos, and assessments you have accessed or completed on the
               platform, as recorded in your learner dashboard.
             </p>
           </Block>
 
           <Block n={2} title="Cancellation by Knovate">
-            <p>If we cancel a course or batch, you can choose either:</p>
+            <p>If we cancel a program or batch, you can choose either:</p>
             <List>
               <li>A full refund, or</li>
-              <li>A free transfer to another available batch or an equivalent course.</li>
+              <li>A free transfer to another available batch or an equivalent program.</li>
             </List>
             <p>We will notify you by email as soon as possible if a batch is cancelled or rescheduled.</p>
           </Block>
@@ -82,7 +82,7 @@ export default function RefundPolicyPage() {
                 Email <Mail /> from your registered email address.
               </li>
               <li>
-                Include your full name, registered email or phone number, course or batch name, order or transaction ID, and
+                Include your full name, registered email or phone number, program or batch name, order or transaction ID, and
                 the reason for cancellation.
               </li>
               <li>
@@ -103,13 +103,13 @@ export default function RefundPolicyPage() {
           <Block n={6} title="Additional Terms">
             <List>
               <Term label="Access after refund">
-                Course access, certificates, and downloadable resources are withdrawn once a refund is processed.
+                Program access, certificates, and downloadable resources are withdrawn once a refund is processed.
               </Term>
               <Term label="Discounts and coupons">
                 Refunds are for the amount actually paid. Coupons and promotional credits are not refundable or reissued.
               </Term>
               <Term label="Taxes and fees">
-                Applicable taxes are refunded along with the course fee. Payment gateway charges are non-refundable unless the
+                Applicable taxes are refunded along with the program fee. Payment gateway charges are non-refundable unless the
                 refund is due to an error on our side.
               </Term>
               <Term label="Duplicate or failed payments">
@@ -129,7 +129,7 @@ export default function RefundPolicyPage() {
                 .
               </Term>
               <Term label="Bundles and add-ons">
-                Refunds on bundled courses are calculated on the specific course(s) that meet the eligibility criteria.
+                Refunds on bundled programs are calculated on the specific program(s) that meet the eligibility criteria.
               </Term>
               <Term label="Policy updates">
                 We may update this policy from time to time. The version in effect at the time of your purchase applies to
@@ -142,7 +142,7 @@ export default function RefundPolicyPage() {
             <p>We use your information to:</p>
             <SubBlock title="Provide your learning">
               <List>
-                <li>Create your account, give you access to the courses you&apos;ve paid for, and send your login details.</li>
+                <li>Create your account, give you access to the programs you&apos;ve paid for, and send your login details.</li>
                 <li>Run classes, grade your work, track your progress, and issue certificates.</li>
               </List>
             </SubBlock>
@@ -162,8 +162,8 @@ export default function RefundPolicyPage() {
             </SubBlock>
             <SubBlock title="Stay in touch">
               <List>
-                <li>Answer your questions and send course updates.</li>
-                <li>With your consent, send news about new courses. You can unsubscribe at any time.</li>
+                <li>Answer your questions and send program updates.</li>
+                <li>With your consent, send news about new programs. You can unsubscribe at any time.</li>
               </List>
             </SubBlock>
             <SubBlock title="Keep Knovate safe">
@@ -203,7 +203,7 @@ export default function RefundPolicyPage() {
             <p>We use your browser&apos;s storage (cookies and local storage) only for features you need:</p>
             <List>
               <li>Keeping you signed in</li>
-              <li>Remembering your place in a course</li>
+              <li>Remembering your place in a program</li>
               <li>Remembering your theme (light or dark)</li>
               <li>Remembering a referral code for 30 days</li>
             </List>
@@ -229,7 +229,7 @@ export default function RefundPolicyPage() {
                 </Term>
                 <Term label="Certificate records">
                   for as long as the certificate can be verified. We keep only what verification needs, such as your
-                  name, course, and issue date.
+                  name, program, and issue date.
                 </Term>
                 <Term label="Payment records">8 years, as Indian law requires.</Term>
                 {AI_CHAT_RETENTION && (
@@ -283,7 +283,7 @@ export default function RefundPolicyPage() {
             <SubBlock title="When we no longer need it">
               <p>
                 We delete or anonymise your information. Anonymised data cannot identify you, and we may keep it for
-                analysis and improving our courses.
+                analysis and improving our programs.
               </p>
             </SubBlock>
           </Block>
@@ -307,7 +307,7 @@ export default function RefundPolicyPage() {
               your identity first. We will respond within 30 days, and there is no charge.
             </Para>
             <Para label="Before you delete your account">
-              Deleting your account ends your access to your courses and cannot be undone. Fees already paid are not
+              Deleting your account ends your access to your programs and cannot be undone. Fees already paid are not
               refunded because of deletion, except as set out in our Cancellations and Refunds policy (Sections 1&ndash;6
               above). We may keep some records, such as payment records, where the law requires it (see Section 10).
             </Para>
@@ -339,7 +339,7 @@ export default function RefundPolicyPage() {
             <h3 className="pt-2 font-serif text-xl font-semibold text-ink">Children</h3>
             <SubBlock title="Who can join">
               <List>
-                <li>Our courses are for people aged 18 and over.</li>
+                <li>Our programs are for people aged 18 and over.</li>
                 <li>Learners aged 16 or 17 may join only with a parent&apos;s or guardian&apos;s consent.</li>
                 <li>
                   We do not knowingly collect personal data from anyone under 16. If we learn that we have, we will delete it
@@ -351,7 +351,7 @@ export default function RefundPolicyPage() {
               <List>
                 <li>At sign-up we ask learners aged 16 or 17 for their parent&apos;s or guardian&apos;s name and contact details.</li>
                 <li>
-                  We contact the parent or guardian to confirm consent before the learner can access paid courses, or we ask
+                  We contact the parent or guardian to confirm consent before the learner can access paid programs, or we ask
                   for a signed consent form.
                 </li>
                 <li>
@@ -362,7 +362,7 @@ export default function RefundPolicyPage() {
             </SubBlock>
             <SubBlock title="How we handle a minor’s data">
               <List>
-                <li>We collect only what we need to run the course, such as account details, progress, and assignments.</li>
+                <li>We collect only what we need to run the program, such as account details, progress, and assignments.</li>
                 <li>
                   We do not send marketing messages to learners under 18, and we do not share their profile with hiring
                   partners without their parent&apos;s or guardian&apos;s consent.
@@ -377,7 +377,7 @@ export default function RefundPolicyPage() {
                   learner&apos;s data, or to withdraw consent.
                 </li>
                 <li>
-                  Withdrawing consent may end the learner&apos;s access to the courses. Refunds follow our Cancellations and
+                  Withdrawing consent may end the learner&apos;s access to the programs. Refunds follow our Cancellations and
                   Refunds policy (Sections 1&ndash;6 above).
                 </li>
                 <li>If you think your child has joined without your consent, tell us and we will act within 7 days.</li>

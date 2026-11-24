@@ -172,7 +172,7 @@ export default async function CertificationExamPage({ params }: { params: { slug
               <>
                 <p className="mt-2 text-sm leading-relaxed text-muted">
                   Questions are drawn from across these areas. You do not need to have taken the
-                  course — anyone who knows the material can sit the exam.
+                  program — anyone who knows the material can sit the exam.
                 </p>
 
                 {/* Areas, not a teaching plan. The course page lists every
@@ -215,8 +215,8 @@ export default async function CertificationExamPage({ params }: { params: { slug
 
                 <p className="mt-6 text-sm text-muted">
                   New to the subject?{' '}
-                  <Link href={`/courses/${course!.slug}`} className="font-semibold text-gold-dark">
-                    The {course!.title} course
+                  <Link href={`/programs/${course!.slug}`} className="font-semibold text-gold-dark">
+                    The {course!.title} program
                   </Link>{' '}
                   teaches all of it, module by module.
                 </p>

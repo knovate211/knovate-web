@@ -6,7 +6,7 @@ import EnrollForm from '@/components/enroll/EnrollForm';
 export const metadata: Metadata = pageMeta({
   title: 'Enroll Online — Secure Payment',
   description:
-    'Join a Knovate course in minutes. Choose your course, pay securely by UPI, card or net banking, and get your login straight away.',
+    'Join a Knovate program in minutes. Choose your program, pay securely by UPI, card or net banking, and get your login straight away.',
   path: '/enroll',
 });
 
@@ -17,7 +17,7 @@ export default function EnrollPage({ searchParams }: { searchParams: { course?: 
         <Eyebrow>Enroll</Eyebrow>
         <h1 className="font-serif text-4xl font-semibold text-ink md:text-5xl">Start learning today</h1>
         <p className="mx-auto mt-3 max-w-xl text-muted">
-          Pick your course, pay securely, and your course unlocks straight away. Your login details are emailed to you.
+          Pick your program, pay securely, and your program unlocks straight away. Your login details are emailed to you.
         </p>
       </Section>
       <Section className="!pt-8">

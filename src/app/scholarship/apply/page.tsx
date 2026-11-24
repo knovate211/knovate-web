@@ -7,7 +7,7 @@ import { testFormat, slabs } from '@/data/scholarship';
 export const metadata: Metadata = {
   title: 'Apply for a scholarship',
   description:
-    `Apply for a Knovate scholarship. One short form, then a 60-minute test of aptitude and coding. Score above the bar and up to ${slabs[0].awardPercent}% of your course fee is covered.`,
+    `Apply for a Knovate scholarship. One short form, then a 60-minute test of aptitude and coding. Score above the bar and up to ${slabs[0].awardPercent}% of your program fee is covered.`,
 };
 
 // `courseId` may arrive from a course page's CTA; the form only honours it when
@@ -30,7 +30,7 @@ export default function ScholarshipApplyPage({
           <p className="mt-3 text-muted">
             Fill this in and we&apos;ll email your test link straight away —{' '}
             {testFormat.durationMinutes} minutes, {testFormat.totalMarks} marks, one attempt. Up to{' '}
-            {slabs[0].awardPercent}% of your course fee is on the line.
+            {slabs[0].awardPercent}% of your program fee is on the line.
           </p>
         </div>
       </Section>

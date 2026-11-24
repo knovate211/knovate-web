@@ -6,17 +6,19 @@ export const site = {
   email: 'hello@knovate.com',
   phone: '+91 98765 43210',
   location: 'Bengaluru, India',
+  // What the home-page map pins. Replace with the full office address once
+  // there is one; until then it shows the city.
+  mapQuery: 'Bengaluru, India',
   socials: {
     linkedin: 'https://linkedin.com',
     instagram: 'https://instagram.com',
     youtube: 'https://youtube.com',
   },
   nav: [
-    { label: 'Courses', href: '/courses' },
+    { label: 'Programs', href: '/programs' },
     { label: 'Scholarship', href: '/scholarship' },
     { label: 'Certification', href: '/certifications' },
     { label: 'Refer & earn', href: '/referrals' },
-    { label: 'Pricing', href: '/pricing' },
     { label: 'Placements', href: '/placements' },
     { label: 'For companies', href: '/hire' },
     { label: 'Blog', href: '/blog' },

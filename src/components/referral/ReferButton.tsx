@@ -18,7 +18,7 @@ export default function ReferButton({
 }: {
   className?: string;
   label?: string;
-  /** Pre-selects what is being shared, e.g. "/courses/java-development". */
+  /** Pre-selects what is being shared, e.g. "/programs/java-development". */
   defaultTo?: string;
 }) {
   const [config, setConfig] = useState<ReferralConfig | null>(null);

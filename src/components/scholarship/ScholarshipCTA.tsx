@@ -23,7 +23,7 @@ export default function ScholarshipCTA({
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.15em] text-terracotta">Scholarship</p>
           <h2 className="mt-2 font-serif text-2xl font-semibold text-ink">
-            Pay less for {courseName ?? 'your course'} — up to {slabs[0].awardPercent}% less
+            Pay less for {courseName ?? 'your program'} — up to {slabs[0].awardPercent}% less
           </h2>
           <p className="mt-2 max-w-xl text-sm text-muted">
             One {testFormat.durationMinutes}-minute test of aptitude and coding decides it. Free to

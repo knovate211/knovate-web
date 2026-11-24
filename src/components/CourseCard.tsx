@@ -10,7 +10,7 @@ const levelColor: Record<string, string> = {
 export default function CourseCard({ course }: { course: Course }) {
   return (
     <Link
-      href={`/courses/${course.slug}`}
+      href={`/programs/${course.slug}`}
       className="group flex flex-col rounded-2xl border border-ink/10 bg-white p-6 transition-shadow hover:shadow-lg"
     >
       <div className="mb-3 flex items-center justify-between">
@@ -24,7 +24,7 @@ export default function CourseCard({ course }: { course: Course }) {
           <span key={t} className="rounded-md bg-sand px-2 py-1 text-xs font-medium text-muted">{t}</span>
         ))}
       </div>
-      <span className="mt-4 text-sm font-semibold text-gold-dark">Explore course →</span>
+      <span className="mt-4 text-sm font-semibold text-gold-dark">Explore program →</span>
     </Link>
   );
 }

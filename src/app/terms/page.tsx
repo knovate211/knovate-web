@@ -7,7 +7,7 @@ import { Block, LEGAL, List, Mail, Para, SubBlock, Term } from '@/components/Pol
 export const metadata: Metadata = pageMeta({
   title: 'Terms and Conditions',
   description:
-    'The terms and conditions for using Knovate: who owns course content and your work, acceptable use of the platform, use of the AI mentor, limits of liability, and what happens if the rules are broken.',
+    'The terms and conditions for using Knovate: who owns program content and your work, acceptable use of the platform, use of the AI mentor, limits of liability, and what happens if the rules are broken.',
   path: '/terms',
 });
 
@@ -27,7 +27,7 @@ export default function TermsPage() {
         <div className="max-w-3xl space-y-10">
           <Block n={1} title="Intellectual Property">
             <Para label="Our content">
-              All course content, including videos, notes, problems, tests, solutions, and software, along with the Knovate
+              All program content, including videos, notes, problems, tests, solutions, and software, along with the Knovate
               name, logo, and branding, is owned by Knovate or its licensors and is protected by applicable intellectual
               property laws.
             </Para>
@@ -42,7 +42,7 @@ export default function TermsPage() {
             </Para>
             <Para label="Your work">
               You own the code, projects, and other work you create. You grant Knovate a limited licence to host, run, and
-              review that work for the purposes of providing the course, mentoring, grading, and support.
+              review that work for the purposes of providing the program, mentoring, grading, and support.
             </Para>
             <Para label="Feedback">
               If you give us suggestions or feedback, we may use them to improve Knovate without owing you anything.
@@ -54,7 +54,7 @@ export default function TermsPage() {
               <p>To keep Knovate safe and fair for every learner, you agree not to:</p>
               <List>
                 <Term label="Misuse content">
-                  copy, record, download, resell, distribute, or publicly share course videos, problems, tests, solutions,
+                  copy, record, download, resell, distribute, or publicly share program videos, problems, tests, solutions,
                   or any other materials, except where we expressly allow it.
                 </Term>
                 <Term label="Misuse the code runner">
@@ -92,12 +92,12 @@ export default function TermsPage() {
           <Block n={3} title="AI Mentor">
             <Para label="What it is">
               The AI mentor is an automated tool that helps you learn by answering questions, explaining concepts, and
-              giving feedback. It is meant to support your learning, not replace your human mentors or the course material.
+              giving feedback. It is meant to support your learning, not replace your human mentors or the program material.
             </Para>
             <Para label="Accuracy">
               AI-generated answers can be incomplete, outdated, or wrong. Always check important information, such as code
               that you submit, exam preparation, and anything you rely on for work or decisions, with your human mentor or
-              the official course material.
+              the official program material.
             </Para>
             <Para label="Fair use">
               Do not use the AI mentor to cheat in tests, graded assignments, or certification exams, unless the assessment
@@ -125,8 +125,8 @@ export default function TermsPage() {
               a job, or income.
             </Para>
             <Para label="Liability cap">
-              To the extent the law allows, Knovate&apos;s total liability for all claims relating to a course or service is
-              limited to the fees you paid for that course or service in the 12 months before the event that led to the
+              To the extent the law allows, Knovate&apos;s total liability for all claims relating to a program or service is
+              limited to the fees you paid for that program or service in the 12 months before the event that led to the
               claim.
             </Para>
             <Para label="Excluded losses">
@@ -171,7 +171,7 @@ export default function TermsPage() {
               affect fees you have already paid, as explained in the next point.
             </Para>
             <Para label="Purchases already made">
-              Refund and cancellation rights for a course you have already bought stay as they were when you purchased it.
+              Refund and cancellation rights for a program you have already bought stay as they were when you purchased it.
             </Para>
           </Block>
 

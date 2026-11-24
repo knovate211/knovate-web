@@ -103,10 +103,10 @@ export default function ApplicationReceived() {
           Resend my link
         </Link>
         <Link
-          href="/courses"
+          href="/programs"
           className="rounded-lg bg-gold px-5 py-2.5 font-semibold text-white hover:bg-gold-dark"
         >
-          Browse the courses
+          Browse the programs
         </Link>
       </div>
     </div>

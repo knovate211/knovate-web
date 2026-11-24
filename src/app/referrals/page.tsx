@@ -9,7 +9,7 @@ import { getReferralConfig, type ReferralConfig } from '@/lib/api';
 export const metadata: Metadata = pageMeta({
   title: 'Refer a Friend and Earn',
   description:
-    'Share Knovate with a friend. They get a discount on their first course or certification exam, and you get paid by UPI when they enrol.',
+    'Share Knovate with a friend. They get a discount on their first program or certification exam, and you get paid by UPI when they enrol.',
   path: '/referrals',
 });
 
@@ -36,9 +36,9 @@ export default async function ReferralsPage() {
           <>
             <p className="mt-3 max-w-2xl text-lg text-muted">
               Send a friend your link. They get <strong className="text-ink">{config.friendDiscountPercent}% off</strong> their
-              first course or certification exam, and you earn{' '}
+              first program or certification exam, and you earn{' '}
               <strong className="text-ink">₹{config.courseRewardRupees.toLocaleString('en-IN')}</strong> when they enrol on a
-              course, or ₹{config.examRewardRupees.toLocaleString('en-IN')} for an exam — paid straight to your UPI.
+              program, or ₹{config.examRewardRupees.toLocaleString('en-IN')} for an exam — paid straight to your UPI.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-4">
               <ReferButton className="rounded-lg bg-gold px-6 py-3 font-semibold text-white transition-colors hover:bg-gold-dark"
@@ -64,7 +64,7 @@ export default async function ReferralsPage() {
               {[
                 ['Get your link', 'Name, email and phone — that is the whole form. Your link is yours permanently.'],
                 ['Share it', 'WhatsApp, a message, a group, your own students. Anyone who uses it gets the discount automatically.'],
-                ['Get paid', 'When they pay for a course or an exam, we check the referral and send your reward by UPI.'],
+                ['Get paid', 'When they pay for a program or an exam, we check the referral and send your reward by UPI.'],
               ].map(([t, d], i) => (
                 <div key={t} className="rounded-2xl border border-ink/10 bg-white p-6">
                   <span className="flex h-8 w-8 items-center justify-center rounded-full bg-sand text-sm font-bold text-gold-dark">{i + 1}</span>
@@ -78,7 +78,7 @@ export default async function ReferralsPage() {
           <Section className="bg-sand/50" id="terms">
             <Heading>The rules, in plain words</Heading>
             <ul className="mt-6 grid max-w-3xl gap-3 text-muted">
-              <li>• A reward is earned when your friend <strong className="text-ink">pays</strong> for a course or a certification exam — not when they sign up or enquire.</li>
+              <li>• A reward is earned when your friend <strong className="text-ink">pays</strong> for a program or a certification exam — not when they sign up or enquire.</li>
               <li>• Their purchase must be at least ₹{config.minOrderRupees.toLocaleString('en-IN')} for a reward to apply.</li>
               <li>• Your link works for {config.attributionDays} days after someone opens it.</li>
               <li>• One reward per friend. Referring yourself does not earn anything.</li>

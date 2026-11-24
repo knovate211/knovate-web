@@ -34,7 +34,7 @@ function Card({ c }: { c: CatalogCourse }) {
         {c.popular && (
           <span className="absolute left-2.5 top-2.5 rounded-md bg-gold px-2 py-1 text-[11px] font-medium text-white">✦ Most Popular</span>
         )}
-        <button onClick={() => setFav((f) => !f)} aria-label="Save course" className="absolute right-2.5 top-2.5 text-white">
+        <button onClick={() => setFav((f) => !f)} aria-label="Save program" className="absolute right-2.5 top-2.5 text-white">
           <svg width="20" height="20" viewBox="0 0 24 24" fill={fav ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z" /></svg>
         </button>
         {c.image ? (
@@ -61,8 +61,8 @@ function Card({ c }: { c: CatalogCourse }) {
           ))}
         </div>
         <div className="mt-4 flex justify-end">
-          <Link href={`/courses/${c.slug}`} className="whitespace-nowrap rounded-full border border-gold/60 px-2.5 py-1 text-[11px] font-medium text-gold-dark hover:bg-gold hover:text-white">
-            View course
+          <Link href={`/programs/${c.slug}`} className="whitespace-nowrap rounded-full border border-gold/60 px-2.5 py-1 text-[11px] font-medium text-gold-dark hover:bg-gold hover:text-white">
+            View program
           </Link>
         </div>
       </div>
@@ -111,17 +111,17 @@ function CatalogBody(p: BodyProps) {
       <section className="relative overflow-hidden bg-gradient-to-b from-[#f7efe2] to-[#faf6ef]">
         <div className="mx-auto grid max-w-[1360px] items-center gap-8 px-5 md:px-10 lg:grid-cols-2">
           <div className="py-12">
-            <p className="mb-3 text-[13px] font-bold uppercase tracking-[0.2em] text-gold-dark">Our courses</p>
+            <p className="mb-3 text-[13px] font-bold uppercase tracking-[0.2em] text-gold-dark">Our programs</p>
             <h1 className="font-serif text-4xl font-bold leading-[1.1] tracking-tight text-ink md:text-[50px]">
               Learn in-demand skills<br />and build your future.
             </h1>
             <p className="mt-5 max-w-[440px] text-[16px] leading-relaxed text-muted">
-              Explore our curated courses, designed by industry experts to help you grow, get hired, and achieve your goals.
+              Explore our curated programs, designed by industry experts to help you grow, get hired, and achieve your goals.
             </p>
             <form onSubmit={(e) => { e.preventDefault(); p.setQuery(p.draft.trim()); }} className="mt-7 flex max-w-[612px] gap-0.5">
               <label className="flex flex-1 items-center gap-3 rounded-l-lg border border-ink/10 bg-white px-4 shadow-sm">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="shrink-0 text-ink/70"><circle cx="11" cy="11" r="7" /><path d="m20 20-4-4" /></svg>
-                <input value={p.draft} onChange={(e) => { p.setDraft(e.target.value); if (!e.target.value) p.setQuery(''); }} placeholder="Search for a course (e.g. Python, Data Science, OS...)" className="w-full bg-transparent py-3.5 text-[14px] text-ink outline-none placeholder:text-muted" />
+                <input value={p.draft} onChange={(e) => { p.setDraft(e.target.value); if (!e.target.value) p.setQuery(''); }} placeholder="Search for a program (e.g. Python, Data Science, OS...)" className="w-full bg-transparent py-3.5 text-[14px] text-ink outline-none placeholder:text-muted" />
               </label>
               <button className="rounded-r-lg bg-gold px-7 text-[15px] font-semibold text-white shadow-sm hover:bg-gold-dark">Search</button>
             </form>
@@ -134,7 +134,7 @@ function CatalogBody(p: BodyProps) {
         {/* Category tabs */}
         <div className="-mx-1 flex gap-5 overflow-x-auto px-1 pt-6 pb-2">
           <button onClick={() => p.setTab(null)} className={`flex shrink-0 items-center gap-3 rounded-lg px-4 py-3 text-[14px] font-medium ${p.tab === null ? 'bg-gold text-white shadow-md' : 'border border-ink/10 bg-white text-ink'}`}>
-            <CodeIcon width={20} height={20} /> All Courses
+            <CodeIcon width={20} height={20} /> All Programs
             <span className={`rounded-full px-2 py-0.5 text-[12px] ${p.tab === null ? 'bg-white/20' : ''}`}>{catalog.length}</span>
           </button>
           {categoryTabs.map((t, i) => {
@@ -167,7 +167,7 @@ function CatalogBody(p: BodyProps) {
           {/* Results */}
           <div>
             <div className="mb-4 flex items-center justify-between">
-              <p className="text-[13px] text-ink/80">{p.results.length} courses</p>
+              <p className="text-[13px] text-ink/80">{p.results.length} programs</p>
               <label className="flex items-center gap-3 text-[12px] text-muted">
                 Sort by
                 <select value={p.sort} onChange={(e) => p.setSort(e.target.value)} className="rounded-md border border-ink/10 bg-white px-3 py-2 text-[12px] text-ink">
@@ -183,7 +183,7 @@ function CatalogBody(p: BodyProps) {
                 {p.results.map((c) => <Card key={c.slug} c={c} />)}
               </div>
             ) : (
-              <p className="rounded-xl bg-white p-10 text-center text-muted">No courses match these filters.</p>
+              <p className="rounded-xl bg-white p-10 text-center text-muted">No programs match these filters.</p>
             )}
           </div>
         </div>

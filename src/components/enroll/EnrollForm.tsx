@@ -79,7 +79,7 @@ export default function EnrollForm({ defaultCourse = '' }: { defaultCourse?: str
   const pay = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    if (!courseId) return setError('Choose the course you want to join.');
+    if (!courseId) return setError('Choose the program you want to join.');
     if (!name.trim()) return setError('Please enter your name.');
     if (!email.trim() || !email.includes('@')) return setError('Please enter a valid email — your login is sent there.');
     if (!/^(\+?91[\s-]?|0)?[6-9]\d{4}[\s-]?\d{5}$/.test(phone.trim())) return setError('Please enter a valid 10-digit mobile number (it starts with 6, 7, 8 or 9) — the payment page needs it.');
@@ -148,9 +148,9 @@ export default function EnrollForm({ defaultCourse = '' }: { defaultCourse?: str
         )}
 
         <div>
-          <label className={label} htmlFor="course">Course *</label>
+          <label className={label} htmlFor="course">Program *</label>
           <select id="course" className={field} value={courseId} onChange={(e) => setCourseId(e.target.value)}>
-            <option value="" disabled>Select a course…</option>
+            <option value="" disabled>Select a program…</option>
             {groups.map((g) => (
               <optgroup key={g.key} label={g.name}>
                 {g.courses.map((c) => <option key={c.id} value={c.id}>{c.title}</option>)}
@@ -172,12 +172,12 @@ export default function EnrollForm({ defaultCourse = '' }: { defaultCourse?: str
         <div>
           <label className={label} htmlFor="email">Email *</label>
           <input id="email" type="email" className={field} value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="email" />
-          <p className="mt-1 text-xs text-muted">Your login details are sent here. Already a student? Use the same email and the course is added to your account.</p>
+          <p className="mt-1 text-xs text-muted">Your login details are sent here. Already a student? Use the same email and the program is added to your account.</p>
         </div>
 
         <label className="flex items-start gap-3 text-sm text-muted">
           <input type="checkbox" checked={agreed} onChange={(e) => setAgreed(e.target.checked)} className="mt-1 accent-[#c98a3a]" />
-          <span>I agree to Knovate&apos;s terms, and understand the fee is a one-time payment for the selected course.</span>
+          <span>I agree to Knovate&apos;s terms, and understand the fee is a one-time payment for the selected program.</span>
         </label>
       </div>
 
@@ -185,7 +185,7 @@ export default function EnrollForm({ defaultCourse = '' }: { defaultCourse?: str
       <aside className="h-fit rounded-2xl border border-gold/40 bg-white p-6 shadow-sm md:sticky md:top-24">
         <h2 className="font-serif text-lg font-semibold text-ink">Order summary</h2>
         <dl className="mt-4 space-y-2 text-sm">
-          <div className="flex justify-between gap-3"><dt className="text-muted">Course</dt><dd className="text-right font-medium text-ink">{course?.title ?? '—'}</dd></div>
+          <div className="flex justify-between gap-3"><dt className="text-muted">Program</dt><dd className="text-right font-medium text-ink">{course?.title ?? '—'}</dd></div>
           {course && <div className="flex justify-between gap-3"><dt className="text-muted">Duration</dt><dd className="font-medium text-ink">{course.duration}</dd></div>}
         </dl>
         {refCode && price > 0 && (
@@ -208,7 +208,7 @@ export default function EnrollForm({ defaultCourse = '' }: { defaultCourse?: str
           disabled={busy || !courseId}
           className="mt-5 w-full rounded-lg bg-gold px-5 py-3 font-semibold text-white transition-colors hover:bg-gold-dark disabled:cursor-not-allowed disabled:opacity-50"
         >
-          {busy ? 'Opening payment…' : price ? `Pay ${inr(price)}` : 'Choose a course'}
+          {busy ? 'Opening payment…' : price ? `Pay ${inr(price)}` : 'Choose a program'}
         </button>
         <p className="mt-3 text-center text-xs text-muted">Secure payment by Cashfree · UPI, cards, netbanking</p>
         <p className="mt-4 text-center text-xs text-muted">

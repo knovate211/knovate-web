@@ -76,7 +76,7 @@ export default function ReferralStatusLookup() {
 
           {data.referrals.length === 0 ? (
             <p className="mt-6 rounded-xl border border-ink/10 bg-white p-6 text-center text-muted">
-              No referrals yet. Rewards appear here once a friend pays for a course or an exam.
+              No referrals yet. Rewards appear here once a friend pays for a program or an exam.
             </p>
           ) : (
             <ul className="mt-6 divide-y divide-ink/10 rounded-xl border border-ink/10 bg-white">

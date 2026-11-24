@@ -17,9 +17,9 @@ export default function ReferralLanding({ code }: { code: string }) {
 
   useEffect(() => {
     const clean = code.toUpperCase().replace(/[^A-Z0-9]/g, '');
-    // Where the referrer pointed them, if anywhere: /r/CODE?to=/courses/java
+    // Where the referrer pointed them, if anywhere: /r/CODE?to=/programs/java
     const to = params.get('to');
-    const destination = to && to.startsWith('/') ? to : '/courses';
+    const destination = to && to.startsWith('/') ? to : '/programs';
 
     (async () => {
       try {
@@ -47,7 +47,7 @@ export default function ReferralLanding({ code }: { code: string }) {
       <div>
         <p className="font-serif text-2xl font-semibold text-ink">Taking you in…</p>
         <p className="mt-2 text-sm text-muted">
-          {failed ? 'One moment — opening our courses.' : 'Your friend’s discount is being applied.'}
+          {failed ? 'One moment — opening our programs.' : 'Your friend’s discount is being applied.'}
         </p>
       </div>
     </div>
