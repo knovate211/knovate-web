@@ -6,9 +6,6 @@ export const site = {
   email: 'hello@knovate.com',
   phone: '+91 98765 43210',
   location: 'Bengaluru, India',
-  // What the home-page map pins. Replace with the full office address once
-  // there is one; until then it shows the city.
-  mapQuery: 'Bengaluru, India',
   socials: {
     linkedin: 'https://linkedin.com',
     instagram: 'https://instagram.com',

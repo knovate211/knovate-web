@@ -1,16 +1,14 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import Section, { Eyebrow, Heading } from '@/components/Section';
 import CTASection from '@/components/CTASection';
 import ScholarshipCTA from '@/components/scholarship/ScholarshipCTA';
 import HeroImage from '@/components/home/HeroImage';
-import AlumniCarousel from '@/components/home/AlumniCarousel';
-import PartnerMarquee from '@/components/home/PartnerMarquee';
+import AlumniStoriesSection from '@/components/home/AlumniStoriesSection';
+import PartnersSection from '@/components/home/PartnersSection';
 import AlumniVoices from '@/components/home/AlumniVoices';
 import WhyChooseUs from '@/components/home/WhyChooseUs';
 import HomeFAQ from '@/components/home/HomeFAQ';
 import HomeContact from '@/components/home/HomeContact';
-import { testimonials } from '@/data/testimonials';
 import { SITE_URL } from '@/lib/seo';
 import {
   ArrowRight, BlocksIcon, BriefcaseIcon, CapIcon, CertIcon, CloudIcon, CodeIcon,
@@ -178,27 +176,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Alumni stories */}
-      <Section className="bg-[#fbf3e8]">
-        <div className="mb-12 text-center">
-          <Eyebrow>Loved by learners</Eyebrow>
-          <Heading>
-            <span className="text-gold-dark">Alumni success</span> hub
-          </Heading>
-        </div>
-        <AlumniCarousel items={testimonials} />
-      </Section>
+      <AlumniStoriesSection />
 
-      {/* Hiring partners */}
-      <section className="bg-[#fbf3e8] pb-16 md:pb-24">
-        <div className="mx-auto mb-12 max-w-content px-5 text-center">
-          <Eyebrow>Our hiring partners</Eyebrow>
-          <Heading>
-            Secure placements at <span className="text-gold-dark">top brands</span>
-          </Heading>
-        </div>
-        <PartnerMarquee />
-      </section>
+      <PartnersSection />
 
       <AlumniVoices />
 

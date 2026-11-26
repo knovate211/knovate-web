@@ -3,7 +3,7 @@ import { Heading } from '@/components/Section';
 import { faqLd } from '@/lib/seo';
 import { maxScholarship } from '@/data/pricing';
 
-const faqs = [
+export const homeFaqs = [
   {
     q: 'Why should I choose Knovate?',
     a: 'You learn from mentors who work in the industry, build real projects in every program, get your doubts cleared in live sessions, and get placement support when you are ready to apply. It is practical skills, not just theory, with support at every step.',
@@ -26,15 +26,17 @@ const faqs = [
   },
 ];
 
-export default function HomeFAQ() {
+// Renders any list of questions (defaults to the home-page set) with matching
+// FAQPage structured data. Program pages pass their own questions.
+export default function HomeFAQ({ items = homeFaqs }: { items?: { q: string; a: string }[] }) {
   return (
     <section className="bg-[#fbf3e8] py-16 md:py-24">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd(faqs)) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd(items)) }} />
       <div className="mx-auto max-w-content px-5">
         <Heading className="mb-10 text-center">
           Frequently asked <span className="text-gold-dark">questions</span>
         </Heading>
-        <FAQ items={faqs} />
+        <FAQ items={items} />
       </div>
     </section>
   );

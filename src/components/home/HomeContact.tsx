@@ -2,13 +2,9 @@ import EnquiryForm from '@/components/EnquiryForm';
 import { Heading } from '@/components/Section';
 import { site } from '@/data/site';
 
-// "Get in touch" block at the foot of the home page: contact details, the
-// shared enquiry form (leads land in the admin panel tagged home_contact) and
-// a map of site.mapQuery.
+// "Get in touch" block at the foot of the home page: contact details and the
+// shared enquiry form (leads land in the admin panel tagged home_contact).
 export default function HomeContact() {
-  const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(site.mapQuery)}&output=embed`;
-  const mapLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(site.mapQuery)}`;
-
   return (
     <section id="contact">
       <div className="bg-[#f6e6cf] px-5 py-14 text-center">
@@ -25,27 +21,10 @@ export default function HomeContact() {
           <div><dt className="inline font-semibold">Location: </dt><dd className="inline">{site.location}</dd></div>
         </dl>
 
-        <div className="mt-12 grid gap-10 md:grid-cols-2">
-          <div>
-            <h3 className="mb-5 font-serif text-2xl font-semibold text-ink">Contact us</h3>
-            <div className="rounded-2xl border border-ink/10 bg-white p-6 shadow-[0_8px_30px_rgba(60,40,10,0.06)]">
-              <EnquiryForm source="home_contact" />
-            </div>
-          </div>
-          <div className="flex flex-col">
-            <div className="mb-5 flex items-baseline justify-between">
-              <h3 className="font-serif text-2xl font-semibold text-ink">Our location</h3>
-              <a href={mapLink} target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-gold-dark hover:text-gold">
-                Open in Maps ↗
-              </a>
-            </div>
-            <iframe
-              title={`Map of ${site.mapQuery}`}
-              src={mapSrc}
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              className="min-h-[360px] w-full flex-1 rounded-2xl border border-ink/10"
-            />
+        <div className="mx-auto mt-12 max-w-2xl">
+          <h3 className="mb-5 font-serif text-2xl font-semibold text-ink">Contact us</h3>
+          <div className="rounded-2xl border border-ink/10 bg-white p-6 shadow-[0_8px_30px_rgba(60,40,10,0.06)]">
+            <EnquiryForm source="home_contact" />
           </div>
         </div>
       </div>
